@@ -1,11 +1,40 @@
 import { useState } from "react";
 import { API_URL } from "../config";
 import { Button } from "./ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Input } from "./ui/input";
-import { Label } from "./ui/label";
-import { Textarea } from "./ui/textarea";
-import { Alert, AlertDescription } from "./ui/alert";
+
+// Простые UI компоненты
+const Card = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
+  <div className={`bg-white rounded-lg border border-gray-200 shadow-sm ${className}`}>{children}</div>
+);
+
+const CardHeader = ({ children }: { children: React.ReactNode }) => (
+  <div className="p-6 pb-4">{children}</div>
+);
+
+const CardTitle = ({ children }: { children: React.ReactNode }) => (
+  <h3 className="text-lg font-semibold text-gray-900">{children}</h3>
+);
+
+const CardContent = ({ children }: { children: React.ReactNode }) => (
+  <div className="px-6 pb-6">{children}</div>
+);
+
+const Label = ({ htmlFor, children }: { htmlFor: string; children: React.ReactNode }) => (
+  <label htmlFor={htmlFor} className="block text-sm font-medium text-gray-700">{children}</label>
+);
+
+const Textarea = ({ className = "", ...props }: React.TextareaHTMLAttributes<HTMLTextAreaElement>) => (
+  <textarea className={`w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 ${className}`} {...props} />
+);
+
+const Alert = ({ children }: { children: React.ReactNode }) => (
+  <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">{children}</div>
+);
+
+const AlertDescription = ({ children }: { children: React.ReactNode }) => (
+  <div className="text-blue-800 text-sm flex items-start space-x-2">{children}</div>
+);
 import { Info } from "lucide-react";
 
 interface OrderFormData {
@@ -31,27 +60,9 @@ export function OrderForm({ onSubmit, isSubmitting = false, items, total }: Orde
   });
   const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
+  const [errors, setErrors] = useState<Partial<OrderFormData>>({});
 
-  const validateForm = (): boolean => {
-    const newErrors: Partial<OrderFormData> = {};
 
-    if (!formData.name || !formData.name.trim()) { // Валидация имени
-      newErrors.name = "Имя обязательно";
-    }
-
-    if (!formData.address.trim()) {
-      newErrors.address = "Адрес доставки обязателен";
-    }
-
-    if (!formData.phone.trim()) {
-      newErrors.phone = "Номер телефона обязателен";
-    } else if (!/^[+]?[0-9\s\-\(\)]{10,}$/.test(formData.phone.trim())) {
-      newErrors.phone = "Введите корректный номер телефона";
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -94,11 +105,7 @@ export function OrderForm({ onSubmit, isSubmitting = false, items, total }: Orde
         const savedOrder = await response.json();
         console.log("Заказ успешно отправлен:", savedOrder);
 
-        onSubmit({ // Используем onSubmit из пропсов
-          customerInfo: { ...formData }, // Передаем полный formData, включая name
-          items,
-          total
-        });
+        onSubmit(formData);
       } else {
         throw new Error('Ошибка при отправке заказа');
       }

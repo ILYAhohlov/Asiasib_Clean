@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'https://asiasib.onrender.com';
+const API_URL = 'https://asiasib-clean.onrender.com';
 
 console.log('Configuring API client with URL:', API_URL);
 

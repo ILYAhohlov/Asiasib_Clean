@@ -28,7 +28,7 @@ export function AdminLoginScreen({ navigateToScreen, cartItemsCount, onLogin }: 
     setError("");
 
     try {
-      const response = await fetch('https://asiasib-clean.onrender.com/api/auth/login', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || 'https://asiasib-clean.onrender.com'}/api/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -24,13 +24,22 @@ interface Product {
 }
 
 interface Order {
-  id: string;
-  items: string;
-  phone: string;
-  address: string;
+  _id: string;
+  items: Array<{
+    productId: string;
+    name: string;
+    price: number;
+    quantity: number;
+  }>;
+  customerInfo: {
+    name: string;
+    phone: string;
+    address: string;
+  };
+  totalAmount: number;
+  status: "Принят" | "В обработке" | "В доставке" | "Завершен" | "Отменен";
   comments: string;
-  status: "Принят" | "В доставке" | "Завершен";
-  amount: number;
+  createdAt: string;
 }
 
 interface ProductFormData {
@@ -72,10 +81,17 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
           setProducts(productsData);
         }
 
-        const ordersResponse = await fetch('https://asiasib-clean.onrender.com/api/orders');
-        if (ordersResponse.ok) {
-          const ordersData = await ordersResponse.json();
-          setOrders(ordersData);
+        const token = localStorage.getItem('adminToken');
+        if (token) {
+          const ordersResponse = await fetch(`${import.meta.env.VITE_API_URL}/api/orders`, {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          });
+          if (ordersResponse.ok) {
+            const ordersData = await ordersResponse.json();
+            setOrders(ordersData);
+          }
         }
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -103,6 +119,7 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
     }
 
     try {
+      const token = localStorage.getItem('adminToken');
       const productData = {
         id: editingProduct?.id || Date.now().toString(),
         name: productForm.name,
@@ -124,7 +141,8 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
       const response = await fetch(url, {
         method: method,
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify(productData)
       });
@@ -177,8 +195,12 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
   const handleDeleteProduct = async (id: string) => {
     if (confirm("Удалить товар?")) {
       try {
+        const token = localStorage.getItem('adminToken');
         const response = await fetch(`${import.meta.env.VITE_API_URL}/api/products/${id}`, {
-          method: 'DELETE'
+          method: 'DELETE',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
         });
 
         if (!response.ok) {
@@ -196,10 +218,12 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
 
   const handleStatusChange = async (orderId: string, newStatus: Order["status"]) => {
     try {
+      const token = localStorage.getItem('adminToken');
       const response = await fetch(`${import.meta.env.VITE_API_URL}/api/orders/${orderId}/status`, {
         method: 'PUT',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({ status: newStatus })
       });
@@ -209,7 +233,7 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
       }
 
       const updatedOrder = await response.json();
-      setOrders(prev => prev.map(order => order.id === orderId ? updatedOrder : order));
+      setOrders(prev => prev.map(order => order._id === orderId ? updatedOrder : order));
       alert("Статус заказа обновлен!");
     } catch (error) {
       console.error("Error updating order status:", error);
@@ -513,36 +537,48 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
                 <thead className="border-b border-gray-200">
                   <tr className="text-left">
                     <th className="pb-2">ID</th>
+                    <th className="pb-2">Имя</th>
                     <th className="pb-2">Товары</th>
                     <th className="pb-2">Телефон</th>
                     <th className="pb-2">Адрес</th>
                     <th className="pb-2">Статус</th>
                     <th className="pb-2">Сумма</th>
+                    <th className="pb-2">Дата</th>
                   </tr>
                 </thead>
                 <tbody>
                   {orders.map(order => (
-                    <tr key={order.id} className="border-b border-gray-100">
-                      <td className="py-2 font-medium">#{order.id}</td>
-                      <td className="py-2">{order.items}</td>
-                      <td className="py-2">{order.phone}</td>
-                      <td className="py-2 max-w-xs truncate">{order.address}</td>
+                    <tr key={order._id} className="border-b border-gray-100">
+                      <td className="py-2 font-medium">#{order._id.slice(-6)}</td>
+                      <td className="py-2">{order.customerInfo.name}</td>
+                      <td className="py-2 max-w-xs">
+                        {order.items.map(item => `${item.name} (${item.quantity}кг)`).join(', ')}
+                      </td>
+                      <td className="py-2">{order.customerInfo.phone}</td>
+                      <td className="py-2 max-w-xs truncate">{order.customerInfo.address}</td>
                       <td className="py-2">
                         <select
                           value={order.status}
-                          onChange={(e) => handleStatusChange(order.id, e.target.value as Order["status"])}
+                          onChange={(e) => handleStatusChange(order._id, e.target.value as Order["status"])}
                           className={`text-xs px-2 py-1 rounded-full border-0 ${
                             order.status === "Принят" ? "bg-yellow-100 text-yellow-800" :
+                            order.status === "В обработке" ? "bg-orange-100 text-orange-800" :
                             order.status === "В доставке" ? "bg-blue-100 text-blue-800" :
-                            "bg-green-100 text-green-800"
+                            order.status === "Завершен" ? "bg-green-100 text-green-800" :
+                            "bg-red-100 text-red-800"
                           }`}
                         >
                           <option value="Принят">Принят</option>
+                          <option value="В обработке">В обработке</option>
                           <option value="В доставке">В доставке</option>
                           <option value="Завершен">Завершен</option>
+                          <option value="Отменен">Отменен</option>
                         </select>
                       </td>
-                      <td className="py-2 font-semibold">{order.amount.toLocaleString()} руб</td>
+                      <td className="py-2 font-semibold">{order.totalAmount.toLocaleString()} руб</td>
+                      <td className="py-2 text-sm text-gray-500">
+                        {new Date(order.createdAt).toLocaleDateString('ru-RU')}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
