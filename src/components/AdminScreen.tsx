@@ -26,20 +26,20 @@ interface Product {
 interface Order {
   _id: string;
   items: Array<{
-    productId: string;
+    _id: string;
     name: string;
     price: number;
     quantity: number;
+    image?: string;
   }>;
-  customerInfo: {
-    name: string;
-    phone: string;
-    address: string;
-  };
+  clientPhone: string;
+  clientAddress: string;
+  clientName?: string;
   totalAmount: number;
   status: "Принят" | "В обработке" | "В доставке" | "Завершен" | "Отменен";
-  comments: string;
+  comments?: string;
   createdAt: string;
+  orderSource: string;
 }
 
 interface ProductFormData {
@@ -555,12 +555,12 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
                   {orders.map(order => (
                     <tr key={order._id} className="border-b border-gray-100">
                       <td className="py-2 font-medium">#{order._id?.slice(-6) || 'N/A'}</td>
-                      <td className="py-2">{order.customerInfo?.name || 'Не указано'}</td>
+                      <td className="py-2">{order.clientName || 'Не указано'}</td>
                       <td className="py-2 max-w-xs">
                         {order.items?.map(item => `${item?.name || 'Товар'} (${item?.quantity || 0}кг)`).join(', ') || 'Нет товаров'}
                       </td>
-                      <td className="py-2">{order.customerInfo?.phone || 'Не указан'}</td>
-                      <td className="py-2 max-w-xs truncate">{order.customerInfo?.address || 'Не указан'}</td>
+                      <td className="py-2">{order.clientPhone || 'Не указан'}</td>
+                      <td className="py-2 max-w-xs truncate">{order.clientAddress || 'Не указан'}</td>
                       <td className="py-2">
                         <select
                           value={order.status || 'Принят'}
