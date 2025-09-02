@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 5000;
 
 // CORS
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'https://asiasib.vercel.app',
+  origin: ['https://asiasib-clean.vercel.app', 'https://asiasib.vercel.app'],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   credentials: true,
   allowedHeaders: ['Content-Type', 'Authorization']
