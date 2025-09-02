@@ -72,7 +72,7 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
           setProducts(productsData);
         }
 
-        const ordersResponse = await fetch('https://asiasib.onrender.com/api/orders');
+        const ordersResponse = await fetch('https://asiasib-clean.onrender.com/api/orders');
         if (ordersResponse.ok) {
           const ordersData = await ordersResponse.json();
           setOrders(ordersData);
