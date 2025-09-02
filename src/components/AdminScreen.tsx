@@ -82,15 +82,20 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
         }
 
         const token = localStorage.getItem('adminToken');
+        console.log('Admin token:', token ? 'exists' : 'missing');
         if (token) {
           const ordersResponse = await fetch(`${import.meta.env.VITE_API_URL}/api/orders`, {
             headers: {
               'Authorization': `Bearer ${token}`
             }
           });
+          console.log('Orders response status:', ordersResponse.status);
           if (ordersResponse.ok) {
             const ordersData = await ordersResponse.json();
+            console.log('Orders data:', ordersData);
             setOrders(ordersData);
+          } else {
+            console.error('Failed to fetch orders:', ordersResponse.statusText);
           }
         }
       } catch (error) {
@@ -549,16 +554,16 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
                 <tbody>
                   {orders.map(order => (
                     <tr key={order._id} className="border-b border-gray-100">
-                      <td className="py-2 font-medium">#{order._id.slice(-6)}</td>
-                      <td className="py-2">{order.customerInfo.name}</td>
+                      <td className="py-2 font-medium">#{order._id?.slice(-6) || 'N/A'}</td>
+                      <td className="py-2">{order.customerInfo?.name || 'Не указано'}</td>
                       <td className="py-2 max-w-xs">
-                        {order.items.map(item => `${item.name} (${item.quantity}кг)`).join(', ')}
+                        {order.items?.map(item => `${item?.name || 'Товар'} (${item?.quantity || 0}кг)`).join(', ') || 'Нет товаров'}
                       </td>
-                      <td className="py-2">{order.customerInfo.phone}</td>
-                      <td className="py-2 max-w-xs truncate">{order.customerInfo.address}</td>
+                      <td className="py-2">{order.customerInfo?.phone || 'Не указан'}</td>
+                      <td className="py-2 max-w-xs truncate">{order.customerInfo?.address || 'Не указан'}</td>
                       <td className="py-2">
                         <select
-                          value={order.status}
+                          value={order.status || 'Принят'}
                           onChange={(e) => handleStatusChange(order._id, e.target.value as Order["status"])}
                           className={`text-xs px-2 py-1 rounded-full border-0 ${
                             order.status === "Принят" ? "bg-yellow-100 text-yellow-800" :
@@ -575,9 +580,9 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
                           <option value="Отменен">Отменен</option>
                         </select>
                       </td>
-                      <td className="py-2 font-semibold">{order.totalAmount.toLocaleString()} руб</td>
+                      <td className="py-2 font-semibold">{(order.totalAmount || 0).toLocaleString()} руб</td>
                       <td className="py-2 text-sm text-gray-500">
-                        {new Date(order.createdAt).toLocaleDateString('ru-RU')}
+                        {order.createdAt ? new Date(order.createdAt).toLocaleDateString('ru-RU') : 'Не указана'}
                       </td>
                     </tr>
                   ))}
