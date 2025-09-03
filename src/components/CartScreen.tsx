@@ -111,9 +111,36 @@ export function CartScreen({
       return;
     }
 
-    // Мокированная отправка заказа
     try {
-      alert(`Заказ успешно оформлен!
+      const orderData = {
+        items: cartItems.map(item => ({
+          productId: item.id,
+          name: item.name,
+          price: item.price,
+          quantity: item.quantity
+        })),
+        clientName: 'Не указано',
+        clientPhone: orderForm.phone,
+        clientAddress: orderForm.address,
+        totalAmount: totalAmount,
+        comments: orderForm.comments,
+        orderSource: 'web'
+      };
+
+      const API_URL = import.meta.env.VITE_API_URL || 'https://asiasib-clean.onrender.com';
+      const response = await fetch(`${API_URL}/api/orders`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(orderData)
+      });
+
+      if (response.ok) {
+        const savedOrder = await response.json();
+        console.log('Заказ успешно отправлен в базу данных:', savedOrder);
+        
+        alert(`Заказ успешно оформлен!
       
 Телефон: ${orderForm.phone}
 Адрес: ${orderForm.address}
@@ -122,12 +149,16 @@ ${orderForm.comments ? `Комментарии: ${orderForm.comments}\n` : ''}
 Сумма: ${totalAmount.toLocaleString()} руб
 
 Мы свяжемся с вами в ближайшее время для подтверждения.`);
-      
-      clearCart();
-      setOrderForm({ phone: "", address: "", comments: "" });
-      navigateToScreen("catalog");
+        
+        clearCart();
+        setOrderForm({ phone: "", address: "", comments: "" });
+        navigateToScreen("catalog");
+      } else {
+        throw new Error('Ошибка при отправке заказа');
+      }
     } catch (error) {
-      alert("Произошла ошибка при оформлении заказа");
+      console.error('Error submitting order:', error);
+      alert("Произошла ошибка при оформлении заказа. Попробуйте еще раз.");
     }
   };
 
