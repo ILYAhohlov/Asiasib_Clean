@@ -126,9 +126,22 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
     setProductForm(prev => ({ ...prev, images: files }));
   };
 
+  const transliterate = (text: string): string => {
+    const map: { [key: string]: string } = {
+      'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd', 'е': 'e', 'ё': 'yo',
+      'ж': 'zh', 'з': 'z', 'и': 'i', 'й': 'y', 'к': 'k', 'л': 'l', 'м': 'm',
+      'н': 'n', 'о': 'o', 'п': 'p', 'р': 'r', 'с': 's', 'т': 't', 'у': 'u',
+      'ф': 'f', 'х': 'h', 'ц': 'ts', 'ч': 'ch', 'ш': 'sh', 'щ': 'sch',
+      'ъ': '', 'ы': 'y', 'ь': '', 'э': 'e', 'ю': 'yu', 'я': 'ya',
+      ' ': '-', '_': '-'
+    };
+    return text.toLowerCase().split('').map(char => map[char] || char).join('').replace(/[^a-z0-9.-]/g, '');
+  };
+
   const uploadImageToSupabase = async (file: File): Promise<string> => {
     try {
-      const fileName = `${Date.now()}-${file.name}`;
+      const cleanFileName = transliterate(file.name);
+      const fileName = `${Date.now()}-${cleanFileName}`;
       const formData = new FormData();
       formData.append('file', file);
       formData.append('fileName', fileName);
