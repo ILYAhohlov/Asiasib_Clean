@@ -44,14 +44,43 @@ export function OrderPage({ onBackToCatalog }: OrderPageProps) {
     setIsSubmitting(true);
     
     try {
-      // Имитация отправки заказа
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      const total = mockCartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
       
-      alert(`Заказ успешно оформлен!\n\nАдрес: ${formData.address}\nТелефон: ${formData.phone}\n${formData.comment ? `Комментарий: ${formData.comment}\n` : ''}Сумма заказа: ${mockCartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0).toLocaleString()} руб\n\nМы свяжемся с вами в ближайшее время для подтверждения.`);
-      
-      // После успешного оформления можно вернуться в каталог
-      onBackToCatalog();
+      const orderData = {
+        items: mockCartItems.map(item => ({
+          productId: item.id,
+          name: item.name,
+          price: item.price,
+          quantity: item.quantity
+        })),
+        clientName: formData.name || 'Не указано',
+        clientPhone: formData.phone,
+        clientAddress: formData.address,
+        totalAmount: total,
+        comments: formData.comment,
+        orderSource: 'web'
+      };
+
+      const response = await fetch(`${import.meta.env.VITE_API_URL || 'https://asiasib-clean.onrender.com'}/api/orders`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(orderData)
+      });
+
+      if (response.ok) {
+        const savedOrder = await response.json();
+        console.log('Заказ успешно отправлен:', savedOrder);
+        
+        alert(`Заказ успешно оформлен!\n\nАдрес: ${formData.address}\nТелефон: ${formData.phone}\n${formData.comment ? `Комментарий: ${formData.comment}\n` : ''}Сумма заказа: ${total.toLocaleString()} руб\n\nМы свяжемся с вами в ближайшее время для подтверждения.`);
+        
+        onBackToCatalog();
+      } else {
+        throw new Error('Ошибка при отправке заказа');
+      }
     } catch (error) {
+      console.error('Error submitting order:', error);
       alert("Произошла ошибка при оформлении заказа. Попробуйте еще раз.");
     } finally {
       setIsSubmitting(false);
@@ -90,6 +119,8 @@ export function OrderPage({ onBackToCatalog }: OrderPageProps) {
             <OrderForm 
               onSubmit={handleOrderSubmit}
               isSubmitting={isSubmitting}
+              items={mockCartItems}
+              total={mockCartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0)}
             />
           </div>
 

@@ -535,7 +535,16 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
 
         {activeTab === "orders" && (
           <div className="bg-white rounded-lg border border-gray-200 p-4">
-            <h3 className="font-semibold text-gray-900 mb-4">Заказы</h3>
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="font-semibold text-gray-900">Заказы</h3>
+              <Button
+                onClick={() => window.location.reload()}
+                variant="outline"
+                size="sm"
+              >
+                Обновить
+              </Button>
+            </div>
 
             <div className="overflow-x-auto">
               <table className="w-full text-sm">

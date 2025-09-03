@@ -93,12 +93,16 @@ const orderSchema = new mongoose.Schema({
     price: Number,
     quantity: Number
   }],
+  // Поддержка обоих форматов
   customerInfo: {
     name: String,
-    phone: { type: String, required: true },
+    phone: String,
     address: String,
     telegramId: Number
   },
+  clientName: String,
+  clientPhone: String,
+  clientAddress: String,
   totalAmount: { type: Number, required: true },
   status: { 
     type: String, 
@@ -202,11 +206,15 @@ app.post('/api/orders', async (req, res) => {
   try {
     const sanitizedOrder = {
       ...req.body,
-      customerInfo: {
+      // Поддержка обоих форматов
+      clientName: sanitizeInput(req.body.clientName || req.body.customerInfo?.name),
+      clientPhone: sanitizeInput(req.body.clientPhone || req.body.customerInfo?.phone),
+      clientAddress: sanitizeInput(req.body.clientAddress || req.body.customerInfo?.address),
+      customerInfo: req.body.customerInfo ? {
         name: sanitizeInput(req.body.customerInfo?.name),
         phone: sanitizeInput(req.body.customerInfo?.phone),
         address: sanitizeInput(req.body.customerInfo?.address)
-      },
+      } : undefined,
       comments: sanitizeInput(req.body.comments)
     };
 
@@ -214,6 +222,7 @@ app.post('/api/orders', async (req, res) => {
     await order.save();
     res.status(201).json(order);
   } catch (error) {
+    console.error('Order creation error:', error);
     res.status(400).json({ error: 'Invalid order data' });
   }
 });

@@ -82,12 +82,9 @@ export function OrderForm({ onSubmit, isSubmitting = false, items, total }: Orde
           price: item.price,
           quantity: item.quantity
         })),
-        customerInfo: {
-          name: formData.name || 'Не указано',
-          phone: formData.phone,
-          address: formData.address,
-          telegramId: window.Telegram?.WebApp?.initDataUnsafe?.user?.id
-        },
+        clientName: formData.name || 'Не указано',
+        clientPhone: formData.phone,
+        clientAddress: formData.address,
         totalAmount: total,
         comments: formData.comment,
         orderSource: window.Telegram?.WebApp ? 'telegram' : 'web'
