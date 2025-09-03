@@ -43,6 +43,7 @@ interface Order {
   // B2B поля
   bulkOrderText?: string;
   attachedFileName?: string;
+  attachedFileUrl?: string;
   parseResults?: {
     success: string[];
     failed: string[];
@@ -125,6 +126,33 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
     setProductForm(prev => ({ ...prev, images: files }));
   };
 
+  const uploadImageToSupabase = async (file: File): Promise<string> => {
+    try {
+      const fileName = `${Date.now()}-${file.name}`;
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('fileName', fileName);
+
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/upload-image`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('adminToken')}`
+        },
+        body: formData
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        return result.imageUrl;
+      } else {
+        throw new Error('Failed to upload image');
+      }
+    } catch (error) {
+      console.error('Image upload error:', error);
+      return 'https://via.placeholder.com/150';
+    }
+  };
+
   const handleProductSubmit = async () => {
     if (!productForm.name || !productForm.price || !productForm.minOrder) {
       alert("Заполните обязательные поля");
@@ -133,6 +161,13 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
 
     try {
       const token = localStorage.getItem('adminToken');
+      
+      // Загрузка изображения
+      let imageUrl = editingProduct ? editingProduct.image : "https://via.placeholder.com/150";
+      if (productForm.images.length > 0) {
+        imageUrl = await uploadImageToSupabase(productForm.images[0]);
+      }
+      
       const productData = {
         id: editingProduct?.id || Date.now().toString(),
         name: productForm.name,
@@ -142,7 +177,7 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
         description: productForm.description,
         shelfLife: productForm.shelfLife,
         allergens: productForm.allergens,
-        image: editingProduct ? editingProduct.image : "https://via.placeholder.com/150"
+        image: imageUrl
       };
 
       const url = editingProduct 
@@ -591,7 +626,19 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
                         )}
                         {order.attachedFileName && (
                           <div className="text-xs text-green-600 mt-1">
-                            Файл: {order.attachedFileName}
+                            Файл: 
+                            {order.attachedFileUrl ? (
+                              <a 
+                                href={order.attachedFileUrl} 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="underline hover:text-green-800"
+                              >
+                                {order.attachedFileName}
+                              </a>
+                            ) : (
+                              order.attachedFileName
+                            )}
                           </div>
                         )}
                       </td>

@@ -114,6 +114,7 @@ const orderSchema = new mongoose.Schema({
   // B2B поля
   bulkOrderText: String,
   attachedFileName: String,
+  attachedFileUrl: String,
   parseResults: {
     success: [String],
     failed: [String]
@@ -287,6 +288,76 @@ app.post('/api/auth/login', async (req, res) => {
     }
   } catch (error) {
     res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// Image upload to Supabase
+app.post('/api/upload-image', authenticateAdmin, upload.single('file'), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: 'No file uploaded' });
+    }
+
+    const fileName = req.body.fileName || `${Date.now()}-${req.file.originalname}`;
+    const fileBuffer = req.file.buffer || require('fs').readFileSync(req.file.path);
+
+    const { data, error } = await supabase.storage
+      .from('product-images')
+      .upload(fileName, fileBuffer, {
+        contentType: req.file.mimetype,
+        upsert: true
+      });
+
+    if (error) {
+      console.error('Supabase upload error:', error);
+      return res.status(500).json({ error: 'Failed to upload to Supabase' });
+    }
+
+    const { data: publicData } = supabase.storage
+      .from('product-images')
+      .getPublicUrl(fileName);
+
+    res.json({ imageUrl: publicData.publicUrl });
+  } catch (error) {
+    console.error('Upload error:', error);
+    res.status(500).json({ error: 'Upload failed' });
+  }
+});
+
+// File upload for B2B orders
+app.post('/api/upload-file', upload.single('file'), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: 'No file uploaded' });
+    }
+
+    const fileName = `b2b-${Date.now()}-${req.file.originalname}`;
+    const fileBuffer = req.file.buffer || require('fs').readFileSync(req.file.path);
+
+    const { data, error } = await supabase.storage
+      .from('b2b-files')
+      .upload(fileName, fileBuffer, {
+        contentType: req.file.mimetype,
+        upsert: true
+      });
+
+    if (error) {
+      console.error('Supabase upload error:', error);
+      return res.status(500).json({ error: 'Failed to upload to Supabase' });
+    }
+
+    const { data: publicData } = supabase.storage
+      .from('b2b-files')
+      .getPublicUrl(fileName);
+
+    res.json({ 
+      fileName: req.file.originalname,
+      fileUrl: publicData.publicUrl,
+      storedFileName: fileName
+    });
+  } catch (error) {
+    console.error('File upload error:', error);
+    res.status(500).json({ error: 'File upload failed' });
   }
 });
 

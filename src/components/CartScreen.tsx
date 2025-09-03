@@ -15,6 +15,7 @@ interface CartScreenProps {
 }
 
 interface OrderForm {
+  name: string;
   phone: string;
   address: string;
   comments: string;
@@ -31,6 +32,7 @@ export function CartScreen({
   const [bulkText, setBulkText] = useState("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [orderForm, setOrderForm] = useState<OrderForm>({
+    name: "",
     phone: "",
     address: "",
     comments: ""
@@ -100,18 +102,46 @@ export function CartScreen({
     setParseResult({ success, failed });
   };
 
+  const uploadFileToServer = async (file: File) => {
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const API_URL = import.meta.env.VITE_API_URL || 'https://asiasib-clean.onrender.com';
+      const response = await fetch(`${API_URL}/api/upload-file`, {
+        method: 'POST',
+        body: formData
+      });
+
+      if (response.ok) {
+        return await response.json();
+      } else {
+        throw new Error('Failed to upload file');
+      }
+    } catch (error) {
+      console.error('File upload error:', error);
+      return null;
+    }
+  };
+
   const handleFormSubmit = async () => {
     if (!orderForm.phone || !orderForm.address) {
       alert("Пожалуйста, заполните телефон и адрес доставки");
       return;
     }
 
-    if (cartItems.length === 0) {
-      alert("Корзина пуста");
+    if (cartItems.length === 0 && !bulkText.trim() && !selectedFile) {
+      alert("Корзина пуста и нет B2B заявки");
       return;
     }
 
     try {
+      // Загрузка файла если есть
+      let fileData = null;
+      if (selectedFile) {
+        fileData = await uploadFileToServer(selectedFile);
+      }
+
       const orderData = {
         items: cartItems.map(item => ({
           productId: item.id,
@@ -119,7 +149,7 @@ export function CartScreen({
           price: item.price,
           quantity: item.quantity
         })),
-        clientName: 'Не указано',
+        clientName: orderForm.name || 'Не указано',
         clientPhone: orderForm.phone,
         clientAddress: orderForm.address,
         totalAmount: totalAmount,
@@ -127,7 +157,8 @@ export function CartScreen({
         orderSource: 'web',
         // B2B данные
         bulkOrderText: bulkText,
-        attachedFileName: selectedFile?.name,
+        attachedFileName: fileData?.fileName || selectedFile?.name,
+        attachedFileUrl: fileData?.fileUrl,
         parseResults: parseResult,
         orderType: bulkText || selectedFile ? 'b2b' : 'regular'
       };
@@ -156,7 +187,7 @@ ${orderForm.comments ? `Комментарии: ${orderForm.comments}\n` : ''}
 Мы свяжемся с вами в ближайшее время для подтверждения.`);
         
         clearCart();
-        setOrderForm({ phone: "", address: "", comments: "" });
+        setOrderForm({ name: "", phone: "", address: "", comments: "" });
         setBulkText("");
         setSelectedFile(null);
         setParseResult(null);
@@ -286,7 +317,7 @@ ${orderForm.comments ? `Комментарии: ${orderForm.comments}\n` : ''}
               <div className="flex items-center space-x-2">
                 <input
                   type="file"
-                  accept=".txt,.csv,.pdf"
+                  accept=".txt,.doc,.docx,.xls,.xlsx,.pdf"
                   onChange={handleFileUpload}
                   className="hidden"
                   id="file-upload"
@@ -341,11 +372,24 @@ ${orderForm.comments ? `Комментарии: ${orderForm.comments}\n` : ''}
         </div>
 
         {/* Форма заказа */}
-        {cartItems.length > 0 && (
+        {(cartItems.length > 0 || bulkText.trim() || selectedFile) && (
           <div className="bg-white rounded-lg border border-gray-200 p-4">
             <h3 className="font-semibold text-gray-900 mb-4">Оформление заказа</h3>
             
             <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Имя или название организации
+                </label>
+                <input
+                  type="text"
+                  value={orderForm.name}
+                  onChange={(e) => setOrderForm(prev => ({ ...prev, name: e.target.value }))}
+                  placeholder="Иван Иванов или ООО 'Компания'"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                />
+              </div>
+              
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Телефон *
@@ -388,20 +432,32 @@ ${orderForm.comments ? `Комментарии: ${orderForm.comments}\n` : ''}
         )}
 
         {/* Итого */}
-        {cartItems.length > 0 && (
+        {(cartItems.length > 0 || bulkText.trim() || selectedFile) && (
           <div className="bg-white rounded-lg border border-gray-200 p-4">
             <div className="space-y-2">
-              <div className="flex justify-between">
-                <span className="font-medium">Общий вес:</span>
-                <span className={isOverWeight ? "text-red-600 font-semibold" : ""}>
-                  {totalWeight} кг
-                </span>
-              </div>
+              {cartItems.length > 0 && (
+                <>
+                  <div className="flex justify-between">
+                    <span className="font-medium">Общий вес:</span>
+                    <span className={isOverWeight ? "text-red-600 font-semibold" : ""}>
+                      {totalWeight} кг
+                    </span>
+                  </div>
+                  
+                  {isOverWeight && (
+                    <p className="text-orange-600 text-sm">
+                      Вес превышает 800 кг - потребуется дополнительный транспорт
+                    </p>
+                  )}
+                </>
+              )}
               
-              {isOverWeight && (
-                <p className="text-red-600 text-sm">
-                  Превышен максимальный вес доставки (800 кг)
-                </p>
+              {(bulkText.trim() || selectedFile) && (
+                <div className="bg-blue-50 p-3 rounded-lg">
+                  <p className="text-blue-800 text-sm font-medium">B2B заявка:</p>
+                  {bulkText.trim() && <p className="text-blue-700 text-sm">Текстовая заявка приложена</p>}
+                  {selectedFile && <p className="text-blue-700 text-sm">Файл: {selectedFile.name}</p>}
+                </div>
               )}
               
               <div className="flex justify-between text-lg font-semibold">
@@ -412,7 +468,7 @@ ${orderForm.comments ? `Комментарии: ${orderForm.comments}\n` : ''}
             
             <Button
               onClick={handleFormSubmit}
-              disabled={!orderForm.phone || !orderForm.address || isOverWeight}
+              disabled={!orderForm.phone || !orderForm.address}
               className="w-full mt-4 bg-green-500 hover:bg-green-600 text-white py-3"
             >
               Оформить заказ
