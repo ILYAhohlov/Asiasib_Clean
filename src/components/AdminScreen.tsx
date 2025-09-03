@@ -40,6 +40,14 @@ interface Order {
   comments?: string;
   createdAt: string;
   orderSource: string;
+  // B2B поля
+  bulkOrderText?: string;
+  attachedFileName?: string;
+  parseResults?: {
+    success: string[];
+    failed: string[];
+  };
+  orderType?: 'regular' | 'b2b';
 }
 
 interface ProductFormData {
@@ -551,10 +559,12 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
                 <thead className="border-b border-gray-200">
                   <tr className="text-left">
                     <th className="pb-2">ID</th>
+                    <th className="pb-2">Тип</th>
                     <th className="pb-2">Имя</th>
                     <th className="pb-2">Товары</th>
                     <th className="pb-2">Телефон</th>
                     <th className="pb-2">Адрес</th>
+                    <th className="pb-2">Комментарии</th>
                     <th className="pb-2">Статус</th>
                     <th className="pb-2">Сумма</th>
                     <th className="pb-2">Дата</th>
@@ -564,12 +574,30 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
                   {orders.map(order => (
                     <tr key={order._id} className="border-b border-gray-100">
                       <td className="py-2 font-medium">#{order._id?.slice(-6) || 'N/A'}</td>
+                      <td className="py-2">
+                        <span className={`text-xs px-2 py-1 rounded-full ${
+                          order.orderType === 'b2b' ? 'bg-purple-100 text-purple-800' : 'bg-gray-100 text-gray-800'
+                        }`}>
+                          {order.orderType === 'b2b' ? 'B2B' : 'Обычный'}
+                        </span>
+                      </td>
                       <td className="py-2">{order.clientName || 'Не указано'}</td>
                       <td className="py-2 max-w-xs">
                         {order.items?.map(item => `${item?.name || 'Товар'} (${item?.quantity || 0}кг)`).join(', ') || 'Нет товаров'}
+                        {order.bulkOrderText && (
+                          <div className="text-xs text-blue-600 mt-1">
+                            B2B заявка: {order.bulkOrderText.substring(0, 50)}...
+                          </div>
+                        )}
+                        {order.attachedFileName && (
+                          <div className="text-xs text-green-600 mt-1">
+                            Файл: {order.attachedFileName}
+                          </div>
+                        )}
                       </td>
                       <td className="py-2">{order.clientPhone || 'Не указан'}</td>
                       <td className="py-2 max-w-xs truncate">{order.clientAddress || 'Не указан'}</td>
+                      <td className="py-2 max-w-xs truncate text-sm">{order.comments || '-'}</td>
                       <td className="py-2">
                         <select
                           value={order.status || 'Принят'}

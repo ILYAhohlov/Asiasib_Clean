@@ -111,6 +111,14 @@ const orderSchema = new mongoose.Schema({
   },
   comments: String,
   orderSource: { type: String, enum: ['web', 'telegram'], default: 'web' },
+  // B2B поля
+  bulkOrderText: String,
+  attachedFileName: String,
+  parseResults: {
+    success: [String],
+    failed: [String]
+  },
+  orderType: { type: String, enum: ['regular', 'b2b'], default: 'regular' },
   createdAt: { type: Date, default: Date.now }
 });
 

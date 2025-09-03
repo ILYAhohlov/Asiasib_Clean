@@ -124,7 +124,12 @@ export function CartScreen({
         clientAddress: orderForm.address,
         totalAmount: totalAmount,
         comments: orderForm.comments,
-        orderSource: 'web'
+        orderSource: 'web',
+        // B2B данные
+        bulkOrderText: bulkText,
+        attachedFileName: selectedFile?.name,
+        parseResults: parseResult,
+        orderType: bulkText || selectedFile ? 'b2b' : 'regular'
       };
 
       const API_URL = import.meta.env.VITE_API_URL || 'https://asiasib-clean.onrender.com';
@@ -152,6 +157,9 @@ ${orderForm.comments ? `Комментарии: ${orderForm.comments}\n` : ''}
         
         clearCart();
         setOrderForm({ phone: "", address: "", comments: "" });
+        setBulkText("");
+        setSelectedFile(null);
+        setParseResult(null);
         navigateToScreen("catalog");
       } else {
         throw new Error('Ошибка при отправке заказа');
