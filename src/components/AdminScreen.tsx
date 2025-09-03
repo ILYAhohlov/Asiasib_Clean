@@ -176,13 +176,12 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
       const token = localStorage.getItem('adminToken');
       
       // Загрузка изображения
-      let imageUrl = editingProduct ? editingProduct.image : "https://via.placeholder.com/150";
+      let imageUrl = editingProduct ? editingProduct.image : "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=150&h=150&fit=crop&crop=center";
       if (productForm.images.length > 0) {
         imageUrl = await uploadImageToSupabase(productForm.images[0]);
       }
       
       const productData = {
-        id: editingProduct?.id || Date.now().toString(),
         name: productForm.name,
         category: productForm.category,
         price: parseInt(productForm.price),
@@ -192,6 +191,11 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
         allergens: productForm.allergens,
         image: imageUrl
       };
+      
+      // Добавляем ID только для редактирования
+      if (editingProduct) {
+        productData.id = editingProduct.id;
+      }
 
       const url = editingProduct 
         ? `${import.meta.env.VITE_API_URL}/api/products/${editingProduct.id}`
@@ -251,6 +255,11 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
       allergens: product.allergens,
       images: []
     });
+    
+    // Прокрутка к форме редактирования
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 100);
   };
 
   const handleDeleteProduct = async (id: string) => {
