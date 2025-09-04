@@ -68,7 +68,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 // Multer configuration
 const upload = multer({ 
-  dest: 'uploads/',
+  storage: multer.memoryStorage(),
   limits: { fileSize: 5 * 1024 * 1024 }
 });
 
@@ -313,7 +313,7 @@ app.post('/api/upload-image', authenticateAdmin, upload.single('file'), async (r
 
     const cleanOriginalName = transliterate(req.file.originalname);
     const fileName = req.body.fileName || `${Date.now()}-${cleanOriginalName}`;
-    const fileBuffer = req.file.buffer || require('fs').readFileSync(req.file.path);
+    const fileBuffer = req.file.buffer;
 
     const { data, error } = await supabase.storage
       .from('product-images')
@@ -347,7 +347,7 @@ app.post('/api/upload-file', upload.single('file'), async (req, res) => {
 
     const cleanOriginalName = transliterate(req.file.originalname);
     const fileName = `b2b-${Date.now()}-${cleanOriginalName}`;
-    const fileBuffer = req.file.buffer || require('fs').readFileSync(req.file.path);
+    const fileBuffer = req.file.buffer;
 
     const { data, error } = await supabase.storage
       .from('b2b-files')
