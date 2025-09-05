@@ -1,4 +1,5 @@
-import { ShoppingCart, Info, MessageCircle, Send, Settings } from "lucide-react";
+import { ShoppingCart, Info, Store, Home } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
 import { Screen } from "../App";
 
 interface StickyFooterProps {
@@ -9,17 +10,29 @@ interface StickyFooterProps {
 }
 
 export function StickyFooter({ navigateToScreen, cartItemsCount, currentScreen, showAdminButton = false }: StickyFooterProps) {
-  const handleTelegramChannel = () => {
-    window.open("https://t.me/yourchannel", "_blank");
-  };
-
-  const handleSupport = () => {
-    window.open("https://t.me/yoursupport", "_blank");
+  const location = useLocation();
+  
+  const isActive = (path: string) => {
+    if (path === '/' && currentScreen === 'catalog') return true;
+    if (path === '/cart' && currentScreen === 'cart') return true;
+    return location.pathname === path;
   };
 
   return (
     <footer className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 h-16 flex items-center justify-around px-4 z-50">
-      {/* Корзина */}
+      {/* Каталог - внутренняя навигация */}
+      <button
+        onClick={() => navigateToScreen("catalog")}
+        className={`flex flex-col items-center justify-center p-2 rounded-lg transition-colors ${
+          currentScreen === "catalog" ? "text-blue-500" : "text-gray-600 hover:text-blue-500"
+        }`}
+        aria-label="Каталог"
+      >
+        <Home className="w-6 h-6" />
+        <span className="text-xs mt-1">Каталог</span>
+      </button>
+
+      {/* Корзина - внутренняя навигация */}
       <button
         onClick={() => navigateToScreen("cart")}
         className={`flex flex-col items-center justify-center relative p-2 rounded-lg transition-colors ${
@@ -36,50 +49,29 @@ export function StickyFooter({ navigateToScreen, cartItemsCount, currentScreen, 
         )}
       </button>
 
-      {/* О проекте */}
-      <button
-        onClick={() => navigateToScreen("about")}
+      {/* Для продавцов - роутинг */}
+      <Link
+        to="/sellers"
         className={`flex flex-col items-center justify-center p-2 rounded-lg transition-colors ${
-          currentScreen === "about" ? "text-blue-500" : "text-gray-600 hover:text-blue-500"
+          isActive('/sellers') ? "text-blue-500" : "text-gray-600 hover:text-blue-500"
         }`}
-        aria-label="О проекте"
+        aria-label="Для продавцов"
+      >
+        <Store className="w-6 h-6" />
+        <span className="text-xs mt-1">Продавцам</span>
+      </Link>
+
+      {/* О нас - роутинг */}
+      <Link
+        to="/about"
+        className={`flex flex-col items-center justify-center p-2 rounded-lg transition-colors ${
+          isActive('/about') ? "text-blue-500" : "text-gray-600 hover:text-blue-500"
+        }`}
+        aria-label="О нас"
       >
         <Info className="w-6 h-6" />
         <span className="text-xs mt-1">О нас</span>
-      </button>
-
-      {/* Telegram-канал */}
-      <button
-        onClick={handleTelegramChannel}
-        className="flex flex-col items-center justify-center p-2 rounded-lg text-gray-600 hover:text-blue-500 transition-colors"
-        aria-label="Telegram-канал"
-      >
-        <Send className="w-6 h-6" />
-        <span className="text-xs mt-1">Канал</span>
-      </button>
-
-      {/* Чат поддержки или Админ */}
-      {showAdminButton ? (
-        <button
-          onClick={() => navigateToScreen("admin")}
-          className={`flex flex-col items-center justify-center p-2 rounded-lg transition-colors ${
-            currentScreen === "admin" || currentScreen === "admin-login" ? "text-blue-500" : "text-gray-600 hover:text-blue-500"
-          }`}
-          aria-label="Админ панель"
-        >
-          <Settings className="w-6 h-6" />
-          <span className="text-xs mt-1">Админ</span>
-        </button>
-      ) : (
-        <button
-          onClick={handleSupport}
-          className="flex flex-col items-center justify-center p-2 rounded-lg text-gray-600 hover:text-blue-500 transition-colors"
-          aria-label="Чат поддержки"
-        >
-          <MessageCircle className="w-6 h-6" />
-          <span className="text-xs mt-1">Поддержка</span>
-        </button>
-      )}
+      </Link>
     </footer>
   );
 }
