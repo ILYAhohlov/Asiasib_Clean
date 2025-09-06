@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CatalogScreen } from "../components/CatalogScreen";
 import { CartScreen } from "../components/CartScreen";
 import { OrderPage } from "../components/OrderPage";
@@ -12,6 +12,10 @@ export function HomePage() {
 
   const navigateToScreen = (screen: HomeScreen) => {
     setCurrentScreen(screen);
+    // Прокрутка к началу страницы при смене экрана
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 100);
   };
 
   const addToCart = (item: CartItem) => {
