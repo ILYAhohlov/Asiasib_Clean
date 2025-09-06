@@ -24,7 +24,7 @@ export function SellersPage() {
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-16">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h1 className="text-4xl font-bold mb-4">
+          <h1 className="text-4xl font-bold mb-4 text-white">
             Станьте нашим партнером
           </h1>
           <p className="text-xl mb-8 text-white">
@@ -138,7 +138,7 @@ export function SellersPage() {
             Войдите в личный кабинет или свяжитесь с нами для получения доступа
           </p>
           <Link to="/admin">
-            <Button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 font-semibold">
+            <Button className="bg-white text-blue-600 hover:bg-gray-100 border-2 border-blue-600 px-8 py-3 font-semibold shadow-lg">
               Войти в личный кабинет
             </Button>
           </Link>
