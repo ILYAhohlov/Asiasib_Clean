@@ -20,11 +20,16 @@ export function HomePage() {
       if (existingItem) {
         return prev.map(i => 
           i.id === item.id 
-            ? { ...i, quantity: i.quantity + item.quantity }
+            ? { ...i, quantity: Number(i.quantity) + Number(item.quantity) }
             : i
         );
       }
-      return [...prev, item];
+      return [...prev, {
+        ...item,
+        price: Number(item.price) || 0,
+        quantity: Number(item.quantity) || 1,
+        minOrder: Number(item.minOrder) || 1
+      }];
     });
   };
 

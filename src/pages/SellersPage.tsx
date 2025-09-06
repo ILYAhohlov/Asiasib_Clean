@@ -1,18 +1,19 @@
 import { Link } from "react-router-dom";
 import { Store, Users, TrendingUp, Shield, ArrowRight } from "lucide-react";
 import { Button } from "../components/ui/button";
+import { StickyFooter } from "../components/StickyFooter";
 
 export function SellersPage() {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 pb-20">
       {/* Header */}
-      <header className="bg-white border-b border-gray-200">
+      <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
         <div className="max-w-4xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <Link to="/" className="text-2xl font-bold text-blue-600">
               Азия-Сибирь
             </Link>
-            <nav className="flex space-x-6">
+            <nav className="flex space-x-4">
               <Link to="/" className="text-gray-600 hover:text-gray-900">Каталог</Link>
               <Link to="/about" className="text-gray-600 hover:text-gray-900">О нас</Link>
             </nav>
@@ -26,7 +27,7 @@ export function SellersPage() {
           <h1 className="text-4xl font-bold mb-4">
             Станьте нашим партнером
           </h1>
-          <p className="text-xl mb-8 opacity-90">
+          <p className="text-xl mb-8 text-white">
             Размещайте свои товары на нашей платформе и увеличивайте продажи
           </p>
           <div className="flex justify-center space-x-4">
@@ -137,12 +138,18 @@ export function SellersPage() {
             Войдите в личный кабинет или свяжитесь с нами для получения доступа
           </p>
           <Link to="/admin">
-            <Button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3">
+            <Button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 font-semibold">
               Войти в личный кабинет
             </Button>
           </Link>
         </div>
       </section>
+
+      {/* Sticky Footer */}
+      <StickyFooter 
+        navigateToScreen={() => {}}
+        cartItemsCount={0}
+      />
     </div>
   );
 }
