@@ -69,6 +69,7 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
   const [searchQuery, setSearchQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+  const [selectedOrders, setSelectedOrders] = useState<string[]>([]);
 
   const [productForm, setProductForm] = useState<ProductFormData>({
     name: "",
@@ -602,19 +603,66 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
           <div className="bg-white rounded-lg border border-gray-200 p-4">
             <div className="flex justify-between items-center mb-4">
               <h3 className="font-semibold text-gray-900">Заказы</h3>
-              <Button
-                onClick={() => window.location.reload()}
-                variant="outline"
-                size="sm"
-              >
-                Обновить
-              </Button>
+              <div className="flex space-x-2">
+                {selectedOrders.length > 0 && (
+                  <Button
+                    onClick={async () => {
+                      if (confirm(`Удалить ${selectedOrders.length} выбранных заказов?`)) {
+                        try {
+                          const token = localStorage.getItem('adminToken');
+                          const response = await fetch(`${import.meta.env.VITE_API_URL}/api/orders/delete-selected`, {
+                            method: 'DELETE',
+                            headers: {
+                              'Content-Type': 'application/json',
+                              'Authorization': `Bearer ${token}`
+                            },
+                            body: JSON.stringify({ orderIds: selectedOrders })
+                          });
+                          if (response.ok) {
+                            setOrders(prev => prev.filter(order => !selectedOrders.includes(order._id)));
+                            setSelectedOrders([]);
+                            alert(`${selectedOrders.length} заказов удалено`);
+                          }
+                        } catch (error) {
+                          alert('Ошибка удаления');
+                        }
+                      }
+                    }}
+                    variant="outline"
+                    size="sm"
+                    className="text-red-600 hover:text-red-700"
+                  >
+                    Удалить ({selectedOrders.length})
+                  </Button>
+                )}
+                <Button
+                  onClick={() => window.location.reload()}
+                  variant="outline"
+                  size="sm"
+                >
+                  Обновить
+                </Button>
+              </div>
             </div>
 
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead className="border-b border-gray-200">
                   <tr className="text-left">
+                    <th className="pb-2">
+                      <input
+                        type="checkbox"
+                        checked={selectedOrders.length === orders.length && orders.length > 0}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setSelectedOrders(orders.map(order => order._id));
+                          } else {
+                            setSelectedOrders([]);
+                          }
+                        }}
+                        className="rounded"
+                      />
+                    </th>
                     <th className="pb-2">ID</th>
                     <th className="pb-2">Тип</th>
                     <th className="pb-2">Имя</th>
@@ -630,6 +678,20 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
                 <tbody>
                   {orders.map(order => (
                     <tr key={order._id} className="border-b border-gray-100">
+                      <td className="py-2">
+                        <input
+                          type="checkbox"
+                          checked={selectedOrders.includes(order._id)}
+                          onChange={(e) => {
+                            if (e.target.checked) {
+                              setSelectedOrders(prev => [...prev, order._id]);
+                            } else {
+                              setSelectedOrders(prev => prev.filter(id => id !== order._id));
+                            }
+                          }}
+                          className="rounded"
+                        />
+                      </td>
                       <td className="py-2 font-medium">#{order._id?.slice(-6) || 'N/A'}</td>
                       <td className="py-2">
                         <span className={`text-xs px-2 py-1 rounded-full ${

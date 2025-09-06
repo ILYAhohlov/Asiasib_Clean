@@ -269,6 +269,22 @@ app.put('/api/orders/:id/status', authenticateAdmin, async (req, res) => {
   }
 });
 
+// Delete selected orders
+app.delete('/api/orders/delete-selected', authenticateAdmin, async (req, res) => {
+  try {
+    const { orderIds } = req.body;
+    if (!orderIds || !Array.isArray(orderIds)) {
+      return res.status(400).json({ error: 'Invalid order IDs' });
+    }
+    
+    const result = await Order.deleteMany({ _id: { $in: orderIds } });
+    res.json({ message: `${result.deletedCount} orders deleted successfully` });
+  } catch (error) {
+    console.error('Error deleting orders:', error);
+    res.status(500).json({ error: 'Failed to delete orders' });
+  }
+});
+
 // Admin authentication
 app.post('/api/auth/login', async (req, res) => {
   try {
