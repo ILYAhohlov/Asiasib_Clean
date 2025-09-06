@@ -63,13 +63,13 @@ export function AboutScreen({ navigateToScreen, cartItemsCount }: AboutScreenPro
           
           <div className="space-y-4 text-gray-700">
             <p>
-              Мы доставляем оптовые овощи, фрукты и специи с рынка в Верх-Туле 
+              Мы доставляем овощи, фрукты и специи с рынка Азия-Сибирь в Верх-Туле 
               в Новосибирск и окрестности.
             </p>
             
             <p>
               Наша миссия — обеспечить качественными продуктами питания по доступным 
-              ценам с быстрой доставкой прямо до вашего склада или точки продаж.
+              ценам с быстрой доставкой прямо до вашего склада или точки продаж или вам домой.
             </p>
             
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
@@ -104,7 +104,7 @@ export function AboutScreen({ navigateToScreen, cartItemsCount }: AboutScreenPro
                   onClick={handlePhoneCall}
                   className="text-blue-600 hover:text-blue-700 transition-colors"
                 >
-                  +7 (999) 123-45-67
+                  +7 (913) 949-25-70
                 </button>
               </div>
             </div>
@@ -119,7 +119,7 @@ export function AboutScreen({ navigateToScreen, cartItemsCount }: AboutScreenPro
                   onClick={handleEmail}
                   className="text-blue-600 hover:text-blue-700 transition-colors"
                 >
-                  info@optmarket.ru
+                  business.asia@yandex.ru
                 </button>
               </div>
             </div>
@@ -130,7 +130,7 @@ export function AboutScreen({ navigateToScreen, cartItemsCount }: AboutScreenPro
               </div>
               <div>
                 <p className="font-medium text-gray-900">Адрес склада</p>
-                <p className="text-gray-700">с. Верх-Тула, рынок "Продукты"</p>
+                <p className="text-gray-700">с. Верх-Тула, рынок "Азия-Сибирь"</p>
               </div>
             </div>
           </div>
@@ -145,17 +145,17 @@ export function AboutScreen({ navigateToScreen, cartItemsCount }: AboutScreenPro
           <div className="space-y-3">
             <div className="flex justify-between items-center py-2 border-b border-gray-100">
               <span className="text-gray-700">Новосибирск (центр)</span>
-              <span className="text-green-600 font-medium">Бесплатно</span>
+              <span className="text-green-600 font-medium">3500</span>
             </div>
             
             <div className="flex justify-between items-center py-2 border-b border-gray-100">
               <span className="text-gray-700">Новосибирск (окраины)</span>
-              <span className="text-blue-600 font-medium">500 руб</span>
+              <span className="text-blue-600 font-medium">5000 руб</span>
             </div>
             
             <div className="flex justify-between items-center py-2 border-b border-gray-100">
               <span className="text-gray-700">Пригород (до 30 км)</span>
-              <span className="text-blue-600 font-medium">1000 руб</span>
+              <span className="text-blue-600 font-medium">7000 руб</span>
             </div>
             
             <div className="flex justify-between items-center py-2">

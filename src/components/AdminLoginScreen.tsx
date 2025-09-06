@@ -73,7 +73,7 @@ export function AdminLoginScreen({ navigateToScreen, cartItemsCount, onLogin }: 
                 Административная панель
               </h2>
               <p className="text-gray-600 text-sm">
-                Введите пароль: 633100admin
+                Введите пароль для доступа к панели управления
               </p>
             </div>
           </div>
@@ -91,7 +91,7 @@ export function AdminLoginScreen({ navigateToScreen, cartItemsCount, onLogin }: 
                     type={showPassword ? "text" : "password"}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    placeholder="633100admin"
+                    placeholder="Введите пароль"
                     className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     disabled={isLoading}
                   />
