@@ -22,17 +22,29 @@ export function SellersPage() {
       </header>
 
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-16">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <h1 className="text-4xl font-bold mb-4 text-white">
+      <section className="relative bg-gradient-to-br from-yellow-200 via-green-200 to-green-300 text-gray-800 py-20 overflow-hidden">
+        {/* Декоративные элементы */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-10 left-10 text-4xl opacity-20 transform rotate-12">🍅</div>
+          <div className="absolute top-20 right-20 text-3xl opacity-25 transform -rotate-12">🍎</div>
+          <div className="absolute bottom-20 left-20 text-3xl opacity-20 transform rotate-45">🥕</div>
+          <div className="absolute bottom-10 right-10 text-4xl opacity-25 transform -rotate-45">🌶️</div>
+          <div className="absolute top-1/2 left-1/4 text-2xl opacity-15 transform rotate-90">🍆</div>
+          <div className="absolute top-1/3 right-1/3 text-3xl opacity-20 transform -rotate-30">🍊</div>
+          <div className="absolute bottom-1/3 left-1/2 text-2xl opacity-15 transform rotate-180">🥦</div>
+          <div className="absolute top-3/4 right-1/4 text-3xl opacity-20 transform rotate-60">🍋</div>
+        </div>
+        
+        <div className="max-w-4xl mx-auto px-4 text-center relative z-10">
+          <h1 className="text-4xl font-bold mb-6 text-gray-800 pt-4 drop-shadow-sm">
             Станьте нашим партнером
           </h1>
-          <p className="text-xl mb-8 text-white">
+          <p className="text-xl mb-10 text-gray-700 drop-shadow-sm">
             Размещайте свои товары на нашей платформе и увеличивайте продажи
           </p>
-          <div className="flex justify-center space-x-4">
+          <div className="flex justify-center space-x-4 mb-6">
             <Link to="/admin">
-              <Button className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-3">
+              <Button className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 shadow-lg">
                 Вход в личный кабинет
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
@@ -42,9 +54,9 @@ export function SellersPage() {
       </section>
 
       {/* Features */}
-      <section className="py-16">
+      <section className="py-20">
         <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-12">
+          <h2 className="text-3xl font-bold text-center mb-16">
             Преимущества сотрудничества
           </h2>
           
@@ -80,8 +92,8 @@ export function SellersPage() {
             </div>
 
             <div className="text-center">
-              <div className="bg-orange-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Shield className="w-8 h-8 text-orange-600" />
+              <div className="bg-red-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Shield className="w-8 h-8 text-red-600" />
               </div>
               <h3 className="font-semibold mb-2">Надежность</h3>
               <p className="text-gray-600 text-sm">
@@ -96,27 +108,26 @@ export function SellersPage() {
       <section className="bg-white py-16">
         <div className="max-w-4xl mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-12">
-            <div>
-              <h3 className="text-2xl font-bold mb-6">Условия сотрудничества</h3>
-              <ul className="space-y-3 text-gray-600">
+            <div className="py-6">
+              <h3 className="text-2xl font-bold mb-8">Условия сотрудничества</h3>
+              <ul className="space-y-3 text-gray-600 mb-6">
                 <li>• Комиссия от 5% с продаж</li>
                 <li>• Бесплатное размещение товаров</li>
-                <li>• Еженедельные выплаты</li>
                 <li>• Помощь в продвижении товаров</li>
                 <li>• Аналитика и отчеты по продажам</li>
               </ul>
             </div>
 
-            <div>
-              <h3 className="text-2xl font-bold mb-6">Свяжитесь с нами</h3>
-              <div className="space-y-4">
+            <div className="py-6">
+              <h3 className="text-2xl font-bold mb-8">Свяжитесь с нами</h3>
+              <div className="space-y-4 mb-6">
                 <div>
                   <p className="font-medium">Телефон для партнеров:</p>
-                  <p className="text-blue-600">+7 (913) 385-98-58</p>
+                  <p className="text-blue-600">+7 (913) 949-25-70</p>
                 </div>
                 <div>
                   <p className="font-medium">Email:</p>
-                  <p className="text-blue-600">partners@asiasib.ru</p>
+                  <p className="text-blue-600">business.asia@yandex.ru</p>
                 </div>
                 <div>
                   <p className="font-medium">Время работы:</p>
@@ -138,7 +149,7 @@ export function SellersPage() {
             Войдите в личный кабинет или свяжитесь с нами для получения доступа
           </p>
           <Link to="/admin">
-            <Button className="bg-white text-blue-600 hover:bg-gray-100 border-2 border-blue-600 px-8 py-3 font-semibold shadow-lg">
+            <Button className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 font-semibold rounded-lg shadow-lg">
               Войти в личный кабинет
             </Button>
           </Link>
