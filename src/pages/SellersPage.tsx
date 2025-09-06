@@ -22,32 +22,41 @@ export function SellersPage() {
       </header>
 
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-yellow-200 via-green-200 to-green-300 text-gray-800 py-20 overflow-hidden">
-        {/* Декоративные элементы */}
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-10 left-10 text-4xl opacity-20 transform rotate-12">🍅</div>
-          <div className="absolute top-20 right-20 text-3xl opacity-25 transform -rotate-12">🍎</div>
-          <div className="absolute bottom-20 left-20 text-3xl opacity-20 transform rotate-45">🥕</div>
-          <div className="absolute bottom-10 right-10 text-4xl opacity-25 transform -rotate-45">🌶️</div>
-          <div className="absolute top-1/2 left-1/4 text-2xl opacity-15 transform rotate-90">🍆</div>
-          <div className="absolute top-1/3 right-1/3 text-3xl opacity-20 transform -rotate-30">🍊</div>
-          <div className="absolute bottom-1/3 left-1/2 text-2xl opacity-15 transform rotate-180">🥦</div>
-          <div className="absolute top-3/4 right-1/4 text-3xl opacity-20 transform rotate-60">🍋</div>
-        </div>
-        
-        <div className="max-w-4xl mx-auto px-4 text-center relative z-10">
-          <h1 className="text-4xl font-bold mb-6 text-gray-800 pt-4 drop-shadow-sm">
+      <section 
+        className="py-20 text-gray-800"
+        style={{
+          background: 'linear-gradient(135deg, #fef3c7 0%, #d9f99d 50%, #a7f3d0 100%)',
+          minHeight: '400px'
+        }}
+      >
+        <div className="max-w-4xl mx-auto px-4 text-center">
+          <h1 
+            className="text-4xl font-bold mb-6 pt-4"
+            style={{ color: '#1f2937', textShadow: '0 1px 2px rgba(0,0,0,0.1)' }}
+          >
             Станьте нашим партнером
           </h1>
-          <p className="text-xl mb-10 text-gray-700 drop-shadow-sm">
+          <p 
+            className="text-xl mb-10"
+            style={{ color: '#374151', textShadow: '0 1px 2px rgba(0,0,0,0.1)' }}
+          >
             Размещайте свои товары на нашей платформе и увеличивайте продажи
           </p>
           <div className="flex justify-center space-x-4 mb-6">
             <Link to="/admin">
-              <Button className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 shadow-lg">
+              <button 
+                className="px-8 py-3 rounded-lg font-semibold shadow-lg transition-colors"
+                style={{
+                  backgroundColor: '#16a34a',
+                  color: 'white',
+                  border: 'none'
+                }}
+                onMouseOver={(e) => e.target.style.backgroundColor = '#15803d'}
+                onMouseOut={(e) => e.target.style.backgroundColor = '#16a34a'}
+              >
                 Вход в личный кабинет
-                <ArrowRight className="ml-2 w-4 h-4" />
-              </Button>
+                <ArrowRight className="ml-2 w-4 h-4 inline" />
+              </button>
             </Link>
           </div>
         </div>
@@ -56,7 +65,7 @@ export function SellersPage() {
       {/* Features */}
       <section className="py-20">
         <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-16">
+          <h2 className="text-3xl font-bold text-center mb-20">
             Преимущества сотрудничества
           </h2>
           
@@ -82,8 +91,11 @@ export function SellersPage() {
             </div>
 
             <div className="text-center">
-              <div className="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Users className="w-8 h-8 text-purple-600" />
+              <div 
+                className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
+                style={{ backgroundColor: '#e9d5ff' }}
+              >
+                <Users className="w-8 h-8" style={{ color: '#9333ea' }} />
               </div>
               <h3 className="font-semibold mb-2">Поддержка</h3>
               <p className="text-gray-600 text-sm">
@@ -92,8 +104,11 @@ export function SellersPage() {
             </div>
 
             <div className="text-center">
-              <div className="bg-red-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Shield className="w-8 h-8 text-red-600" />
+              <div 
+                className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
+                style={{ backgroundColor: '#fecaca' }}
+              >
+                <Shield className="w-8 h-8" style={{ color: '#dc2626' }} />
               </div>
               <h3 className="font-semibold mb-2">Надежность</h3>
               <p className="text-gray-600 text-sm">
@@ -149,9 +164,18 @@ export function SellersPage() {
             Войдите в личный кабинет или свяжитесь с нами для получения доступа
           </p>
           <Link to="/admin">
-            <Button className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 font-semibold rounded-lg shadow-lg">
+            <button 
+              className="px-8 py-3 font-semibold rounded-lg shadow-lg transition-colors"
+              style={{
+                backgroundColor: '#16a34a',
+                color: 'white',
+                border: 'none'
+              }}
+              onMouseOver={(e) => e.target.style.backgroundColor = '#15803d'}
+              onMouseOut={(e) => e.target.style.backgroundColor = '#16a34a'}
+            >
               Войти в личный кабинет
-            </Button>
+            </button>
           </Link>
         </div>
       </section>
