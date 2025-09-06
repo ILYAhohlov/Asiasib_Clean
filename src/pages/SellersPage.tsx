@@ -36,8 +36,12 @@ export function SellersPage() {
             Станьте нашим партнером
           </h1>
           <p 
-            className="text-xl mb-8 italic"
-            style={{ color: '#374151', textShadow: '0 1px 2px rgba(0,0,0,0.1)' }}
+            className="text-xl mb-12"
+            style={{ 
+              color: '#374151', 
+              textShadow: '0 1px 2px rgba(0,0,0,0.1)',
+              fontStyle: 'italic'
+            }}
           >
             Размещайте свои товары на нашей платформе и увеличивайте продажи
           </p>
@@ -63,9 +67,9 @@ export function SellersPage() {
       </section>
 
       {/* Features */}
-      <section className="py-16 mt-8">
+      <section className="pt-20 pb-16 mt-8">
         <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-16">
+          <h2 className="text-3xl font-bold text-center mb-20">
             Преимущества сотрудничества
           </h2>
           
