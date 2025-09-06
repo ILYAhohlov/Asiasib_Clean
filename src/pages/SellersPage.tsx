@@ -23,33 +23,33 @@ export function SellersPage() {
 
       {/* Hero Section */}
       <section 
-        className="py-20 text-gray-800"
+        className="py-12 text-gray-800"
         style={{
-          background: 'linear-gradient(135deg, #fef3c7 0%, #d9f99d 50%, #a7f3d0 100%)',
-          minHeight: '400px'
+          background: 'linear-gradient(135deg, #fef3c7 0%, #d9f99d 50%, #a7f3d0 100%)'
         }}
       >
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h1 
-            className="text-4xl font-bold mb-6 pt-4"
+            className="text-4xl font-bold mb-4 pt-2"
             style={{ color: '#1f2937', textShadow: '0 1px 2px rgba(0,0,0,0.1)' }}
           >
             Станьте нашим партнером
           </h1>
           <p 
-            className="text-xl mb-10"
+            className="text-xl mb-8 italic"
             style={{ color: '#374151', textShadow: '0 1px 2px rgba(0,0,0,0.1)' }}
           >
             Размещайте свои товары на нашей платформе и увеличивайте продажи
           </p>
-          <div className="flex justify-center space-x-4 mb-6">
+          <div className="flex justify-center mb-4">
             <Link to="/admin">
               <button 
-                className="px-8 py-3 rounded-lg font-semibold shadow-lg transition-colors"
+                className="px-8 py-3 font-semibold shadow-lg transition-colors"
                 style={{
                   backgroundColor: '#16a34a',
                   color: 'white',
-                  border: 'none'
+                  border: 'none',
+                  borderRadius: '12px'
                 }}
                 onMouseOver={(e) => e.target.style.backgroundColor = '#15803d'}
                 onMouseOut={(e) => e.target.style.backgroundColor = '#16a34a'}
@@ -63,9 +63,9 @@ export function SellersPage() {
       </section>
 
       {/* Features */}
-      <section className="py-20">
+      <section className="py-16 mt-8">
         <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-20">
+          <h2 className="text-3xl font-bold text-center mb-16">
             Преимущества сотрудничества
           </h2>
           
