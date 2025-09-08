@@ -37,7 +37,13 @@ export function StickyFooter({ navigateToScreen, cartItemsCount, currentScreen }
       </button>
 
       <button
-        onClick={() => window.location.href = '/sellers'}
+        onClick={() => {
+          if (window.navigateToPage) {
+            window.navigateToPage('sellers');
+          } else {
+            window.location.href = '/sellers';
+          }
+        }}
         className="flex flex-col items-center justify-center p-2 rounded-lg transition-colors text-gray-600 hover:text-blue-500"
       >
         <Store className="w-6 h-6" />

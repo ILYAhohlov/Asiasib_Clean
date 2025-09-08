@@ -1,4 +1,8 @@
+import { useState } from "react";
 import { HomePage } from "./pages/HomePage";
+import { SellersPage } from "./pages/SellersPage";
+import { AboutScreen } from "./components/AboutScreen";
+import { AdminPage } from "./pages/AdminPage";
 // Ensure API client is initialized
 import "./api/client";
 
@@ -29,7 +33,7 @@ declare global {
   }
 }
 
-export type Screen = "catalog" | "cart" | "admin" | "admin-login" | "about";
+export type Screen = "catalog" | "cart" | "admin" | "admin-login" | "about" | "sellers";
 
 export interface CartItem {
   id: string;
@@ -43,5 +47,31 @@ export interface CartItem {
 }
 
 export default function App() {
-  return <HomePage />;
+  const [currentPage, setCurrentPage] = useState<"home" | "sellers" | "about" | "admin">("home");
+
+  const navigateToPage = (page: "home" | "sellers" | "about" | "admin") => {
+    setCurrentPage(page);
+  };
+
+  const navigateToScreen = (screen: Screen) => {
+    if (screen === "about") {
+      setCurrentPage("about");
+    } else if (screen === "admin") {
+      setCurrentPage("admin");
+    }
+  };
+
+  if (currentPage === "sellers") {
+    return <SellersPage />;
+  }
+
+  if (currentPage === "about") {
+    return <AboutScreen navigateToScreen={navigateToScreen} cartItemsCount={0} />;
+  }
+
+  if (currentPage === "admin") {
+    return <AdminPage />;
+  }
+
+  return <HomePage navigateToPage={navigateToPage} />;
 }

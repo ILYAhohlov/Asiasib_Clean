@@ -9,7 +9,11 @@ import { CartItem, Screen } from "../App";
 
 export type HomeScreen = Screen | "order";
 
-export function HomePage() {
+interface HomePageProps {
+  navigateToPage?: (page: "home" | "sellers" | "about" | "admin") => void;
+}
+
+export function HomePage({ navigateToPage }: HomePageProps = {}) {
   const [currentScreen, setCurrentScreen] = useState<HomeScreen>("catalog");
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
@@ -55,6 +59,11 @@ export function HomePage() {
   };
 
   const cartItemsCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+
+  // Устанавливаем глобальную функцию навигации
+  if (navigateToPage) {
+    (window as any).navigateToPage = navigateToPage;
+  }
 
   if (currentScreen === "catalog") {
     return (
