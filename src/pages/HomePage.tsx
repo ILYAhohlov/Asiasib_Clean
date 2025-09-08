@@ -2,9 +2,12 @@ import { useState, useEffect } from "react";
 import { CatalogScreen } from "../components/CatalogScreen";
 import { CartScreen } from "../components/CartScreen";
 import { OrderPage } from "../components/OrderPage";
-import { CartItem } from "../App";
+import { AboutScreen } from "../components/AboutScreen";
+import { AdminScreen } from "../components/AdminScreen";
+import { AdminLoginScreen } from "../components/AdminLoginScreen";
+import { CartItem, Screen } from "../App";
 
-export type HomeScreen = "catalog" | "cart" | "order";
+export type HomeScreen = Screen | "order";
 
 export function HomePage() {
   const [currentScreen, setCurrentScreen] = useState<HomeScreen>("catalog");
@@ -80,6 +83,33 @@ export function HomePage() {
     return (
       <OrderPage
         onBackToCatalog={() => navigateToScreen("catalog")}
+      />
+    );
+  }
+
+  if (currentScreen === "about") {
+    return (
+      <AboutScreen
+        navigateToScreen={navigateToScreen}
+        cartItemsCount={cartItemsCount}
+      />
+    );
+  }
+
+  if (currentScreen === "admin-login") {
+    return (
+      <AdminLoginScreen
+        navigateToScreen={navigateToScreen}
+        cartItemsCount={cartItemsCount}
+      />
+    );
+  }
+
+  if (currentScreen === "admin") {
+    return (
+      <AdminScreen
+        navigateToScreen={navigateToScreen}
+        cartItemsCount={cartItemsCount}
       />
     );
   }

@@ -1,5 +1,4 @@
 import { ShoppingCart, Info, Store, Home } from "lucide-react";
-import { Link, useLocation } from "react-router-dom";
 import { Screen } from "../App";
 
 interface StickyFooterProps {
@@ -10,13 +9,6 @@ interface StickyFooterProps {
 }
 
 export function StickyFooter({ navigateToScreen, cartItemsCount, currentScreen, showAdminButton = false }: StickyFooterProps) {
-  const location = useLocation();
-  
-  const isActive = (path: string) => {
-    if (path === '/' && currentScreen === 'catalog') return true;
-    if (path === '/cart' && currentScreen === 'cart') return true;
-    return location.pathname === path;
-  };
 
   return (
     <footer className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 h-16 flex items-center justify-around px-4 z-50">
@@ -49,29 +41,27 @@ export function StickyFooter({ navigateToScreen, cartItemsCount, currentScreen, 
         )}
       </button>
 
-      {/* Для продавцов - роутинг */}
-      <Link
-        to="/sellers"
-        className={`flex flex-col items-center justify-center p-2 rounded-lg transition-colors ${
-          isActive('/sellers') ? "text-blue-500" : "text-gray-600 hover:text-blue-500"
-        }`}
+      {/* Для продавцов */}
+      <button
+        onClick={() => window.open('https://asiasib.vercel.app/sellers', '_blank')}
+        className="flex flex-col items-center justify-center p-2 rounded-lg transition-colors text-gray-600 hover:text-blue-500"
         aria-label="Для продавцов"
       >
         <Store className="w-6 h-6" />
         <span className="text-xs mt-1">Продавцам</span>
-      </Link>
+      </button>
 
-      {/* О нас - роутинг */}
-      <Link
-        to="/about"
+      {/* О нас */}
+      <button
+        onClick={() => navigateToScreen("about")}
         className={`flex flex-col items-center justify-center p-2 rounded-lg transition-colors ${
-          isActive('/about') ? "text-blue-500" : "text-gray-600 hover:text-blue-500"
+          currentScreen === "about" ? "text-blue-500" : "text-gray-600 hover:text-blue-500"
         }`}
         aria-label="О нас"
       >
         <Info className="w-6 h-6" />
         <span className="text-xs mt-1">О нас</span>
-      </Link>
+      </button>
     </footer>
   );
 }
