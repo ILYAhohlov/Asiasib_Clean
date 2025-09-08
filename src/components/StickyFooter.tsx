@@ -8,29 +8,24 @@ interface StickyFooterProps {
   showAdminButton?: boolean;
 }
 
-export function StickyFooter({ navigateToScreen, cartItemsCount, currentScreen, showAdminButton = false }: StickyFooterProps) {
-
+export function StickyFooter({ navigateToScreen, cartItemsCount, currentScreen }: StickyFooterProps) {
   return (
     <footer className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 h-16 flex items-center justify-around px-4 z-50">
-      {/* Каталог - внутренняя навигация */}
       <button
         onClick={() => navigateToScreen("catalog")}
         className={`flex flex-col items-center justify-center p-2 rounded-lg transition-colors ${
           currentScreen === "catalog" ? "text-blue-500" : "text-gray-600 hover:text-blue-500"
         }`}
-        aria-label="Каталог"
       >
         <Home className="w-6 h-6" />
         <span className="text-xs mt-1">Каталог</span>
       </button>
 
-      {/* Корзина - внутренняя навигация */}
       <button
         onClick={() => navigateToScreen("cart")}
         className={`flex flex-col items-center justify-center relative p-2 rounded-lg transition-colors ${
           currentScreen === "cart" ? "text-blue-500" : "text-gray-600 hover:text-blue-500"
         }`}
-        aria-label="Корзина"
       >
         <ShoppingCart className="w-6 h-6" />
         <span className="text-xs mt-1">Корзина</span>
@@ -41,23 +36,19 @@ export function StickyFooter({ navigateToScreen, cartItemsCount, currentScreen, 
         )}
       </button>
 
-      {/* Для продавцов */}
       <button
         onClick={() => window.location.href = '/sellers'}
         className="flex flex-col items-center justify-center p-2 rounded-lg transition-colors text-gray-600 hover:text-blue-500"
-        aria-label="Для продавцов"
       >
         <Store className="w-6 h-6" />
         <span className="text-xs mt-1">Продавцам</span>
       </button>
 
-      {/* О нас */}
       <button
         onClick={() => navigateToScreen("about")}
         className={`flex flex-col items-center justify-center p-2 rounded-lg transition-colors ${
           currentScreen === "about" ? "text-blue-500" : "text-gray-600 hover:text-blue-500"
         }`}
-        aria-label="О нас"
       >
         <Info className="w-6 h-6" />
         <span className="text-xs mt-1">О нас</span>
