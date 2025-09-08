@@ -3,6 +3,17 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
+const { createClient } = require('@supabase/supabase-js');
+const multer = require('multer');
+
+// Supabase client
+const supabase = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_ANON_KEY
+);
+
+// Multer для обработки файлов
+const upload = multer({ storage: multer.memoryStorage() });
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -139,6 +150,39 @@ app.post('/api/auth/login', async (req, res) => {
       res.status(401).json({ error: 'Invalid password' });
     }
   } catch (error) {
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// Загрузка изображений в Supabase
+app.post('/api/upload-image', authenticateAdmin, upload.single('file'), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: 'No file uploaded' });
+    }
+
+    const fileName = req.body.fileName || `${Date.now()}-${req.file.originalname}`;
+    
+    const { data, error } = await supabase.storage
+      .from('product-images')
+      .upload(fileName, req.file.buffer, {
+        contentType: req.file.mimetype,
+        upsert: false
+      });
+
+    if (error) {
+      console.error('Supabase upload error:', error);
+      return res.status(500).json({ error: 'Upload failed' });
+    }
+
+    // Получаем публичную ссылку
+    const { data: { publicUrl } } = supabase.storage
+      .from('product-images')
+      .getPublicUrl(fileName);
+
+    res.json({ imageUrl: publicUrl });
+  } catch (error) {
+    console.error('Image upload error:', error);
     res.status(500).json({ error: 'Server error' });
   }
 });
