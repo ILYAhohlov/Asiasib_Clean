@@ -23,11 +23,11 @@ export function AboutScreen({ navigateToScreen, cartItemsCount, navigateToPage }
     }
   };
   const handleTelegramChannel = () => {
-    window.open("https://t.me/yourchannel", "_blank");
+    window.open("https://t.me/ASIASIBIR", "_blank");
   };
 
   const handleSupport = () => {
-    window.open("https://t.me/yoursupport", "_blank");
+    window.open("https://t.me/asiasib_chat", "_blank");
   };
 
   const handlePhoneCall = () => {
@@ -166,11 +166,7 @@ export function AboutScreen({ navigateToScreen, cartItemsCount, navigateToPage }
           </div>
           
           <div className="mt-4 space-y-3">
-            <div className="p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
-              <p className="text-yellow-800 text-sm">
-                <strong>Минимальный заказ:</strong> 3000 руб для бесплатной доставки по центру
-              </p>
-            </div>
+
             
             {clickCount >= 3 && (
               <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg">
@@ -195,13 +191,8 @@ export function AboutScreen({ navigateToScreen, cartItemsCount, navigateToPage }
             </div>
             
             <div className="flex justify-between">
-              <span className="text-gray-700">Суббота</span>
+              <span className="text-gray-700">Суббота - Воскресенье</span>
               <span className="font-medium">09:00 - 16:00</span>
-            </div>
-            
-            <div className="flex justify-between">
-              <span className="text-gray-700">Воскресенье</span>
-              <span className="text-red-600">Выходной</span>
             </div>
           </div>
           
@@ -230,7 +221,7 @@ export function AboutScreen({ navigateToScreen, cartItemsCount, navigateToPage }
               </div>
               <div className="text-left">
                 <p className="font-medium text-gray-900">Telegram-канал</p>
-                <p className="text-sm text-gray-600">@optmarket_channel</p>
+                <p className="text-sm text-gray-600">@ASIASIBIR</p>
               </div>
             </Button>
             
