@@ -60,10 +60,7 @@ export function HomePage({ navigateToPage }: HomePageProps = {}) {
 
   const cartItemsCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
-  // Устанавливаем глобальную функцию навигации
-  if (navigateToPage) {
-    (window as any).navigateToPage = navigateToPage;
-  }
+
 
   if (currentScreen === "catalog") {
     return (
@@ -71,6 +68,7 @@ export function HomePage({ navigateToPage }: HomePageProps = {}) {
         navigateToScreen={navigateToScreen}
         cartItemsCount={cartItemsCount}
         addToCart={addToCart}
+        navigateToPage={navigateToPage}
       />
     );
   }

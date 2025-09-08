@@ -5,10 +5,10 @@ interface StickyFooterProps {
   navigateToScreen: (screen: Screen) => void;
   cartItemsCount: number;
   currentScreen?: Screen;
-  showAdminButton?: boolean;
+  navigateToPage?: (page: "home" | "sellers" | "about" | "admin") => void;
 }
 
-export function StickyFooter({ navigateToScreen, cartItemsCount, currentScreen }: StickyFooterProps) {
+export function StickyFooter({ navigateToScreen, cartItemsCount, currentScreen, navigateToPage }: StickyFooterProps) {
   return (
     <footer className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 h-16 flex items-center justify-around px-4 z-50">
       <button
@@ -37,13 +37,7 @@ export function StickyFooter({ navigateToScreen, cartItemsCount, currentScreen }
       </button>
 
       <button
-        onClick={() => {
-          if (window.navigateToPage) {
-            window.navigateToPage('sellers');
-          } else {
-            window.location.href = '/sellers';
-          }
-        }}
+        onClick={() => navigateToPage?.('sellers')}
         className="flex flex-col items-center justify-center p-2 rounded-lg transition-colors text-gray-600 hover:text-blue-500"
       >
         <Store className="w-6 h-6" />

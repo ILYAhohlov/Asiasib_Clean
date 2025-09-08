@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const mongoose = require('mongoose');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
 
@@ -15,21 +16,42 @@ app.use(cors({
 
 app.use(express.json({ limit: '1mb' }));
 
-// Mock data
-let products = [
-  {
-    id: '1',
-    name: 'Огурцы свежие',
-    category: 'овощи',
-    price: 50,
-    minOrder: 10,
-    unit: 'кг',
-    description: 'Свежие огурцы',
-    image: 'https://images.unsplash.com/photo-1560433802-62c9db426a4d?w=400'
-  }
-];
+// MongoDB connection
+mongoose.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+}).then(() => console.log('MongoDB connected'))
+  .catch(err => console.error('MongoDB connection error:', err));
 
-let orders = [];
+// Schemas
+const productSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  category: { type: String, required: true },
+  price: { type: Number, required: true },
+  minOrder: { type: Number, required: true },
+  unit: { type: String, default: 'кг' },
+  description: String,
+  image: String,
+  createdAt: { type: Date, default: Date.now }
+});
+
+const orderSchema = new mongoose.Schema({
+  items: [{
+    productId: String,
+    name: String,
+    price: Number,
+    quantity: Number
+  }],
+  clientName: String,
+  clientPhone: String,
+  clientAddress: String,
+  totalAmount: Number,
+  status: { type: String, default: 'Принят' },
+  createdAt: { type: Date, default: Date.now }
+});
+
+const Product = mongoose.model('Product', productSchema);
+const Order = mongoose.model('Order', orderSchema);
 
 // Auth middleware
 const authenticateAdmin = (req, res, next) => {
@@ -37,7 +59,7 @@ const authenticateAdmin = (req, res, next) => {
   if (!token) return res.status(401).json({ error: 'No token' });
   
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'fallback_secret');
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
     if (decoded.role !== 'admin') return res.status(403).json({ error: 'Admin required' });
     next();
   } catch {
@@ -50,47 +72,109 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', timestamp: new Date().toISOString() });
 });
 
-app.get('/api/products', (req, res) => {
-  res.json(products);
-});
-
-app.post('/api/products', authenticateAdmin, (req, res) => {
-  const product = { ...req.body, id: Date.now().toString() };
-  products.push(product);
-  res.status(201).json(product);
-});
-
-app.put('/api/products/:id', authenticateAdmin, (req, res) => {
-  const index = products.findIndex(p => p.id === req.params.id);
-  if (index === -1) return res.status(404).json({ error: 'Not found' });
-  products[index] = { ...req.body, id: req.params.id };
-  res.json(products[index]);
-});
-
-app.delete('/api/products/:id', authenticateAdmin, (req, res) => {
-  products = products.filter(p => p.id !== req.params.id);
-  res.json({ message: 'Deleted' });
-});
-
-app.post('/api/orders', (req, res) => {
-  const order = { ...req.body, id: Date.now().toString(), createdAt: new Date() };
-  orders.push(order);
-  res.status(201).json(order);
-});
-
-app.get('/api/orders', authenticateAdmin, (req, res) => {
-  res.json(orders.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)));
-});
-
-app.post('/api/auth/login', (req, res) => {
-  const { password } = req.body;
-  if (password === (process.env.ADMIN_PASSWORD || '633100admin')) {
-    const token = jwt.sign({ role: 'admin' }, process.env.JWT_SECRET || 'fallback_secret', { expiresIn: '24h' });
-    res.json({ token });
-  } else {
-    res.status(401).json({ error: 'Invalid password' });
+app.get('/api/products', async (req, res) => {
+  try {
+    const products = await Product.find();
+    res.json(products.map(p => ({ ...p.toObject(), id: p._id.toString() })));
+  } catch (error) {
+    res.status(500).json({ error: 'Server error' });
   }
 });
+
+app.post('/api/products', authenticateAdmin, async (req, res) => {
+  try {
+    const product = new Product(req.body);
+    await product.save();
+    res.status(201).json({ ...product.toObject(), id: product._id.toString() });
+  } catch (error) {
+    res.status(400).json({ error: 'Invalid data' });
+  }
+});
+
+app.put('/api/products/:id', authenticateAdmin, async (req, res) => {
+  try {
+    const product = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if (!product) return res.status(404).json({ error: 'Not found' });
+    res.json({ ...product.toObject(), id: product._id.toString() });
+  } catch (error) {
+    res.status(400).json({ error: 'Invalid data' });
+  }
+});
+
+app.delete('/api/products/:id', authenticateAdmin, async (req, res) => {
+  try {
+    await Product.findByIdAndDelete(req.params.id);
+    res.json({ message: 'Deleted' });
+  } catch (error) {
+    res.status(400).json({ error: 'Error' });
+  }
+});
+
+app.post('/api/orders', async (req, res) => {
+  try {
+    const order = new Order(req.body);
+    await order.save();
+    res.status(201).json(order);
+  } catch (error) {
+    res.status(400).json({ error: 'Invalid order' });
+  }
+});
+
+app.get('/api/orders', authenticateAdmin, async (req, res) => {
+  try {
+    const orders = await Order.find().sort({ createdAt: -1 });
+    res.json(orders);
+  } catch (error) {
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+app.post('/api/auth/login', async (req, res) => {
+  try {
+    const { password } = req.body;
+    if (password === process.env.ADMIN_PASSWORD) {
+      const token = jwt.sign({ role: 'admin' }, process.env.JWT_SECRET, { expiresIn: '24h' });
+      res.json({ token });
+    } else {
+      res.status(401).json({ error: 'Invalid password' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// Initialize with sample data
+const initializeDatabase = async () => {
+  try {
+    const count = await Product.countDocuments();
+    if (count === 0) {
+      const sampleProducts = [
+        {
+          name: 'Огурцы свежие',
+          category: 'овощи',
+          price: 50,
+          minOrder: 10,
+          unit: 'кг',
+          description: 'Свежие огурцы прямо с грядки',
+          image: 'https://images.unsplash.com/photo-1560433802-62c9db426a4d?w=400'
+        },
+        {
+          name: 'Яблоки Гала',
+          category: 'фрукты',
+          price: 120,
+          minOrder: 20,
+          unit: 'кг',
+          description: 'Сладкие и сочные яблоки',
+          image: 'https://images.unsplash.com/photo-1623815242959-fb20354f9b8d?w=400'
+        }
+      ];
+      await Product.insertMany(sampleProducts);
+      console.log('Sample products added');
+    }
+  } catch (error) {
+    console.error('Database initialization error:', error);
+  }
+};
 
 // Error handling
 app.use((err, req, res, next) => {
@@ -100,6 +184,7 @@ app.use((err, req, res, next) => {
 
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`);
+  initializeDatabase();
 }).on('error', (err) => {
   console.error('Server error:', err);
   process.exit(1);

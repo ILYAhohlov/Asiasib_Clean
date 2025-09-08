@@ -66,7 +66,7 @@ export default function App() {
   }
 
   if (currentPage === "about") {
-    return <AboutScreen navigateToScreen={navigateToScreen} cartItemsCount={0} />;
+    return <AboutScreen navigateToScreen={navigateToScreen} cartItemsCount={0} navigateToPage={navigateToPage} />;
   }
 
   if (currentPage === "admin") {

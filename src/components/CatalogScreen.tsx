@@ -146,9 +146,10 @@ interface CatalogScreenProps {
   navigateToScreen: (screen: Screen) => void;
   cartItemsCount: number;
   addToCart: (product: Product, quantity: number) => void;
+  navigateToPage?: (page: "home" | "sellers" | "about" | "admin") => void;
 }
 
-export function CatalogScreen({ navigateToScreen, cartItemsCount, addToCart }: CatalogScreenProps) {
+export function CatalogScreen({ navigateToScreen, cartItemsCount, addToCart, navigateToPage }: CatalogScreenProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>("все");
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [products, setProducts] = useState<Product[]>([]);
@@ -302,6 +303,7 @@ export function CatalogScreen({ navigateToScreen, cartItemsCount, addToCart }: C
         navigateToScreen={navigateToScreen} 
         cartItemsCount={cartItemsCount}
         currentScreen="catalog"
+        navigateToPage={navigateToPage}
       />
     </div>
   );

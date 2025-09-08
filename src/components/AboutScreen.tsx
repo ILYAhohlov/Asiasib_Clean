@@ -7,9 +7,10 @@ import { Screen } from "../App";
 interface AboutScreenProps {
   navigateToScreen: (screen: Screen) => void;
   cartItemsCount: number;
+  navigateToPage?: (page: "home" | "sellers" | "about" | "admin") => void;
 }
 
-export function AboutScreen({ navigateToScreen, cartItemsCount }: AboutScreenProps) {
+export function AboutScreen({ navigateToScreen, cartItemsCount, navigateToPage }: AboutScreenProps) {
   const [clickCount, setClickCount] = useState(0);
 
   const handleTitleClick = () => {
@@ -265,6 +266,7 @@ export function AboutScreen({ navigateToScreen, cartItemsCount }: AboutScreenPro
         navigateToScreen={navigateToScreen} 
         cartItemsCount={cartItemsCount}
         currentScreen="about"
+        navigateToPage={navigateToPage}
       />
     </div>
   );
