@@ -235,14 +235,15 @@ export function CatalogScreen({ navigateToScreen, cartItemsCount, addToCart, nav
           </h1>
 
           {/* Поисковая строка */}
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+          <div className="relative flex items-center">
+            <Search className="absolute left-3 text-gray-400 w-5 h-5 z-10" />
             <input
               type="text"
               placeholder="Поиск товаров"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full h-12 pl-10 pr-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-base flex items-center"
+              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              style={{ lineHeight: '1.25rem' }}
             />
           </div>
         </div>
