@@ -19,6 +19,12 @@ app.use(cors({
 
 app.use(express.json({ limit: '1mb' }));
 
+// Check required env vars
+if (!process.env.MONGODB_URI || !process.env.JWT_SECRET || !process.env.ADMIN_PASSWORD) {
+  console.error('Missing required environment variables');
+  process.exit(1);
+}
+
 // MongoDB connection with optimization
 mongoose.set('strictQuery', true);
 mongoose.connect(process.env.MONGODB_URI, {
@@ -28,7 +34,10 @@ mongoose.connect(process.env.MONGODB_URI, {
   bufferCommands: false,
   bufferMaxEntries: 0
 }).then(() => console.log('MongoDB connected'))
-  .catch(() => process.exit(1));
+  .catch(err => {
+    console.error('MongoDB connection failed:', err.message);
+    process.exit(1);
+  });
 
 // Schemas
 const productSchema = new mongoose.Schema({
@@ -161,6 +170,13 @@ process.on('SIGTERM', () => {
   process.exit(0);
 });
 
-app.listen(PORT, '0.0.0.0', () => {
+app.listen(PORT, '0.0.0.0', (err) => {
+  if (err) {
+    console.error('Server start error:', err);
+    process.exit(1);
+  }
   console.log(`Server running on port ${PORT}`);
+}).on('error', (err) => {
+  console.error('Server error:', err);
+  process.exit(1);
 });
