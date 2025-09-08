@@ -163,7 +163,7 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
       }
     } catch (error) {
       console.error('Image upload error:', error);
-      return 'https://via.placeholder.com/150';
+      return 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=150&h=150&fit=crop&crop=center';
     }
   };
 
