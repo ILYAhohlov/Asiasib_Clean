@@ -198,7 +198,7 @@ export function AboutScreen({ navigateToScreen, cartItemsCount, navigateToPage }
           
           <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
             <p className="text-blue-800 text-sm">
-              Заказы принимаются�� круглосуточно через сайт. 
+              Заказы принимаются круглосуточно через сайт. 
               Доставка осуществляется в рабочие часы.
             </p>
           </div>
