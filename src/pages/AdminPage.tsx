@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { Navigate } from "react-router-dom";
 import { AdminLoginScreen } from "../components/AdminLoginScreen";
 import { AdminScreen } from "../components/AdminScreen";
 

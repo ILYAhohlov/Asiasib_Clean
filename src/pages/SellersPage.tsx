@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { Store, Users, TrendingUp, Shield, ArrowRight } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { StickyFooter } from "../components/StickyFooter";
@@ -10,12 +9,12 @@ export function SellersPage() {
       <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
         <div className="max-w-4xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <Link to="/" className="text-2xl font-bold text-blue-600">
+            <button onClick={() => window.location.href = '/'} className="text-2xl font-bold text-blue-600">
               Азия-Сибирь
-            </Link>
+            </button>
             <nav className="flex space-x-4">
-              <Link to="/" className="text-gray-600 hover:text-gray-900">Каталог</Link>
-              <Link to="/about" className="text-gray-600 hover:text-gray-900">О нас</Link>
+              <button onClick={() => window.location.href = '/'} className="text-gray-600 hover:text-gray-900">Каталог</button>
+              <button onClick={() => window.location.href = '/about'} className="text-gray-600 hover:text-gray-900">О нас</button>
             </nav>
           </div>
         </div>
@@ -47,22 +46,21 @@ export function SellersPage() {
             Размещайте свои товары на нашей платформе и увеличивайте продажи
           </p>
           <div className="flex justify-center mb-4">
-            <Link to="/admin">
-              <button 
-                className="px-8 py-3 font-semibold shadow-lg transition-colors"
-                style={{
-                  backgroundColor: '#16a34a',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '12px'
-                }}
-                onMouseOver={(e) => e.target.style.backgroundColor = '#15803d'}
-                onMouseOut={(e) => e.target.style.backgroundColor = '#16a34a'}
-              >
-                Вход в личный кабинет
-                <ArrowRight className="ml-2 w-4 h-4 inline" />
-              </button>
-            </Link>
+            <button 
+              onClick={() => window.location.href = '/admin'}
+              className="px-8 py-3 font-semibold shadow-lg transition-colors"
+              style={{
+                backgroundColor: '#16a34a',
+                color: 'white',
+                border: 'none',
+                borderRadius: '12px'
+              }}
+              onMouseOver={(e) => e.target.style.backgroundColor = '#15803d'}
+              onMouseOut={(e) => e.target.style.backgroundColor = '#16a34a'}
+            >
+              Вход в личный кабинет
+              <ArrowRight className="ml-2 w-4 h-4 inline" />
+            </button>
           </div>
         </div>
       </section>
@@ -174,20 +172,19 @@ export function SellersPage() {
           <p className="text-gray-600 mb-6">
             Войдите в личный кабинет или свяжитесь с нами для получения доступа
           </p>
-          <Link to="/admin">
-            <button 
-              className="px-8 py-3 font-semibold rounded-lg shadow-lg transition-colors"
-              style={{
-                backgroundColor: '#16a34a',
-                color: 'white',
-                border: 'none'
-              }}
-              onMouseOver={(e) => e.target.style.backgroundColor = '#15803d'}
-              onMouseOut={(e) => e.target.style.backgroundColor = '#16a34a'}
-            >
-              Войти в личный кабинет
-            </button>
-          </Link>
+          <button 
+            onClick={() => window.location.href = '/admin'}
+            className="px-8 py-3 font-semibold rounded-lg shadow-lg transition-colors"
+            style={{
+              backgroundColor: '#16a34a',
+              color: 'white',
+              border: 'none'
+            }}
+            onMouseOver={(e) => e.target.style.backgroundColor = '#15803d'}
+            onMouseOut={(e) => e.target.style.backgroundColor = '#16a34a'}
+          >
+            Войти в личный кабинет
+          </button>
         </div>
       </section>
 
