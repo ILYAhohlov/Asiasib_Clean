@@ -43,7 +43,7 @@ export function StickyFooter({ navigateToScreen, cartItemsCount, currentScreen, 
 
       {/* Для продавцов */}
       <button
-        onClick={() => window.open('https://asiasib.vercel.app/sellers', '_blank')}
+        onClick={() => window.location.href = '/sellers'}
         className="flex flex-col items-center justify-center p-2 rounded-lg transition-colors text-gray-600 hover:text-blue-500"
         aria-label="Для продавцов"
       >
