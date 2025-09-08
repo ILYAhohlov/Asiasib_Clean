@@ -242,7 +242,7 @@ export function CatalogScreen({ navigateToScreen, cartItemsCount, addToCart, nav
               placeholder="Поиск товаров"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-base leading-6"
+              className="w-full h-12 pl-10 pr-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-base flex items-center"
             />
           </div>
         </div>
