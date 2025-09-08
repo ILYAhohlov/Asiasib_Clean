@@ -1,8 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { HomePage } from "./pages/HomePage";
-import { SellersPage } from "./pages/SellersPage";
-import { AboutScreen } from "./components/AboutScreen";
-import { AdminPage } from "./pages/AdminPage";
 // Ensure API client is initialized
 import "./api/client";
 
@@ -47,14 +43,5 @@ export interface CartItem {
 }
 
 export default function App() {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/sellers" element={<SellersPage />} />
-        <Route path="/about" element={<AboutScreen navigateToScreen={() => {}} cartItemsCount={0} />} />
-        <Route path="/admin" element={<AdminPage />} />
-      </Routes>
-    </Router>
-  );
+  return <HomePage />;
 }
