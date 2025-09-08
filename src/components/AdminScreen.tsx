@@ -139,32 +139,17 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
     return text.toLowerCase().split('').map(char => map[char] || char).join('').replace(/[^a-z0-9.-]/g, '');
   };
 
-  const uploadImageToSupabase = async (file: File): Promise<string> => {
-    try {
-      const cleanFileName = transliterate(file.name);
-      const fileName = `${Date.now()}-${cleanFileName}`;
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('fileName', fileName);
-
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/upload-image`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('adminToken')}`
-        },
-        body: formData
-      });
-
-      if (response.ok) {
-        const result = await response.json();
-        return result.imageUrl;
-      } else {
-        throw new Error('Failed to upload image');
-      }
-    } catch (error) {
-      console.error('Image upload error:', error);
-      return 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=150&h=150&fit=crop&crop=center';
-    }
+  const convertImageToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        resolve(reader.result as string);
+      };
+      reader.onerror = () => {
+        resolve('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=150&h=150&fit=crop&crop=center');
+      };
+      reader.readAsDataURL(file);
+    });
   };
 
   const handleProductSubmit = async () => {
@@ -176,10 +161,10 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
     try {
       const token = localStorage.getItem('adminToken');
       
-      // Загрузка изображения
+      // Обработка изображения
       let imageUrl = editingProduct ? editingProduct.image : "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=150&h=150&fit=crop&crop=center";
       if (productForm.images.length > 0) {
-        imageUrl = await uploadImageToSupabase(productForm.images[0]);
+        imageUrl = await convertImageToBase64(productForm.images[0]);
       }
       
       const productData = {
