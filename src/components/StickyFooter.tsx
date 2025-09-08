@@ -1,5 +1,4 @@
 import { ShoppingCart, Info, Store, Home } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 import { Screen } from "../App";
 
 interface StickyFooterProps {
@@ -10,7 +9,6 @@ interface StickyFooterProps {
 }
 
 export function StickyFooter({ navigateToScreen, cartItemsCount, currentScreen, showAdminButton = false }: StickyFooterProps) {
-  const navigate = useNavigate();
 
   return (
     <footer className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 h-16 flex items-center justify-around px-4 z-50">
@@ -45,7 +43,7 @@ export function StickyFooter({ navigateToScreen, cartItemsCount, currentScreen, 
 
       {/* Для продавцов */}
       <button
-        onClick={() => navigate('/sellers')}
+        onClick={() => window.location.href = '/sellers'}
         className="flex flex-col items-center justify-center p-2 rounded-lg transition-colors text-gray-600 hover:text-blue-500"
         aria-label="Для продавцов"
       >
