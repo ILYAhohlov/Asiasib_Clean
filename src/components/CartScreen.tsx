@@ -12,6 +12,7 @@ interface CartScreenProps {
   updateCartItem: (id: string, quantity: number) => void;
   removeFromCart: (id: string) => void;
   clearCart: () => void;
+  navigateToPage?: (page: "home" | "sellers" | "about" | "admin") => void;
 }
 
 interface OrderForm {
@@ -27,7 +28,8 @@ export function CartScreen({
   cartItems, 
   updateCartItem, 
   removeFromCart,
-  clearCart
+  clearCart,
+  navigateToPage
 }: CartScreenProps) {
   const [bulkText, setBulkText] = useState("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -482,6 +484,7 @@ ${orderForm.comments ? `Комментарии: ${orderForm.comments}\n` : ''}
         navigateToScreen={navigateToScreen} 
         cartItemsCount={cartItemsCount}
         currentScreen="cart"
+        navigateToPage={navigateToPage}
       />
     </div>
   );

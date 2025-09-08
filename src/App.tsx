@@ -62,7 +62,7 @@ export default function App() {
   };
 
   if (currentPage === "sellers") {
-    return <SellersPage />;
+    return <SellersPage navigateToPage={navigateToPage} />;
   }
 
   if (currentPage === "about") {

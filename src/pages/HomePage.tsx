@@ -82,6 +82,7 @@ export function HomePage({ navigateToPage }: HomePageProps = {}) {
         updateCartItem={updateCartItem}
         removeFromCart={removeFromCart}
         clearCart={clearCart}
+        navigateToPage={navigateToPage}
       />
     );
   }

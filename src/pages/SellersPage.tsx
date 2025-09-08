@@ -2,19 +2,23 @@ import { Store, Users, TrendingUp, Shield, ArrowRight } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { StickyFooter } from "../components/StickyFooter";
 
-export function SellersPage() {
+interface SellersPageProps {
+  navigateToPage?: (page: "home" | "sellers" | "about" | "admin") => void;
+}
+
+export function SellersPage({ navigateToPage }: SellersPageProps = {}) {
   return (
     <div className="min-h-screen bg-gray-50 pb-20">
       {/* Header */}
       <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
         <div className="max-w-4xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <button onClick={() => window.location.href = '/'} className="text-2xl font-bold text-blue-600">
+            <button onClick={() => navigateToPage?.('home')} className="text-2xl font-bold text-blue-600">
               Азия-Сибирь
             </button>
             <nav className="flex space-x-4">
-              <button onClick={() => window.location.href = '/'} className="text-gray-600 hover:text-gray-900">Каталог</button>
-              <button onClick={() => window.location.href = '/about'} className="text-gray-600 hover:text-gray-900">О нас</button>
+              <button onClick={() => navigateToPage?.('home')} className="text-gray-600 hover:text-gray-900">Каталог</button>
+              <button onClick={() => navigateToPage?.('about')} className="text-gray-600 hover:text-gray-900">О нас</button>
             </nav>
           </div>
         </div>
@@ -47,7 +51,7 @@ export function SellersPage() {
           </p>
           <div className="flex justify-center mb-4">
             <button 
-              onClick={() => window.location.href = '/admin'}
+              onClick={() => navigateToPage?.('admin')}
               className="px-8 py-3 font-semibold shadow-lg transition-colors"
               style={{
                 backgroundColor: '#16a34a',
@@ -173,7 +177,7 @@ export function SellersPage() {
             Войдите в личный кабинет или свяжитесь с нами для получения доступа
           </p>
           <button 
-            onClick={() => window.location.href = '/admin'}
+            onClick={() => navigateToPage?.('admin')}
             className="px-8 py-3 font-semibold rounded-lg shadow-lg transition-colors"
             style={{
               backgroundColor: '#16a34a',
@@ -192,6 +196,7 @@ export function SellersPage() {
       <StickyFooter 
         navigateToScreen={() => {}}
         cartItemsCount={0}
+        navigateToPage={navigateToPage}
       />
     </div>
   );
