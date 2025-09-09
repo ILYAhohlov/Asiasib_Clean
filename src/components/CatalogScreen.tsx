@@ -74,13 +74,13 @@ function ProductCard({ product, onAddToCart, onCardClick }: ProductCardProps) {
       {/* Информация */}
       <div className="p-4 space-y-3">
         <div>
-          <h3 className="font-semibold text-lg text-gray-900 mb-1">{product.name}</h3>
-          <p className="text-sm text-gray-500 capitalize">{product.category}</p>
+          <h3 className="font-semibold text-sm text-gray-900 mb-1">{product.name}</h3>
+          <p className="text-xs text-gray-500 capitalize">{product.category}</p>
         </div>
 
         <div className="space-y-1">
-          <p className="text-green-600 font-semibold text-lg">{product.price} руб/{product.unit}</p>
-          <p className="text-gray-600 text-sm">От {product.minOrder} {product.unit}</p>
+          <p className="text-green-600 font-semibold text-sm">{product.price} р/{product.unit}</p>
+          <p className="text-gray-600 text-xs">От {product.minOrder} {product.unit}</p>
         </div>
 
         {/* Выбор количества */}
