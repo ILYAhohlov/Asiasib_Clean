@@ -230,8 +230,9 @@ export function CatalogScreen({ navigateToScreen, cartItemsCount, addToCart, nav
       {/* Хедер */}
       <header className="bg-white border-b border-gray-200 sticky top-0 z-40">
         <div className="px-4 py-4">
-          <h1 className="text-2xl font-semibold text-center text-gray-900 mb-4">
-            Азия-Сибирь - оптовый рынок онлайн
+          <h1 className="text-lg font-semibold text-center mb-4 flex items-center justify-center space-x-2">
+            <span className="text-red-600">Азия-Сибирь</span>
+            <span className="text-gray-900">оптовый рынок онлайн</span>
           </h1>
 
           {/* Поисковая строка */}
