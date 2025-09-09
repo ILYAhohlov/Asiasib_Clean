@@ -276,7 +276,10 @@ export function CatalogScreen({ navigateToScreen, cartItemsCount, addToCart, nav
             <p className="text-gray-500 text-lg">Товары не найдены</p>
           </div>
         ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          <div 
+            className="grid gap-4"
+            style={{ gridTemplateColumns: 'repeat(2, 1fr)' }}
+          >
             {filteredProducts.map(product => (
               <ProductCard 
                 key={product.id} // Use product.id which is mapped from Supabase's _id
