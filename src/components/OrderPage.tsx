@@ -71,7 +71,7 @@ export function OrderPage({ onBackToCatalog }: OrderPageProps) {
 
       if (response.ok) {
         const savedOrder = await response.json();
-        console.log('Заказ успешно отправлен:', savedOrder);
+
         
         alert(`Заказ успешно оформлен!\n\nАдрес: ${formData.address}\nТелефон: ${formData.phone}\n${formData.comment ? `Комментарий: ${formData.comment}\n` : ''}Сумма заказа: ${total.toLocaleString()} руб\n\nМы свяжемся с вами в ближайшее время для подтверждения.`);
         
@@ -80,7 +80,7 @@ export function OrderPage({ onBackToCatalog }: OrderPageProps) {
         throw new Error('Ошибка при отправке заказа');
       }
     } catch (error) {
-      console.error('Error submitting order:', error);
+
       alert("Произошла ошибка при оформлении заказа. Попробуйте еще раз.");
     } finally {
       setIsSubmitting(false);

@@ -97,24 +97,24 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
         }
 
         const token = localStorage.getItem('adminToken');
-        console.log('Admin token:', token ? 'exists' : 'missing');
+
         if (token) {
           const ordersResponse = await fetch(`${import.meta.env.VITE_API_URL}/api/orders`, {
             headers: {
               'Authorization': `Bearer ${token}`
             }
           });
-          console.log('Orders response status:', ordersResponse.status);
+
           if (ordersResponse.ok) {
             const ordersData = await ordersResponse.json();
-            console.log('Orders data:', ordersData);
+
             setOrders(ordersData);
           } else {
-            console.error('Failed to fetch orders:', ordersResponse.statusText);
+
           }
         }
       } catch (error) {
-        console.error('Error fetching data:', error);
+
       }
     };
 
@@ -167,7 +167,7 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
         throw new Error('Failed to upload image');
       }
     } catch (error) {
-      console.error('Image upload error:', error);
+
       return 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=150&h=150&fit=crop&crop=center';
     }
   };
@@ -248,7 +248,7 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
 
       alert("Товар успешно сохранен!");
     } catch (error) {
-      console.error("Error submitting product:", error);
+
       alert("Ошибка при сохранении товара.");
     }
   };
@@ -292,7 +292,7 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
         setProducts(prev => prev.filter(p => p.id !== id));
         alert("Товар успешно удален!");
       } catch (error) {
-        console.error("Error deleting product:", error);
+
         alert("Ошибка при удалении товара.");
       }
     }
@@ -318,7 +318,7 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
       setOrders(prev => prev.map(order => order._id === orderId ? updatedOrder : order));
       alert("Статус заказа обновлен!");
     } catch (error) {
-      console.error("Error updating order status:", error);
+
       alert("Ошибка при обновлении статуса заказа.");
     }
   };
