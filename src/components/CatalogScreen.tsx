@@ -21,6 +21,7 @@ interface Product {
   description?: string;
   shelfLife?: string;
   allergens?: string;
+  isFeatured?: boolean;
 }
 
 // Define a type for the product card props

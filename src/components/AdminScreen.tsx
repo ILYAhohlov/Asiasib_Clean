@@ -21,6 +21,7 @@ interface Product {
   shelfLife: string;
   allergens: string;
   image: string;
+  isFeatured?: boolean;
 }
 
 interface Order {
@@ -61,6 +62,7 @@ interface ProductFormData {
   shelfLife: string;
   allergens: string;
   images: File[];
+  isFeatured: boolean;
 }
 
 export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: AdminScreenProps) {
@@ -81,7 +83,8 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
     description: "",
     shelfLife: "",
     allergens: "",
-    images: []
+    images: [],
+    isFeatured: false
   });
 
   useEffect(() => {
@@ -193,7 +196,8 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
         description: productForm.description,
         shelfLife: productForm.shelfLife,
         allergens: productForm.allergens,
-        image: imageUrl
+        image: imageUrl,
+        isFeatured: productForm.isFeatured
       };
       
       // Добавляем ID только для редактирования
@@ -238,7 +242,8 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
         description: "",
         shelfLife: "",
         allergens: "",
-        images: []
+        images: [],
+        isFeatured: false
       });
 
       alert("Товар успешно сохранен!");
@@ -259,7 +264,8 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
       description: product.description,
       shelfLife: product.shelfLife,
       allergens: product.allergens,
-      images: []
+      images: [],
+      isFeatured: product.isFeatured || false
     });
     
     // Прокрутка к форме редактирования
@@ -472,7 +478,7 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
                   />
                 </div>
 
-                <div className="md:col-span-2">
+                <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Фото (до 3 штук)
                   </label>
@@ -499,6 +505,18 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
                     )}
                   </div>
                 </div>
+
+                <div>
+                  <label className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      checked={productForm.isFeatured}
+                      onChange={(e) => setProductForm(prev => ({ ...prev, isFeatured: e.target.checked }))}
+                      className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    />
+                    <span className="text-sm font-medium text-gray-700">Рекомендуемый товар</span>
+                  </label>
+                </div>
               </div>
 
               <div className="flex space-x-2 mt-4">
@@ -519,10 +537,12 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
                         category: "овощи",
                         price: "",
                         minOrder: "",
+                        unit: "кг",
                         description: "",
                         shelfLife: "",
                         allergens: "",
-                        images: []
+                        images: [],
+                        isFeatured: false
                       });
                     }}
                     variant="outline"
