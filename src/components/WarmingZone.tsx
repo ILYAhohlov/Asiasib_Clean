@@ -36,9 +36,10 @@ export function WarmingZone({ onProductClick }: WarmingZoneProps) {
     fetchFeaturedProducts();
   }, []);
 
-  if (featuredProducts.length === 0) {
-    return null; // Не показываем зону, если нет рекомендуемых товаров
-  }
+  // Временно показываем зону даже без рекомендуемых товаров
+  // if (featuredProducts.length === 0) {
+  //   return null;
+  // }
 
   return (
     <div className="bg-white rounded-lg border border-gray-200 p-4 mb-4">

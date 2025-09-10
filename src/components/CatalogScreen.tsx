@@ -139,7 +139,7 @@ function ProductCard({ product, onAddToCart, onCardClick }: ProductCardProps) {
 }
 
 // Mock categories for the filter
-const categories = ["все", "овощи", "фрукты", "зелень", "ягоды", "специи"];
+const categories = ["все", "овощи", "фрукты", "зелень", "ягоды", "орехи", "специи"];
 
 // Define Props for CatalogScreen
 interface CatalogScreenProps {
@@ -256,13 +256,13 @@ export function CatalogScreen({ navigateToScreen, cartItemsCount, addToCart, nav
         <WarmingZone onProductClick={handleProductClick} />
         
         <div className="flex justify-center">
-          <div className="w-full max-w-md">
-            <div className="flex overflow-x-auto space-x-4 pb-2 no-scrollbar">
+          <div className="w-full max-w-lg">
+            <div className="flex flex-wrap justify-center gap-2 pb-2">
               {categories.map(category => (
                 <button
                   key={category}
                   onClick={() => setSelectedCategory(category)}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200 whitespace-nowrap
                     ${selectedCategory === category
                       ? 'bg-blue-500 text-white'
                       : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
