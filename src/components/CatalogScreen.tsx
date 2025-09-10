@@ -67,11 +67,12 @@ function ProductCard({ product, onAddToCart, onCardClick }: ProductCardProps) {
       onClick={() => onCardClick(product)}
     >
       {/* Изображение */}
-      <div className="w-full h-36 bg-gray-100 rounded-t-lg overflow-hidden border-b border-gray-200">
+      <div className="w-full h-36 bg-gray-100 rounded-t-lg overflow-hidden border-b border-gray-200" style={{ minHeight: '144px', maxHeight: '144px' }}>
         <ImageWithFallback
           src={product.image}
           alt={product.name}
           className="w-full h-full object-cover"
+          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
       </div>
 
