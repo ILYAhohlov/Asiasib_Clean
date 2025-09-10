@@ -40,11 +40,12 @@ export function AdminLoginScreen({ navigateToScreen, cartItemsCount, onLogin }: 
         const data = await response.json();
         localStorage.setItem('adminToken', data.token);
         onLogin(password);
-      } else {
+      } else if (response.status === 401) {
         setError("Неверный пароль");
+      } else {
+        setError("Ошибка сервера");
       }
     } catch (error) {
-      console.error('Login error:', error);
       setError("Ошибка подключения к серверу");
     }
 

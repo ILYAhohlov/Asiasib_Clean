@@ -10,7 +10,11 @@ export const apiClient = axios.create({
   },
 });
 
-apiClient.interceptors.request.use(config => {
-
-  return config;
-});
+apiClient.interceptors.request.use(
+  config => {
+    return config;
+  },
+  error => {
+    return Promise.reject(error);
+  }
+);

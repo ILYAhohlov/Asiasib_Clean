@@ -22,14 +22,16 @@ export function WarmingZone({ onProductClick }: WarmingZoneProps) {
   useEffect(() => {
     const fetchFeaturedProducts = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/products`);
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/products?featured=true&limit=2`);
         if (response.ok) {
           const products = await response.json();
           const featured = products.filter((p: Product) => p.isFeatured).slice(0, 2);
           setFeaturedProducts(featured);
+        } else {
+          setFeaturedProducts([]);
         }
       } catch (error) {
-        console.error('Error fetching featured products:', error);
+        setFeaturedProducts([]);
       }
     };
 

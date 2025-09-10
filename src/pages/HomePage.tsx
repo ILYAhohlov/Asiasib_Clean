@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { CatalogScreen } from "../components/CatalogScreen";
 import { CartScreen } from "../components/CartScreen";
 import { OrderPage } from "../components/OrderPage";
@@ -63,10 +63,12 @@ export function HomePage({ navigateToPage }: HomePageProps = {}) {
     setCartItems([]);
   };
 
-  const cartItemsCount = cartItems.reduce((sum, item) => {
-    const quantity = Number(item.quantity) || 0;
-    return sum + quantity;
-  }, 0);
+  const cartItemsCount = useMemo(() => {
+    return cartItems.reduce((sum, item) => {
+      const quantity = Number(item.quantity) || 0;
+      return sum + quantity;
+    }, 0);
+  }, [cartItems]);
 
 
 

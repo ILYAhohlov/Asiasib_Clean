@@ -13,8 +13,14 @@ const api = axios.create({
 
 export const authApi = {
   login: async (password: string) => {
-
-    const response = await api.post('/api/auth/login', { password });
-    return response.data;
+    try {
+      const response = await api.post('/api/auth/login', { password });
+      return response.data;
+    } catch (error: any) {
+      if (error.response?.status === 401) {
+        throw new Error('Неверный пароль');
+      }
+      throw new Error('Ошибка сервера');
+    }
   }
 };

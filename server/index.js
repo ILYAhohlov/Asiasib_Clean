@@ -1,4 +1,14 @@
 require('dotenv').config();
+
+// Validate required environment variables
+const requiredEnvVars = ['JWT_SECRET', 'MONGODB_URI', 'ADMIN_PASSWORD', 'SUPABASE_URL', 'SUPABASE_ANON_KEY'];
+for (const envVar of requiredEnvVars) {
+  if (!process.env[envVar]) {
+    console.error(`Missing required environment variable: ${envVar}`);
+    process.exit(1);
+  }
+}
+
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -28,11 +38,12 @@ app.use(cors({
 app.use(express.json({ limit: '1mb' }));
 
 // MongoDB connection
-mongoose.connect(process.env.MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-}).then(() => console.log('MongoDB connected'))
-  .catch(err => console.error('MongoDB connection error:', err));
+mongoose.connect(process.env.MONGODB_URI)
+  .then(() => console.log('MongoDB connected'))
+  .catch(err => {
+    console.error('MongoDB connection error:', err);
+    process.exit(1);
+  });
 
 // Schemas
 const productSchema = new mongoose.Schema({
@@ -74,7 +85,8 @@ const authenticateAdmin = (req, res, next) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     if (decoded.role !== 'admin') return res.status(403).json({ error: 'Admin required' });
     next();
-  } catch {
+  } catch (error) {
+    console.error('JWT verification error:', error.message);
     res.status(401).json({ error: 'Invalid token' });
   }
 };
@@ -172,7 +184,6 @@ app.post('/api/upload-image', authenticateAdmin, upload.single('file'), async (r
       });
 
     if (error) {
-      console.error('Supabase upload error:', error);
       return res.status(500).json({ error: 'Upload failed' });
     }
 
@@ -183,7 +194,6 @@ app.post('/api/upload-image', authenticateAdmin, upload.single('file'), async (r
 
     res.json({ imageUrl: publicUrl });
   } catch (error) {
-    console.error('Image upload error:', error);
     res.status(500).json({ error: 'Server error' });
   }
 });
@@ -214,16 +224,15 @@ const initializeDatabase = async () => {
         }
       ];
       await Product.insertMany(sampleProducts);
-      console.log('Sample products added');
+      // Sample products added
     }
   } catch (error) {
-    console.error('Database initialization error:', error);
+    // Database initialization failed
   }
 };
 
 // Error handling
 app.use((err, req, res, next) => {
-  console.error('Error:', err);
   res.status(500).json({ error: 'Server error' });
 });
 
@@ -231,6 +240,5 @@ app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`);
   initializeDatabase();
 }).on('error', (err) => {
-  console.error('Server error:', err);
   process.exit(1);
 });

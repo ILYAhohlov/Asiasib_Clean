@@ -146,7 +146,7 @@ export function AboutScreen({ navigateToScreen, cartItemsCount, navigateToPage }
           <div className="space-y-3">
             <div className="flex justify-between items-center py-2 border-b border-gray-100">
               <span className="text-gray-700">Новосибирск (центр)</span>
-              <span className="text-green-600 font-medium">3500</span>
+              <span className="text-green-600 font-medium">3500 руб</span>
             </div>
             
             <div className="flex justify-between items-center py-2 border-b border-gray-100">

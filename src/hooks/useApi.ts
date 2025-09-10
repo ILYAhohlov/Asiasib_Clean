@@ -1,35 +1,32 @@
 import { API_URL } from '../config';
 import axios from 'axios';
 
+// Singleton axios instance
+const apiInstance = axios.create({
+  baseURL: API_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+// Setup interceptors once
+apiInstance.interceptors.request.use(config => {
+  return config;
+});
+
+apiInstance.interceptors.response.use(
+  response => {
+    return response;
+  },
+  error => {
+    throw error;
+  }
+);
+
 export function useApi() {
-  const instance = axios.create({
-    baseURL: API_URL,
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
-
-
-
-  instance.interceptors.request.use(config => {
-
-    return config;
-  });
-
-  instance.interceptors.response.use(
-    response => {
-
-      return response;
-    },
-    error => {
-
-      throw error;
-    }
-  );
-
   return {
     login: async (password: string) => {
-      const response = await instance.post('/api/auth/login', { password });
+      const response = await apiInstance.post('/api/auth/login', { password });
       return response.data;
     },
     // Add other API methods here as needed
