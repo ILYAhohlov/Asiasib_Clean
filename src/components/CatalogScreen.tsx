@@ -93,7 +93,16 @@ function ProductCard({ product, onAddToCart, onCardClick }: ProductCardProps) {
             <button
               onClick={decreaseQuantity}
               disabled={quantity <= product.minOrder}
-              className="w-8 h-8 bg-blue-500 text-white border border-blue-500 hover:bg-blue-600 active:bg-blue-700 rounded-lg transition-all duration-150 hover:scale-110 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+              className="w-8 h-8 bg-blue-500 text-white border border-blue-500 hover:bg-blue-600 active:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+              style={{
+                borderRadius: '12px',
+                transition: 'all 0.15s ease',
+                transform: 'scale(1)'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
+              onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+              onMouseDown={(e) => e.currentTarget.style.transform = 'scale(0.95)'}
+              onMouseUp={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
             >
               <Minus className="w-3 h-3" />
             </button>
@@ -110,7 +119,16 @@ function ProductCard({ product, onAddToCart, onCardClick }: ProductCardProps) {
 
             <button
               onClick={increaseQuantity}
-              className="w-8 h-8 bg-blue-500 text-white border border-blue-500 hover:bg-blue-600 active:bg-blue-700 rounded-lg transition-all duration-150 hover:scale-110 active:scale-95 flex items-center justify-center"
+              className="w-8 h-8 bg-blue-500 text-white border border-blue-500 hover:bg-blue-600 active:bg-blue-700 flex items-center justify-center"
+              style={{
+                borderRadius: '12px',
+                transition: 'all 0.15s ease',
+                transform: 'scale(1)'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
+              onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+              onMouseDown={(e) => e.currentTarget.style.transform = 'scale(0.95)'}
+              onMouseUp={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
             >
               <Plus className="w-3 h-3" />
             </button>
@@ -129,7 +147,22 @@ function ProductCard({ product, onAddToCart, onCardClick }: ProductCardProps) {
         <button
           onClick={handleAddToCart}
           disabled={!isQuantityValid}
-          className="w-full bg-green-500 hover:bg-green-600 active:bg-green-700 text-white rounded-xl transition-all duration-150 hover:scale-105 active:scale-95 active:animate-pulse shadow-md hover:shadow-lg py-3 px-4 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full bg-green-500 hover:bg-green-600 active:bg-green-700 text-white shadow-md hover:shadow-lg py-3 px-4 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+          style={{
+            borderRadius: '16px',
+            transition: 'all 0.15s ease',
+            transform: 'scale(1)'
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+          onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+          onMouseDown={(e) => {
+            e.currentTarget.style.transform = 'scale(0.95)';
+            e.currentTarget.style.animation = 'pulse 0.3s ease';
+          }}
+          onMouseUp={(e) => {
+            e.currentTarget.style.transform = 'scale(1.05)';
+            e.currentTarget.style.animation = 'none';
+          }}
         >
           Добавить {quantity} {product.unit}
         </button>

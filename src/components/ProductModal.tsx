@@ -139,15 +139,22 @@ export function ProductModal({ product, isOpen, onClose, onAddToCart }: ProductM
           <div className="space-y-2">
             <label className="font-medium text-gray-900">Количество:</label>
             <div className="flex items-center space-x-2">
-              <Button
+              <button
                 onClick={decreaseQuantity}
-                variant="outline"
-                size="sm"
-                className="w-10 h-10 p-0 rounded-lg transition-all duration-150 hover:scale-110 active:scale-95 hover:bg-gray-100"
                 disabled={quantity <= product.minOrder}
+                className="w-10 h-10 border border-gray-300 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                style={{
+                  borderRadius: '12px',
+                  transition: 'all 0.15s ease',
+                  transform: 'scale(1)'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
+                onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                onMouseDown={(e) => e.currentTarget.style.transform = 'scale(0.95)'}
+                onMouseUp={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
               >
                 <Minus className="w-4 h-4" />
-              </Button>
+              </button>
               
               <input
                 type="number"
@@ -158,14 +165,21 @@ export function ProductModal({ product, isOpen, onClose, onAddToCart }: ProductM
                 className="w-20 text-center border border-gray-300 rounded px-2 py-1"
               />
               
-              <Button
+              <button
                 onClick={increaseQuantity}
-                variant="outline"
-                size="sm"
-                className="w-10 h-10 p-0 rounded-lg transition-all duration-150 hover:scale-110 active:scale-95 hover:bg-gray-100"
+                className="w-10 h-10 border border-gray-300 hover:bg-gray-100 flex items-center justify-center"
+                style={{
+                  borderRadius: '12px',
+                  transition: 'all 0.15s ease',
+                  transform: 'scale(1)'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
+                onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                onMouseDown={(e) => e.currentTarget.style.transform = 'scale(0.95)'}
+                onMouseUp={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
               >
                 <Plus className="w-4 h-4" />
-              </Button>
+              </button>
               
               <span className="text-sm text-gray-600">{product.unit}</span>
             </div>
@@ -179,21 +193,44 @@ export function ProductModal({ product, isOpen, onClose, onAddToCart }: ProductM
 
           {/* Кнопки действий */}
           <div className="flex space-x-2 pt-2">
-            <Button
+            <button
               onClick={handleAddToCart}
               disabled={!isQuantityValid}
-              className="flex-1 bg-green-500 hover:bg-green-600 active:bg-green-700 text-white rounded-xl transition-all duration-150 hover:scale-105 active:scale-95 active:animate-pulse shadow-md hover:shadow-lg"
+              className="flex-1 bg-green-500 hover:bg-green-600 active:bg-green-700 text-white shadow-md hover:shadow-lg py-3 px-4 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+              style={{
+                borderRadius: '16px',
+                transition: 'all 0.15s ease',
+                transform: 'scale(1)'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+              onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+              onMouseDown={(e) => {
+                e.currentTarget.style.transform = 'scale(0.95)';
+                e.currentTarget.style.animation = 'pulse 0.3s ease';
+              }}
+              onMouseUp={(e) => {
+                e.currentTarget.style.transform = 'scale(1.05)';
+                e.currentTarget.style.animation = 'none';
+              }}
             >
               Добавить {quantity} {product.unit}
-            </Button>
+            </button>
             
-            <Button
+            <button
               onClick={onClose}
-              variant="outline"
-              className="px-6 rounded-xl transition-all duration-150 hover:scale-105 active:scale-95 hover:bg-gray-100"
+              className="px-6 py-3 border border-gray-300 hover:bg-gray-100 font-medium"
+              style={{
+                borderRadius: '16px',
+                transition: 'all 0.15s ease',
+                transform: 'scale(1)'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+              onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+              onMouseDown={(e) => e.currentTarget.style.transform = 'scale(0.95)'}
+              onMouseUp={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
             >
               Закрыть
-            </Button>
+            </button>
           </div>
         </div>
       </div>
