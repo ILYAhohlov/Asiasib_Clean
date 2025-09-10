@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-import { Search, Minus, Plus } from "lucide-react";
+import { Search, Minus, Plus, ShoppingCart, Star, Zap, Leaf, Apple, Wheat } from "lucide-react";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { StickyFooter } from "./StickyFooter";
 import { ProductModal } from "./ProductModal";
@@ -64,129 +64,127 @@ function ProductCard({ product, onAddToCart, onCardClick }: ProductCardProps) {
 
   return (
     <div 
-      className="bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition-shadow cursor-pointer"
+      className="bg-white rounded-xl border-2 border-gray-100 overflow-hidden shadow-lg hover:shadow-2xl hover:scale-105 hover:-rotate-1 transition-all duration-500 cursor-pointer group relative"
       onClick={() => onCardClick(product)}
     >
-      {/* Изображение */}
-      <div className="w-full h-36 bg-gray-100 rounded-t-lg overflow-hidden border-b border-gray-200" style={{ minHeight: '144px', maxHeight: '144px' }}>
+      {/* Изображение с улучшенным дизайном */}
+      <div className="relative w-full h-36 bg-gradient-to-br from-gray-50 to-gray-100 rounded-t-xl overflow-hidden" style={{ minHeight: '144px', maxHeight: '144px' }}>
         <ImageWithFallback
           src={product.image}
           alt={product.name}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
           style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }}
+          loading="lazy"
         />
+        {/* Градиентный оверлей */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        {/* Бейдж категории */}
+        <div className="absolute top-2 left-2 bg-white/90 backdrop-blur-sm text-gray-700 text-xs px-2 py-1 rounded-full font-medium shadow-sm">
+          {product.category === 'овощи' && <Leaf className="w-3 h-3 inline mr-1 text-green-600" />}
+          {product.category === 'фрукты' && <Apple className="w-3 h-3 inline mr-1 text-red-500" />}
+          {product.category === 'специи' && <Wheat className="w-3 h-3 inline mr-1 text-orange-500" />}
+          {product.category}
+        </div>
+        {/* Бейдж "Новинка" или "Хит" */}
+        {product.isFeatured && (
+          <div className="absolute top-2 right-2 bg-gradient-to-r from-red-500 to-pink-500 text-white text-xs px-2 py-1 rounded-full font-bold shadow-lg animate-pulse">
+            ⭐ ХИТ
+          </div>
+        )}
       </div>
 
-      {/* Информация */}
-      <div className="p-3 space-y-2">
+      {/* Информация с улучшенным дизайном */}
+      <div className="p-4 space-y-3 bg-gradient-to-b from-white to-gray-50">
         <div>
-          <h3 className="font-semibold text-xs text-gray-900 mb-1 leading-tight">{product.name}</h3>
-          <p className="text-xs text-gray-500 capitalize">{product.category}</p>
+          <h3 className="font-bold text-sm text-gray-900 mb-2 leading-tight group-hover:text-blue-600 transition-colors duration-300">{product.name}</h3>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-1">
+                <Star className="w-3 h-3 text-yellow-500" />
+                <span className="text-xs text-gray-600">4.8</span>
+              </div>
+              <div className="w-1 h-1 bg-gray-300 rounded-full"></div>
+              <span className="text-xs text-gray-500">Свежее</span>
+            </div>
+          </div>
         </div>
 
-        <div className="space-y-1">
-          <p className="text-green-600 font-semibold text-xs">{product.price} р/{product.unit}</p>
-          <p className="text-gray-600 text-xs">От {product.minOrder} {product.unit}</p>
+        <div className="space-y-2">
+          <div className="flex items-center justify-between">
+            <p className="text-green-600 font-bold text-lg">{product.price} ₽</p>
+            <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">/{product.unit}</span>
+          </div>
+          <p className="text-gray-600 text-xs flex items-center">
+            <Zap className="w-3 h-3 mr-1 text-blue-500" />
+            Мин. заказ: {product.minOrder} {product.unit}
+          </p>
         </div>
 
-        {/* Выбор количества */}
-        <div className="space-y-1">
-          <div className="flex items-center space-x-1">
+        {/* Улучшенный выбор количества */}
+        <div className="space-y-2">
+          <div className="flex items-center justify-between bg-gray-50 rounded-xl p-2">
             <button
               onClick={decreaseQuantity}
               disabled={quantity <= product.minOrder}
-              className="w-6 h-6 bg-blue-500 text-white border border-blue-500 hover:bg-blue-600 active:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
-              style={{
-                borderRadius: '8px',
-                transition: 'all 0.15s ease',
-                transform: 'scale(1)'
-              }}
-              onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
-              onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-              onMouseDown={(e) => e.currentTarget.style.transform = 'scale(0.95)'}
-              onMouseUp={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
-              onTouchStart={(e) => e.currentTarget.style.transform = 'scale(0.95)'}
-              onTouchEnd={(e) => e.currentTarget.style.transform = 'scale(1)'}
+              className="w-8 h-8 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl hover:from-blue-600 hover:to-blue-700 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300"
             >
-              <Minus className="w-2.5 h-2.5" />
+              <Minus className="w-3 h-3" />
             </button>
 
-            <input
-              type="number"
-              value={quantity}
-              onChange={handleQuantityChange}
-              min={product.minOrder}
-              step={product.minOrder}
-              className="w-12 text-center border border-gray-300 rounded px-1 py-0.5 text-xs"
-              onClick={(e) => e.stopPropagation()}
-            />
+            <div className="flex items-center space-x-2">
+              <input
+                type="number"
+                value={quantity}
+                onChange={handleQuantityChange}
+                min={product.minOrder}
+                step={product.minOrder}
+                className="w-16 text-center border-2 border-gray-200 rounded-lg px-2 py-1 text-sm font-semibold focus:border-blue-500 focus:outline-none"
+                onClick={(e) => e.stopPropagation()}
+              />
+              <span className="text-xs text-gray-600 font-medium">{product.unit}</span>
+            </div>
 
             <button
               onClick={increaseQuantity}
-              className="w-6 h-6 bg-blue-500 text-white border border-blue-500 hover:bg-blue-600 active:bg-blue-700 flex items-center justify-center"
-              style={{
-                borderRadius: '8px',
-                transition: 'all 0.15s ease',
-                transform: 'scale(1)'
-              }}
-              onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
-              onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-              onMouseDown={(e) => e.currentTarget.style.transform = 'scale(0.95)'}
-              onMouseUp={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
-              onTouchStart={(e) => e.currentTarget.style.transform = 'scale(0.95)'}
-              onTouchEnd={(e) => e.currentTarget.style.transform = 'scale(1)'}
+              className="w-8 h-8 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl hover:from-blue-600 hover:to-blue-700 active:scale-95 flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300"
             >
-              <Plus className="w-2.5 h-2.5" />
+              <Plus className="w-3 h-3" />
             </button>
-
-            <span className="text-xs text-gray-600">{product.unit}</span>
           </div>
 
           {!isQuantityValid && (
-            <p className="text-red-500 text-xs">
-              Минимум {product.minOrder} {product.unit}
-            </p>
+            <div className="flex items-center space-x-1 text-red-500 text-xs bg-red-50 p-2 rounded-lg">
+              <span>⚠️</span>
+              <span>Минимум {product.minOrder} {product.unit}</span>
+            </div>
           )}
         </div>
 
-        {/* Кнопка добавить в корзину */}
+        {/* Премиум кнопка добавления в корзину */}
         <button
           onClick={handleAddToCart}
           disabled={!isQuantityValid}
-          className="w-full bg-green-500 hover:bg-green-600 active:bg-green-700 text-white shadow-md hover:shadow-lg py-2 px-3 font-medium disabled:opacity-50 disabled:cursor-not-allowed text-xs"
-          style={{
-            borderRadius: '12px',
-            transition: 'all 0.15s ease',
-            transform: 'scale(1)'
-          }}
-          onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
-          onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-          onMouseDown={(e) => {
-            e.currentTarget.style.transform = 'scale(0.95)';
-            e.currentTarget.style.animation = 'pulse 0.3s ease';
-          }}
-          onMouseUp={(e) => {
-            e.currentTarget.style.transform = 'scale(1.05)';
-            e.currentTarget.style.animation = 'none';
-          }}
-          onTouchStart={(e) => {
-            e.currentTarget.style.transform = 'scale(0.95)';
-            e.currentTarget.style.animation = 'pulse 0.3s ease';
-          }}
-          onTouchEnd={(e) => {
-            e.currentTarget.style.transform = 'scale(1)';
-            e.currentTarget.style.animation = 'none';
-          }}
+          className="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white shadow-xl hover:shadow-2xl py-3 px-4 font-bold disabled:opacity-50 disabled:cursor-not-allowed text-sm rounded-xl transition-all duration-500 transform hover:scale-105 active:scale-95 flex items-center justify-center space-x-2 group"
         >
-          Добавить {quantity} {product.unit}
+          <ShoppingCart className="w-4 h-4 group-hover:animate-bounce" />
+          <span>Добавить {quantity} {product.unit}</span>
+          <div className="absolute inset-0 bg-white/20 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         </button>
       </div>
     </div>
   );
 }
 
-// Mock categories for the filter
-const categories = ["все", "овощи", "фрукты", "зелень", "ягоды", "орехи", "специи"];
+// Улучшенные категории с иконками
+const categories = [
+  { name: "все", icon: "🛒", color: "bg-gray-500" },
+  { name: "овощи", icon: "🥬", color: "bg-green-500" },
+  { name: "фрукты", icon: "🍎", color: "bg-red-500" },
+  { name: "зелень", icon: "🌿", color: "bg-emerald-500" },
+  { name: "ягоды", icon: "🫐", color: "bg-purple-500" },
+  { name: "орехи", icon: "🥜", color: "bg-amber-600" },
+  { name: "специи", icon: "🌶️", color: "bg-orange-500" }
+];
 
 // Define Props for CatalogScreen
 interface CatalogScreenProps {
@@ -300,15 +298,22 @@ export function CatalogScreen({ navigateToScreen, cartItemsCount, addToCart, nav
 
           {/* Поисковая строка */}
           <div className="relative flex items-center">
-            <Search className="absolute left-3 text-gray-400 w-5 h-5 z-10" />
+            <Search className="absolute left-4 text-gray-400 w-5 h-5 z-10" />
             <input
               type="text"
-              placeholder="Поиск товаров"
+              placeholder="🔍 Найти свежие продукты..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              style={{ lineHeight: '1.25rem' }}
+              className="w-full pl-12 pr-4 py-4 border-2 border-gray-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-blue-200 focus:border-blue-500 bg-gradient-to-r from-white to-gray-50 shadow-lg text-sm font-medium placeholder-gray-400"
             />
+            {searchTerm && (
+              <button
+                onClick={() => setSearchTerm('')}
+                className="absolute right-3 text-gray-400 hover:text-gray-600 transition-colors"
+              >
+                ✕
+              </button>
+            )}
           </div>
         </div>
       </header>
@@ -323,18 +328,19 @@ export function CatalogScreen({ navigateToScreen, cartItemsCount, addToCart, nav
         
         <div className="flex justify-center">
           <div className="w-full max-w-lg">
-            <div className="flex flex-wrap justify-center gap-2 pb-2">
+            <div className="flex flex-wrap justify-center gap-3 pb-4">
               {categories.map(category => (
                 <button
-                  key={category}
-                  onClick={() => setSelectedCategory(category)}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200 whitespace-nowrap
-                    ${selectedCategory === category
-                      ? 'bg-blue-500 text-white'
-                      : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                  key={category.name}
+                  onClick={() => setSelectedCategory(category.name)}
+                  className={`px-4 py-3 rounded-2xl text-sm font-bold transition-all duration-300 whitespace-nowrap flex items-center space-x-2 shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95
+                    ${selectedCategory === category.name
+                      ? `${category.color} text-white ring-4 ring-white/50`
+                      : 'bg-white text-gray-700 hover:bg-gray-50 border-2 border-gray-200'
                     }`}
                 >
-                  {category.charAt(0).toUpperCase() + category.slice(1)}
+                  <span className="text-lg">{category.icon}</span>
+                  <span>{category.name.charAt(0).toUpperCase() + category.name.slice(1)}</span>
                 </button>
               ))}
             </div>
@@ -342,8 +348,19 @@ export function CatalogScreen({ navigateToScreen, cartItemsCount, addToCart, nav
         </div>
 
         {filteredProducts.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-gray-500 text-lg">Товары не найдены</p>
+          <div className="text-center py-16">
+            <div className="text-6xl mb-4">🔍</div>
+            <h3 className="text-xl font-bold text-gray-700 mb-2">Товары не найдены</h3>
+            <p className="text-gray-500">Попробуйте изменить поисковый запрос или выбрать другую категорию</p>
+            <button
+              onClick={() => {
+                setSearchTerm('');
+                setSelectedCategory('все');
+              }}
+              className="mt-4 px-6 py-3 bg-blue-500 text-white rounded-xl hover:bg-blue-600 transition-colors font-medium"
+            >
+              Сбросить фильтры
+            </button>
           </div>
         ) : (
           <div 

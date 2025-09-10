@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Search, Upload, Edit, Trash2, Plus, LogOut } from "lucide-react";
+import { Search, Upload, Edit, Trash2, Plus, LogOut, Package, ShoppingBag, BarChart3, Users, Settings, Crown } from "lucide-react";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { StickyFooter } from "./StickyFooter";
 import { Button } from "./ui/button";
@@ -330,43 +330,55 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-20">
-      <header className="bg-white border-b border-gray-200 sticky top-0 z-40">
-        <div className="px-4 py-4">
-          <div className="flex items-center justify-between mb-4">
-            <h1 className="text-2xl font-semibold text-gray-900">
-              Админ дашборд
-            </h1>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 pb-20">
+      <header className="bg-white/80 backdrop-blur-xl border-b border-gray-200/50 sticky top-0 z-40 shadow-lg">
+        <div className="px-6 py-6">
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center space-x-3">
+              <div className="w-12 h-12 bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl flex items-center justify-center shadow-lg">
+                <Crown className="w-6 h-6 text-white" />
+              </div>
+              <div>
+                <h1 className="text-2xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
+                  Админ Панель
+                </h1>
+                <p className="text-sm text-gray-500">Управление магазином</p>
+              </div>
+            </div>
 
             <Button
               onClick={onLogout}
               variant="outline"
               size="sm"
-              className="flex items-center space-x-2 text-gray-600 hover:text-gray-800"
+              className="flex items-center space-x-2 text-gray-600 hover:text-red-600 border-2 hover:border-red-200 hover:bg-red-50 transition-all duration-300 rounded-xl px-4 py-2"
             >
               <LogOut className="w-4 h-4" />
               <span>Выйти</span>
             </Button>
           </div>
 
-          <div className="flex space-x-2">
+          <div className="flex space-x-4">
             <Button
               onClick={() => setActiveTab("products")}
-              className={`flex-1 ${activeTab === "products" 
-                ? "bg-blue-500 text-white" 
-                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+              className={`flex-1 py-4 px-6 rounded-2xl font-bold transition-all duration-500 flex items-center justify-center space-x-3 shadow-lg hover:shadow-xl transform hover:scale-105 ${activeTab === "products" 
+                ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white ring-4 ring-blue-200" 
+                : "bg-white text-gray-700 hover:bg-gray-50 border-2 border-gray-200"
               }`}
             >
-              Товары
+              <Package className="w-5 h-5" />
+              <span>Товары</span>
+              <div className="bg-white/20 text-xs px-2 py-1 rounded-full">{products.length}</div>
             </Button>
             <Button
               onClick={() => setActiveTab("orders")}
-              className={`flex-1 ${activeTab === "orders" 
-                ? "bg-blue-500 text-white" 
-                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+              className={`flex-1 py-4 px-6 rounded-2xl font-bold transition-all duration-500 flex items-center justify-center space-x-3 shadow-lg hover:shadow-xl transform hover:scale-105 ${activeTab === "orders" 
+                ? "bg-gradient-to-r from-green-600 to-emerald-600 text-white ring-4 ring-green-200" 
+                : "bg-white text-gray-700 hover:bg-gray-50 border-2 border-gray-200"
               }`}
             >
-              Заказы
+              <ShoppingBag className="w-5 h-5" />
+              <span>Заказы</span>
+              <div className="bg-white/20 text-xs px-2 py-1 rounded-full">{orders.length}</div>
             </Button>
           </div>
         </div>
@@ -375,21 +387,28 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
       <main className="px-4 py-6">
         {activeTab === "products" && (
           <div className="space-y-6">
-            <div className="bg-white rounded-lg border border-gray-200 p-4">
-              <h3 className="font-semibold text-gray-900 mb-4">
-                {editingProduct ? "Редактировать товар" : "Добавить товар"}
-              </h3>
+            <div className="bg-white/70 backdrop-blur-xl rounded-3xl border-2 border-white/50 p-8 shadow-2xl hover:shadow-3xl transition-all duration-500">
+              <div className="flex items-center space-x-3 mb-6">
+                <div className={`w-10 h-10 rounded-2xl flex items-center justify-center ${editingProduct ? 'bg-gradient-to-r from-orange-500 to-red-500' : 'bg-gradient-to-r from-green-500 to-blue-500'}`}>
+                  {editingProduct ? <Edit className="w-5 h-5 text-white" /> : <Plus className="w-5 h-5 text-white" />}
+                </div>
+                <h3 className="text-xl font-bold text-gray-900">
+                  {editingProduct ? "⚙️ Редактировать товар" : "✨ Добавить новый товар"}
+                </h3>
+              </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Название *
+                  <label className="block text-sm font-bold text-gray-800 mb-3 flex items-center space-x-2">
+                    <span>🏷️</span>
+                    <span>Название *</span>
                   </label>
                   <input
                     type="text"
                     value={productForm.name}
                     onChange={(e) => setProductForm(prev => ({ ...prev, name: e.target.value }))}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full border-2 border-gray-200 rounded-2xl px-4 py-3 focus:outline-none focus:ring-4 focus:ring-blue-200 focus:border-blue-500 bg-gradient-to-r from-white to-gray-50 shadow-lg transition-all duration-300 font-medium"
+                    placeholder="Например: Огурцы свежие"
                   />
                 </div>
 
@@ -535,13 +554,13 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
                 </div>
               </div>
 
-              <div className="flex space-x-2 mt-4">
+              <div className="flex space-x-4 mt-8">
                 <Button
                   onClick={handleProductSubmit}
-                  className="bg-blue-500 hover:bg-blue-600 text-white"
+                  className="flex-1 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white py-4 px-8 rounded-2xl font-bold shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:scale-105 flex items-center justify-center space-x-3"
                 >
-                  <Plus className="w-4 h-4 mr-2" />
-                  {editingProduct ? "Сохранить" : "Добавить"}
+                  {editingProduct ? <Settings className="w-5 h-5" /> : <Plus className="w-5 h-5" />}
+                  <span>{editingProduct ? "⚙️ Сохранить изменения" : "✨ Добавить товар"}</span>
                 </Button>
 
                 {editingProduct && (
@@ -562,39 +581,44 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
                         isSlider: false
                       });
                     }}
-                    variant="outline"
+                    className="px-8 py-4 bg-white border-2 border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400 rounded-2xl font-bold transition-all duration-300 transform hover:scale-105"
                   >
-                    Отмена
+                    ❌ Отмена
                   </Button>
                 )}
               </div>
             </div>
 
-            <div className="bg-white rounded-lg border border-gray-200 p-4">
-              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 space-y-2 sm:space-y-0">
-                <h3 className="font-semibold text-gray-900">Товары</h3>
+            <div className="bg-white/70 backdrop-blur-xl rounded-3xl border-2 border-white/50 p-8 shadow-2xl">
+              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 space-y-4 sm:space-y-0">
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center">
+                    <Package className="w-5 h-5 text-white" />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900">📦 Управление товарами</h3>
+                </div>
 
                 <div className="flex space-x-2">
                   <div className="relative">
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                    <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                     <input
                       type="text"
-                      placeholder="Поиск"
+                      placeholder="🔍 Поиск по названию..."
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="pl-12 pr-4 py-3 border-2 border-gray-200 rounded-2xl text-sm focus:outline-none focus:ring-4 focus:ring-blue-200 focus:border-blue-500 bg-gradient-to-r from-white to-gray-50 shadow-lg font-medium min-w-[200px]"
                     />
                   </div>
 
                   <select
                     value={categoryFilter}
                     onChange={(e) => setCategoryFilter(e.target.value)}
-                    className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="border-2 border-gray-200 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:ring-4 focus:ring-blue-200 focus:border-blue-500 bg-gradient-to-r from-white to-gray-50 shadow-lg font-medium"
                   >
-                    <option value="all">Все</option>
-                    <option value="овощи">Овощи</option>
-                    <option value="фрукты">Фрукты</option>
-                    <option value="специи">Специи</option>
+                    <option value="all">🛒 Все категории</option>
+                    <option value="овощи">🥬 Овощи</option>
+                    <option value="фрукты">🍎 Фрукты</option>
+                    <option value="специи">🌶️ Специи</option>
                   </select>
                 </div>
               </div>
