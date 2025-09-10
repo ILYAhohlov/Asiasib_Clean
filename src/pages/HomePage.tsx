@@ -29,24 +29,29 @@ export function HomePage({ navigateToPage }: HomePageProps = {}) {
     setCartItems(prev => {
       const existingItem = prev.find(i => i.id === item.id);
       if (existingItem) {
+        const currentQuantity = Number(existingItem.quantity) || 0;
+        const addQuantity = Number(item.quantity) || 0;
+        const newQuantity = currentQuantity + addQuantity;
+        
         return prev.map(i => 
           i.id === item.id 
-            ? { ...i, quantity: Number(i.quantity) + Number(item.quantity) }
+            ? { ...i, quantity: newQuantity > 0 ? newQuantity : item.minOrder }
             : i
         );
       }
       return [...prev, {
         ...item,
         price: Number(item.price) || 0,
-        quantity: Number(item.quantity) || 1,
+        quantity: Number(item.quantity) || item.minOrder || 1,
         minOrder: Number(item.minOrder) || 1
       }];
     });
   };
 
   const updateCartItem = (id: string, quantity: number) => {
+    const safeQuantity = Number(quantity) || 0;
     setCartItems(prev => prev.map(item => 
-      item.id === id ? { ...item, quantity } : item
+      item.id === id ? { ...item, quantity: safeQuantity > 0 ? safeQuantity : item.minOrder } : item
     ));
   };
 
@@ -58,7 +63,10 @@ export function HomePage({ navigateToPage }: HomePageProps = {}) {
     setCartItems([]);
   };
 
-  const cartItemsCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+  const cartItemsCount = cartItems.reduce((sum, item) => {
+    const quantity = Number(item.quantity) || 0;
+    return sum + quantity;
+  }, 0);
 
 
 

@@ -46,14 +46,16 @@ function ProductCard({ product, onAddToCart, onCardClick }: ProductCardProps) {
 
   const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.stopPropagation();
-    const value = parseInt(e.target.value) || 0;
-    setQuantity(value);
+    const value = parseInt(e.target.value);
+    const safeValue = isNaN(value) || value < product.minOrder ? product.minOrder : value;
+    setQuantity(safeValue);
   };
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (isQuantityValid) {
-      onAddToCart(product, quantity);
+    const safeQuantity = Number(quantity) || product.minOrder;
+    if (safeQuantity >= product.minOrder) {
+      onAddToCart(product, safeQuantity);
     }
   };
 
