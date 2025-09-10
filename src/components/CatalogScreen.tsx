@@ -92,7 +92,7 @@ function ProductCard({ product, onAddToCart, onCardClick }: ProductCardProps) {
               onClick={decreaseQuantity}
               variant="outline"
               size="sm"
-              className="w-8 h-8 p-0 bg-blue-500 text-white border-blue-500 hover:bg-blue-600"
+              className="w-8 h-8 p-0 bg-blue-500 text-white border-blue-500 hover:bg-blue-600 active:bg-blue-700 rounded-lg transition-all duration-150 hover:scale-110 active:scale-95"
               disabled={quantity <= product.minOrder}
             >
               <Minus className="w-3 h-3" />
@@ -112,7 +112,7 @@ function ProductCard({ product, onAddToCart, onCardClick }: ProductCardProps) {
               onClick={increaseQuantity}
               variant="outline"
               size="sm"
-              className="w-8 h-8 p-0 bg-blue-500 text-white border-blue-500 hover:bg-blue-600"
+              className="w-8 h-8 p-0 bg-blue-500 text-white border-blue-500 hover:bg-blue-600 active:bg-blue-700 rounded-lg transition-all duration-150 hover:scale-110 active:scale-95"
             >
               <Plus className="w-3 h-3" />
             </Button>
@@ -131,7 +131,7 @@ function ProductCard({ product, onAddToCart, onCardClick }: ProductCardProps) {
         <Button
           onClick={handleAddToCart}
           disabled={!isQuantityValid}
-          className="w-full bg-green-500 hover:bg-green-600 text-white"
+          className="w-full bg-green-500 hover:bg-green-600 active:bg-green-700 text-white rounded-xl transition-all duration-150 hover:scale-105 active:scale-95 active:animate-pulse shadow-md hover:shadow-lg"
         >
           Добавить {quantity} {product.unit}
         </Button>

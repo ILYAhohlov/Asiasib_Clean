@@ -143,7 +143,7 @@ export function ProductModal({ product, isOpen, onClose, onAddToCart }: ProductM
                 onClick={decreaseQuantity}
                 variant="outline"
                 size="sm"
-                className="w-10 h-10 p-0"
+                className="w-10 h-10 p-0 rounded-lg transition-all duration-150 hover:scale-110 active:scale-95 hover:bg-gray-100"
                 disabled={quantity <= product.minOrder}
               >
                 <Minus className="w-4 h-4" />
@@ -162,7 +162,7 @@ export function ProductModal({ product, isOpen, onClose, onAddToCart }: ProductM
                 onClick={increaseQuantity}
                 variant="outline"
                 size="sm"
-                className="w-10 h-10 p-0"
+                className="w-10 h-10 p-0 rounded-lg transition-all duration-150 hover:scale-110 active:scale-95 hover:bg-gray-100"
               >
                 <Plus className="w-4 h-4" />
               </Button>
@@ -182,7 +182,7 @@ export function ProductModal({ product, isOpen, onClose, onAddToCart }: ProductM
             <Button
               onClick={handleAddToCart}
               disabled={!isQuantityValid}
-              className="flex-1 bg-green-500 hover:bg-green-600 text-white"
+              className="flex-1 bg-green-500 hover:bg-green-600 active:bg-green-700 text-white rounded-xl transition-all duration-150 hover:scale-105 active:scale-95 active:animate-pulse shadow-md hover:shadow-lg"
             >
               Добавить {quantity} {product.unit}
             </Button>
@@ -190,7 +190,7 @@ export function ProductModal({ product, isOpen, onClose, onAddToCart }: ProductM
             <Button
               onClick={onClose}
               variant="outline"
-              className="px-6"
+              className="px-6 rounded-xl transition-all duration-150 hover:scale-105 active:scale-95 hover:bg-gray-100"
             >
               Закрыть
             </Button>
