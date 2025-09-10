@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
+import { Star, Zap, Target } from "lucide-react";
 
 interface Product {
   id: string;
@@ -57,51 +58,102 @@ export function WarmingZone({ onProductClick, onScrollToProduct }: WarmingZonePr
   }, [sliderProducts.length]);
 
   const handleFeaturedClick = (product: Product) => {
+    // Тактильная обратная связь на мобильных
+    if (navigator.vibrate) navigator.vibrate(50);
     onProductClick?.(product);
     onScrollToProduct?.(product.id);
   };
 
+  // Случайные эмодзи для разнообразия
+  const getRandomHotEmoji = () => {
+    const hotEmojis = ['🔥', '⚡', '💥', '🌟', '🎯'];
+    return hotEmojis[Math.floor(Math.random() * hotEmojis.length)];
+  };
+
+  // Прогресс-бар для автосмены слайдов
+  const [progress, setProgress] = useState(0);
+  
+  useEffect(() => {
+    if (sliderProducts.length > 1) {
+      const progressInterval = setInterval(() => {
+        setProgress(prev => (prev + 1) % 100);
+      }, 30); // Обновление каждые 30мс для плавности
+      return () => clearInterval(progressInterval);
+    }
+  }, [currentSlide, sliderProducts.length]);
+
   return (
-    <div className="bg-gradient-to-r from-blue-50 to-green-50 rounded-lg border border-blue-200 p-3 mb-3 shadow-sm">
-      {/* Заголовок секции */}
-      <div className="flex items-center justify-between mb-2">
-        <h3 className="text-xs font-semibold text-gray-700 uppercase tracking-wide">🔥 Горячие предложения</h3>
-        <div className="text-xs text-gray-500">Обновляется каждый день</div>
+    <div className="bg-gradient-to-r from-blue-50 via-purple-50 to-green-50 rounded-xl border border-blue-200 p-3 mb-4 shadow-lg hover:shadow-xl transition-all duration-300">
+      {/* Заголовок секции с анимацией */}
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center space-x-2">
+          <span className="text-lg animate-pulse">{getRandomHotEmoji()}</span>
+          <h3 className="text-sm font-bold text-gray-800 uppercase tracking-wide bg-gradient-to-r from-red-600 to-orange-600 bg-clip-text text-transparent">
+            Горячие предложения
+          </h3>
+        </div>
+        <div className="flex items-center space-x-1 text-xs text-gray-600">
+          <Star className="w-3 h-3 text-yellow-500" />
+          <span>Топ продаж</span>
+        </div>
       </div>
-      <div className="flex gap-3 h-20">
+      <div className="flex gap-3 h-24">
         {/* Левая часть - 2 квадрата рекомендуемых товаров */}
         <div className="flex-1 grid grid-cols-2 gap-1">
           {featuredProducts.map((product, index) => (
             <div 
               key={product.id}
               onClick={() => handleFeaturedClick(product)}
-              className="relative bg-white rounded-lg overflow-hidden cursor-pointer hover:shadow-lg hover:scale-105 transition-all duration-300 aspect-square border border-gray-200 group"
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  handleFeaturedClick(product);
+                }
+              }}
+              tabIndex={0}
+              role="button"
+              aria-label={`Рекомендуемый товар: ${product.name}, цена ${product.price} рублей`}
+              className="relative bg-white rounded-xl overflow-hidden cursor-pointer hover:shadow-2xl hover:scale-110 hover:-rotate-1 transition-all duration-500 aspect-square border-2 border-gradient-to-r from-blue-200 to-purple-200 group focus:outline-none focus:ring-4 focus:ring-blue-300"
             >
               <ImageWithFallback
                 src={product.image}
                 alt={product.name}
                 className="w-full h-full object-cover"
                 style={{ objectPosition: 'center' }}
+                loading="lazy"
+                decoding="async"
               />
-              {/* Градиент оверлей для текста */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              {/* Градиент оверлей */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500" />
               {/* Информация о товаре */}
-              <div className="absolute bottom-0 left-0 right-0 p-1.5 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                <p className="text-xs font-semibold truncate">{product.name}</p>
-                <p className="text-xs opacity-90">{product.price}₽/{product.unit}</p>
+              <div className="absolute bottom-0 left-0 right-0 p-2 text-white transform translate-y-full group-hover:translate-y-0 transition-all duration-500">
+                <p className="text-xs font-bold truncate drop-shadow-lg">{product.name}</p>
+                <div className="flex items-center justify-between">
+                  <p className="text-xs opacity-90">{product.price}₽/{product.unit}</p>
+                  <div className="flex items-center space-x-1">
+                    <Zap className="w-3 h-3 text-yellow-400" />
+                    <span className="text-xs">ТОП</span>
+                  </div>
+                </div>
               </div>
-              {/* Бейдж "ХИТ" */}
-              <div className="absolute top-1 left-1 bg-red-500 text-white text-xs px-1.5 py-0.5 rounded-full font-bold shadow-sm">
-                ХИТ
+              {/* Анимированный бейдж */}
+              <div className="absolute top-1 left-1 bg-gradient-to-r from-red-500 to-pink-500 text-white text-xs px-2 py-1 rounded-full font-bold shadow-lg animate-bounce">
+                🔥 ХИТ
               </div>
+              {/* Пульсирующий эффект */}
+              <div className="absolute inset-0 rounded-xl border-2 border-red-400 opacity-0 group-hover:opacity-100 animate-ping" />
             </div>
           ))}
           
           {/* Заполняем пустыми блоками если товаров меньше 2 */}
           {Array.from({ length: 2 - featuredProducts.length }).map((_, index) => (
-            <div key={`empty-${index}`} className="bg-gray-50 rounded-lg border-2 border-dashed border-gray-300 flex flex-col items-center justify-center aspect-square">
-              <div className="text-gray-400 text-lg mb-1">📦</div>
-              <span className="text-gray-400 text-xs text-center">Скоро новые<br/>предложения</span>
+            <div key={`empty-${index}`} className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl border-2 border-dashed border-gray-300 flex flex-col items-center justify-center aspect-square hover:border-blue-300 transition-colors duration-300 group">
+              <div className="text-gray-400 text-2xl mb-2 group-hover:scale-110 transition-transform duration-300">📦</div>
+              <span className="text-gray-500 text-xs text-center font-medium">
+                Скоро новые<br/>
+                <span className="text-blue-600">предложения</span>
+              </span>
+              <div className="mt-1 w-8 h-0.5 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </div>
           ))}
         </div>
@@ -109,65 +161,114 @@ export function WarmingZone({ onProductClick, onScrollToProduct }: WarmingZonePr
         {/* Правая часть - слайдер с индикаторами */}
         <div className="flex-1 relative">
           {/* Слайдер */}
-          <div className="w-full h-full bg-white rounded-lg overflow-hidden relative border border-gray-200 shadow-sm">
+          <div className="w-full h-full bg-white rounded-xl overflow-hidden relative border-2 border-purple-200 shadow-lg hover:shadow-2xl transition-all duration-300">
             {sliderProducts.length > 0 ? (
               <div className="relative w-full h-full group">
                 {sliderProducts.map((product, index) => (
                   <div
                     key={product.id}
-                    className={`absolute inset-0 transition-all duration-700 ease-in-out ${
-                      index === currentSlide ? 'opacity-100 scale-100' : 'opacity-0 scale-105'
+                    className={`absolute inset-0 transition-all duration-1000 ease-in-out ${
+                      index === currentSlide 
+                        ? 'opacity-100 scale-100 rotate-0' 
+                        : 'opacity-0 scale-110 rotate-1'
                     }`}
                   >
                     <ImageWithFallback
                       src={product.image}
                       alt={product.name}
-                      className="w-full h-full object-cover cursor-pointer"
+                      className="w-full h-full object-cover cursor-pointer hover:scale-105 transition-transform duration-500"
                       style={{ objectPosition: 'center' }}
-                      onClick={() => onProductClick?.(product)}
+                      onClick={() => {
+                        if (navigator.vibrate) navigator.vibrate(30);
+                        onProductClick?.(product);
+                      }}
+                      loading="lazy"
+                      decoding="async"
                     />
-                    {/* Информация о текущем слайде */}
+                    {/* Информация о текущем слайде с улучшенным дизайном */}
                     {index === currentSlide && (
-                      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-2">
-                        <p className="text-white text-xs font-semibold truncate">{product.name}</p>
-                        <p className="text-white/90 text-xs">{product.price}₽/{product.unit}</p>
+                      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-3">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <p className="text-white text-sm font-bold truncate drop-shadow-lg">{product.name}</p>
+                            <div className="flex items-center space-x-2">
+                              <p className="text-white/90 text-xs">{product.price}₽/{product.unit}</p>
+                              <div className="flex items-center space-x-1">
+                                <Target className="w-3 h-3 text-green-400" />
+                                <span className="text-green-400 text-xs font-semibold">ПРОМО</span>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="text-right">
+                            <div className="text-white text-xs opacity-75">{index + 1}/{sliderProducts.length}</div>
+                          </div>
+                        </div>
                       </div>
+                    )}
+                    {/* Анимированная рамка для активного слайда */}
+                    {index === currentSlide && (
+                      <div className="absolute inset-0 border-4 border-purple-400 rounded-xl opacity-50 animate-pulse" />
                     )}
                   </div>
                 ))}
                 
                 {/* Индикаторы внутри слайдера */}
-                {/* Индикаторы с улучшенным дизайном */}
+                {/* Улучшенные индикаторы */}
                 {sliderProducts.length > 1 && (
-                  <div className="absolute bottom-2 right-2 flex space-x-1.5 bg-black/30 rounded-full px-2 py-1 backdrop-blur-sm">
+                  <div className="absolute bottom-3 right-3 flex space-x-2 bg-black/40 rounded-full px-3 py-2 backdrop-blur-md border border-white/20">
                     {sliderProducts.map((_, index) => (
                       <button
                         key={index}
                         onClick={() => setCurrentSlide(index)}
-                        className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                        className={`w-2.5 h-2.5 rounded-full transition-all duration-500 hover:scale-150 ${
                           index === currentSlide 
-                            ? 'bg-white scale-125 shadow-sm' 
-                            : 'bg-white/60 hover:bg-white/80'
+                            ? 'bg-white scale-150 shadow-lg ring-2 ring-white/50' 
+                            : 'bg-white/50 hover:bg-white/80'
                         }`}
+                        aria-label={`Перейти к слайду ${index + 1}`}
                       />
                     ))}
                   </div>
                 )}
                 
-                {/* Прогресс-бар автосмены */}
-                <div className="absolute top-0 left-0 right-0 h-0.5 bg-white/20">
+                {/* Анимированный прогресс-бар */}
+                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-500/20 to-blue-500/20">
                   <div 
-                    className="h-full bg-white transition-all duration-100 ease-linear"
+                    className="h-full bg-gradient-to-r from-purple-500 to-blue-500 transition-all duration-100 ease-linear shadow-sm"
                     style={{ 
-                      width: sliderProducts.length > 1 ? `${((Date.now() % 3000) / 3000) * 100}%` : '0%'
+                      width: sliderProducts.length > 1 ? `${progress}%` : '0%'
                     }}
                   />
                 </div>
+                
+                {/* Боковые стрелки для ручного управления */}
+                {sliderProducts.length > 1 && (
+                  <>
+                    <button
+                      onClick={() => setCurrentSlide(prev => prev === 0 ? sliderProducts.length - 1 : prev - 1)}
+                      className="absolute left-2 top-1/2 -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 hover:scale-110"
+                      aria-label="Предыдущий слайд"
+                    >
+                      ‹
+                    </button>
+                    <button
+                      onClick={() => setCurrentSlide(prev => (prev + 1) % sliderProducts.length)}
+                      className="absolute right-2 top-1/2 -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 hover:scale-110"
+                      aria-label="Следующий слайд"
+                    >
+                      ›
+                    </button>
+                  </>
+                )}
               </div>
             ) : (
-              <div className="flex flex-col items-center justify-center h-full bg-gray-50">
-                <div className="text-gray-400 text-xl mb-1">🎯</div>
-                <span className="text-gray-500 text-xs text-center">Промо-товары<br/>появятся здесь</span>
+              <div className="flex flex-col items-center justify-center h-full bg-gradient-to-br from-gray-50 to-gray-100 group hover:from-blue-50 hover:to-purple-50 transition-all duration-500">
+                <div className="text-gray-400 text-3xl mb-2 group-hover:scale-110 group-hover:rotate-12 transition-all duration-500">🎯</div>
+                <span className="text-gray-500 text-xs text-center font-medium group-hover:text-blue-600 transition-colors duration-300">
+                  Промо-товары<br/>
+                  <span className="text-purple-600">появятся здесь</span>
+                </span>
+                <div className="mt-2 w-12 h-0.5 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               </div>
             )}
           </div>
