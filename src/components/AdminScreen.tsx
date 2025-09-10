@@ -557,10 +557,10 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
               <div className="flex space-x-4 mt-8">
                 <Button
                   onClick={handleProductSubmit}
-                  className="flex-1 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white py-4 px-8 rounded-2xl font-bold shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:scale-105 flex items-center justify-center space-x-3"
+                  className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-4 px-8 rounded-2xl font-bold shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 active:scale-95 flex items-center justify-center space-x-3"
                 >
                   {editingProduct ? <Settings className="w-5 h-5" /> : <Plus className="w-5 h-5" />}
-                  <span>{editingProduct ? "⚙️ Сохранить изменения" : "✨ Добавить товар"}</span>
+                  <span>{editingProduct ? "Сохранить изменения" : "Добавить товар"}</span>
                 </Button>
 
                 {editingProduct && (
@@ -581,9 +581,9 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
                         isSlider: false
                       });
                     }}
-                    className="px-8 py-4 bg-white border-2 border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400 rounded-2xl font-bold transition-all duration-300 transform hover:scale-105"
+                    className="px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl font-bold transition-all duration-300 transform hover:scale-105 active:scale-95"
                   >
-                    ❌ Отмена
+                    Отмена
                   </Button>
                 )}
               </div>
@@ -655,17 +655,15 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
                           <div className="flex space-x-1">
                             <Button
                               onClick={() => handleEditProduct(product)}
-                              variant="outline"
                               size="sm"
-                              className="p-1"
+                              className="p-1 bg-blue-600 hover:bg-blue-700 text-white transition-all duration-300 transform hover:scale-105 active:scale-95"
                             >
                               <Edit className="w-3 h-3" />
                             </Button>
                             <Button
                               onClick={() => handleDeleteProduct(product.id)}
-                              variant="outline"
                               size="sm"
-                              className="p-1 text-red-600 hover:text-red-700"
+                              className="p-1 bg-red-600 hover:bg-red-700 text-white transition-all duration-300 transform hover:scale-105 active:scale-95"
                             >
                               <Trash2 className="w-3 h-3" />
                             </Button>
@@ -709,17 +707,16 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
                         }
                       }
                     }}
-                    variant="outline"
                     size="sm"
-                    className="text-red-600 hover:text-red-700"
+                    className="bg-red-600 hover:bg-red-700 text-white transition-all duration-300 transform hover:scale-105 active:scale-95"
                   >
                     Удалить ({selectedOrders.length})
                   </Button>
                 )}
                 <Button
                   onClick={() => window.location.reload()}
-                  variant="outline"
                   size="sm"
+                  className="bg-blue-600 hover:bg-blue-700 text-white transition-all duration-300 transform hover:scale-105 active:scale-95"
                 >
                   Обновить
                 </Button>

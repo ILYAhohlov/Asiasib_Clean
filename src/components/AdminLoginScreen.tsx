@@ -7,7 +7,7 @@ import { Screen } from "../App";
 interface AdminLoginScreenProps {
   navigateToScreen: (screen: Screen) => void;
   cartItemsCount: number;
-  onLogin: (password: string) => boolean;
+  onLogin?: (password: string) => boolean;
 }
 
 export function AdminLoginScreen({ navigateToScreen, cartItemsCount, onLogin }: AdminLoginScreenProps) {
@@ -39,7 +39,11 @@ export function AdminLoginScreen({ navigateToScreen, cartItemsCount, onLogin }: 
       if (response.ok) {
         const data = await response.json();
         localStorage.setItem('adminToken', data.token);
-        onLogin(password);
+        if (onLogin) {
+          onLogin(password);
+        } else {
+          navigateToScreen("admin");
+        }
       } else if (response.status === 401) {
         setError("Неверный пароль");
       } else {

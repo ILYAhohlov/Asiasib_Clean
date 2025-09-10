@@ -98,7 +98,7 @@ export function WarmingZone({ onProductClick, onScrollToProduct }: WarmingZonePr
       <div className="flex gap-3 h-32">
         {/* Левая часть - 2 квадрата рекомендуемых товаров */}
         <div className="flex-1 grid grid-cols-2 gap-1">
-          {featuredProducts.map((product, index) => (
+          {featuredProducts.map((product) => (
             <div 
               key={product.id}
               onClick={() => handleFeaturedClick(product)}

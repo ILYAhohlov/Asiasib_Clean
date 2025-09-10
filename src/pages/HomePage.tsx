@@ -119,6 +119,10 @@ export function HomePage({ navigateToPage }: HomePageProps = {}) {
       <AdminLoginScreen
         navigateToScreen={navigateToScreen}
         cartItemsCount={cartItemsCount}
+        onLogin={() => {
+          navigateToScreen("admin");
+          return true;
+        }}
       />
     );
   }
@@ -128,6 +132,10 @@ export function HomePage({ navigateToPage }: HomePageProps = {}) {
       <AdminScreen
         navigateToScreen={navigateToScreen}
         cartItemsCount={cartItemsCount}
+        onLogout={() => {
+          localStorage.removeItem('adminToken');
+          navigateToScreen("catalog");
+        }}
       />
     );
   }
