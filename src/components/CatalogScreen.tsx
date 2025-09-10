@@ -141,7 +141,7 @@ function ProductCard({ product, onAddToCart, onCardClick }: ProductCardProps) {
 }
 
 // Mock categories for the filter
-const categories = ["все", "овощи", "фрукты", "специи"];
+const categories = ["все", "овощи", "фрукты", "зелень", "ягоды", "специи"];
 
 // Define Props for CatalogScreen
 interface CatalogScreenProps {
