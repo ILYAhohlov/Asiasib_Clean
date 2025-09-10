@@ -22,6 +22,7 @@ interface Product {
   shelfLife?: string;
   allergens?: string;
   isFeatured?: boolean;
+  isSlider?: boolean;
 }
 
 // Define a type for the product card props
@@ -246,6 +247,17 @@ export function CatalogScreen({ navigateToScreen, cartItemsCount, addToCart, nav
     setSelectedProduct(null);
   };
 
+  const handleScrollToProduct = (productId: string) => {
+    // Поиск элемента по data-product-id
+    const productElement = document.querySelector(`[data-product-id="${productId}"]`);
+    if (productElement) {
+      productElement.scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'center' 
+      });
+    }
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -299,7 +311,10 @@ export function CatalogScreen({ navigateToScreen, cartItemsCount, addToCart, nav
       {/* Сетка товаров */}
       <main className="container mx-auto px-4 py-2 space-y-4">
         {/* Зона прогрева */}
-        <WarmingZone onProductClick={handleProductClick} />
+        <WarmingZone 
+          onProductClick={handleProductClick} 
+          onScrollToProduct={handleScrollToProduct}
+        />
         
         <div className="flex justify-center">
           <div className="w-full max-w-lg">
@@ -331,12 +346,13 @@ export function CatalogScreen({ navigateToScreen, cartItemsCount, addToCart, nav
             style={{ gridTemplateColumns: 'repeat(2, 1fr)' }}
           >
             {filteredProducts.map(product => (
-              <ProductCard 
-                key={product.id} // Use product.id which is mapped from Supabase's _id
-                product={product}
-                onAddToCart={addToCart}
-                onCardClick={handleProductClick}
-              />
+              <div key={product.id} data-product-id={product.id}>
+                <ProductCard 
+                  product={product}
+                  onAddToCart={addToCart}
+                  onCardClick={handleProductClick}
+                />
+              </div>
             ))}
           </div>
         )}

@@ -22,6 +22,7 @@ interface Product {
   allergens: string;
   image: string;
   isFeatured?: boolean;
+  isSlider?: boolean;
 }
 
 interface Order {
@@ -63,6 +64,7 @@ interface ProductFormData {
   allergens: string;
   images: File[];
   isFeatured: boolean;
+  isSlider: boolean;
 }
 
 export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: AdminScreenProps) {
@@ -84,7 +86,8 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
     shelfLife: "",
     allergens: "",
     images: [],
-    isFeatured: false
+    isFeatured: false,
+    isSlider: false
   });
 
   useEffect(() => {
@@ -197,7 +200,8 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
         shelfLife: productForm.shelfLife,
         allergens: productForm.allergens,
         image: imageUrl,
-        isFeatured: productForm.isFeatured
+        isFeatured: productForm.isFeatured,
+        isSlider: productForm.isSlider
       };
       
       // Добавляем ID только для редактирования
@@ -243,7 +247,8 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
         shelfLife: "",
         allergens: "",
         images: [],
-        isFeatured: false
+        isFeatured: false,
+        isSlider: false
       });
 
       alert("Товар успешно сохранен!");
@@ -265,7 +270,8 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
       shelfLife: product.shelfLife,
       allergens: product.allergens,
       images: [],
-      isFeatured: product.isFeatured || false
+      isFeatured: product.isFeatured || false,
+      isSlider: product.isSlider || false
     });
     
     // Прокрутка к форме редактирования
@@ -506,7 +512,7 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
                   </div>
                 </div>
 
-                <div>
+                <div className="space-y-2">
                   <label className="flex items-center space-x-2">
                     <input
                       type="checkbox"
@@ -515,6 +521,16 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
                       className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                     />
                     <span className="text-sm font-medium text-gray-700">Рекомендуемый товар</span>
+                  </label>
+                  
+                  <label className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      checked={productForm.isSlider}
+                      onChange={(e) => setProductForm(prev => ({ ...prev, isSlider: e.target.checked }))}
+                      className="rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+                    />
+                    <span className="text-sm font-medium text-gray-700">Показать в слайдере</span>
                   </label>
                 </div>
               </div>
@@ -542,7 +558,8 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
                         shelfLife: "",
                         allergens: "",
                         images: [],
-                        isFeatured: false
+                        isFeatured: false,
+                        isSlider: false
                       });
                     }}
                     variant="outline"

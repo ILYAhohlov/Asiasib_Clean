@@ -55,6 +55,7 @@ const productSchema = new mongoose.Schema({
   description: String,
   image: String,
   isFeatured: { type: Boolean, default: false },
+  isSlider: { type: Boolean, default: false },
   createdAt: { type: Date, default: Date.now }
 });
 
