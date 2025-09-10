@@ -90,15 +90,13 @@ function ProductCard({ product, onAddToCart, onCardClick }: ProductCardProps) {
         {/* Выбор количества */}
         <div className="space-y-2">
           <div className="flex items-center space-x-2">
-            <Button
+            <button
               onClick={decreaseQuantity}
-              variant="outline"
-              size="sm"
-              className="w-8 h-8 p-0 bg-blue-500 text-white border-blue-500 hover:bg-blue-600 active:bg-blue-700 rounded-lg transition-all duration-150 hover:scale-110 active:scale-95"
               disabled={quantity <= product.minOrder}
+              className="w-8 h-8 bg-blue-500 text-white border border-blue-500 hover:bg-blue-600 active:bg-blue-700 rounded-lg transition-all duration-150 hover:scale-110 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
             >
               <Minus className="w-3 h-3" />
-            </Button>
+            </button>
 
             <input
               type="number"
@@ -110,14 +108,12 @@ function ProductCard({ product, onAddToCart, onCardClick }: ProductCardProps) {
               onClick={(e) => e.stopPropagation()}
             />
 
-            <Button
+            <button
               onClick={increaseQuantity}
-              variant="outline"
-              size="sm"
-              className="w-8 h-8 p-0 bg-blue-500 text-white border-blue-500 hover:bg-blue-600 active:bg-blue-700 rounded-lg transition-all duration-150 hover:scale-110 active:scale-95"
+              className="w-8 h-8 bg-blue-500 text-white border border-blue-500 hover:bg-blue-600 active:bg-blue-700 rounded-lg transition-all duration-150 hover:scale-110 active:scale-95 flex items-center justify-center"
             >
               <Plus className="w-3 h-3" />
-            </Button>
+            </button>
 
             <span className="text-sm text-gray-600">{product.unit}</span>
           </div>
@@ -130,13 +126,13 @@ function ProductCard({ product, onAddToCart, onCardClick }: ProductCardProps) {
         </div>
 
         {/* Кнопка добавить в корзину */}
-        <Button
+        <button
           onClick={handleAddToCart}
           disabled={!isQuantityValid}
-          className="w-full bg-green-500 hover:bg-green-600 active:bg-green-700 text-white rounded-xl transition-all duration-150 hover:scale-105 active:scale-95 active:animate-pulse shadow-md hover:shadow-lg"
+          className="w-full bg-green-500 hover:bg-green-600 active:bg-green-700 text-white rounded-xl transition-all duration-150 hover:scale-105 active:scale-95 active:animate-pulse shadow-md hover:shadow-lg py-3 px-4 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
         >
           Добавить {quantity} {product.unit}
-        </Button>
+        </button>
       </div>
     </div>
   );
@@ -257,7 +253,7 @@ export function CatalogScreen({ navigateToScreen, cartItemsCount, addToCart, nav
       {/* Сетка товаров */}
       <main className="container mx-auto px-4 py-6 space-y-6">
         {/* Зона прогрева */}
-        <WarmingZone />
+        <WarmingZone onProductClick={handleProductClick} />
         
         <div className="flex justify-center">
           <div className="w-full max-w-md">
