@@ -3,6 +3,7 @@ import { Search, Minus, Plus } from "lucide-react";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { StickyFooter } from "./StickyFooter";
 import { ProductModal } from "./ProductModal";
+import { WarmingZone } from "./WarmingZone";
 import { Button } from "./ui/button";
 import { Screen } from "../App";
 
@@ -254,6 +255,9 @@ export function CatalogScreen({ navigateToScreen, cartItemsCount, addToCart, nav
 
       {/* Сетка товаров */}
       <main className="container mx-auto px-4 py-6 space-y-6">
+        {/* Зона прогрева */}
+        <WarmingZone />
+        
         <div className="flex justify-center">
           <div className="w-full max-w-md">
             <div className="flex overflow-x-auto space-x-4 pb-2 no-scrollbar">
