@@ -67,7 +67,7 @@ function ProductCard({ product, onAddToCart, onCardClick }: ProductCardProps) {
       onClick={() => onCardClick(product)}
     >
       {/* Изображение */}
-      <div className="w-full h-36 bg-gray-100">
+      <div className="w-full h-36 bg-gray-100 rounded-t-lg overflow-hidden">
         <ImageWithFallback
           src={product.image}
           alt={product.name}
