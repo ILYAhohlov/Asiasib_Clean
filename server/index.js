@@ -40,7 +40,7 @@ const productSchema = new mongoose.Schema({
   category: { type: String, required: true },
   price: { type: Number, required: true },
   minOrder: { type: Number, required: true },
-  unit: { type: String, default: 'кг' },
+  unit: { type: String, enum: ['кг', 'ящик', 'шт'], default: 'кг' },
   description: String,
   image: String,
   createdAt: { type: Date, default: Date.now }

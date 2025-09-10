@@ -56,6 +56,7 @@ interface ProductFormData {
   category: string;
   price: string;
   minOrder: string;
+  unit: string;
   description: string;
   shelfLife: string;
   allergens: string;
@@ -76,6 +77,7 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
     category: "овощи",
     price: "",
     minOrder: "",
+    unit: "кг",
     description: "",
     shelfLife: "",
     allergens: "",
@@ -187,6 +189,7 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
         category: productForm.category,
         price: parseInt(productForm.price),
         minOrder: parseInt(productForm.minOrder),
+        unit: productForm.unit,
         description: productForm.description,
         shelfLife: productForm.shelfLife,
         allergens: productForm.allergens,
@@ -231,6 +234,7 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
         category: "овощи",
         price: "",
         minOrder: "",
+        unit: "кг",
         description: "",
         shelfLife: "",
         allergens: "",
@@ -251,6 +255,7 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
       category: product.category,
       price: product.price.toString(),
       minOrder: product.minOrder.toString(),
+      unit: product.unit || "кг",
       description: product.description,
       shelfLife: product.shelfLife,
       allergens: product.allergens,
@@ -405,7 +410,7 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Мин. объем (кг) *
+                    Мин. объем *
                   </label>
                   <input
                     type="number"
@@ -413,6 +418,21 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
                     onChange={(e) => setProductForm(prev => ({ ...prev, minOrder: e.target.value }))}
                     className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Единица измерения *
+                  </label>
+                  <select
+                    value={productForm.unit}
+                    onChange={(e) => setProductForm(prev => ({ ...prev, unit: e.target.value }))}
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option value="кг">Килограмм (кг)</option>
+                    <option value="ящик">Ящик</option>
+                    <option value="шт">Штука (шт)</option>
+                  </select>
                 </div>
 
                 <div className="md:col-span-2">
@@ -568,8 +588,8 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
                         </td>
                         <td className="py-2 font-medium">{product.name}</td>
                         <td className="py-2 capitalize">{product.category}</td>
-                        <td className="py-2">{product.price} руб/кг</td>
-                        <td className="py-2">{product.minOrder} кг</td>
+                        <td className="py-2">{product.price} р/{product.unit}</td>
+                        <td className="py-2">{product.minOrder} {product.unit}</td>
                         <td className="py-2">
                           <div className="flex space-x-1">
                             <Button
