@@ -42,7 +42,7 @@ export function WarmingZone({ onProductClick }: WarmingZoneProps) {
   // }
 
   return (
-    <div className="bg-white rounded-lg border border-gray-200 p-4 mb-4">
+    <div className="bg-white rounded-lg border border-gray-200 p-4 mb-2">
       <div className="flex gap-4 h-32">
         {/* Левая часть - 2 блока */}
         <div className="flex-1 grid grid-rows-2 gap-2">
@@ -75,7 +75,7 @@ export function WarmingZone({ onProductClick }: WarmingZoneProps) {
         </div>
         
         {/* Правая часть - слайдер */}
-        <div className="w-32 bg-gray-100 rounded-lg flex items-center justify-center">
+        <div className="flex-1 bg-gray-100 rounded-lg flex items-center justify-center">
           <span className="text-gray-500 text-sm">Слайдер</span>
         </div>
       </div>
