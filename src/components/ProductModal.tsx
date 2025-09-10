@@ -152,6 +152,8 @@ export function ProductModal({ product, isOpen, onClose, onAddToCart }: ProductM
                 onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
                 onMouseDown={(e) => e.currentTarget.style.transform = 'scale(0.95)'}
                 onMouseUp={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
+                onTouchStart={(e) => e.currentTarget.style.transform = 'scale(0.95)'}
+                onTouchEnd={(e) => e.currentTarget.style.transform = 'scale(1)'}
               >
                 <Minus className="w-4 h-4" />
               </button>
@@ -177,6 +179,8 @@ export function ProductModal({ product, isOpen, onClose, onAddToCart }: ProductM
                 onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
                 onMouseDown={(e) => e.currentTarget.style.transform = 'scale(0.95)'}
                 onMouseUp={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
+                onTouchStart={(e) => e.currentTarget.style.transform = 'scale(0.95)'}
+                onTouchEnd={(e) => e.currentTarget.style.transform = 'scale(1)'}
               >
                 <Plus className="w-4 h-4" />
               </button>
@@ -212,6 +216,14 @@ export function ProductModal({ product, isOpen, onClose, onAddToCart }: ProductM
                 e.currentTarget.style.transform = 'scale(1.05)';
                 e.currentTarget.style.animation = 'none';
               }}
+              onTouchStart={(e) => {
+                e.currentTarget.style.transform = 'scale(0.95)';
+                e.currentTarget.style.animation = 'pulse 0.3s ease';
+              }}
+              onTouchEnd={(e) => {
+                e.currentTarget.style.transform = 'scale(1)';
+                e.currentTarget.style.animation = 'none';
+              }}
             >
               Добавить {quantity} {product.unit}
             </button>
@@ -228,6 +240,8 @@ export function ProductModal({ product, isOpen, onClose, onAddToCart }: ProductM
               onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
               onMouseDown={(e) => e.currentTarget.style.transform = 'scale(0.95)'}
               onMouseUp={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+              onTouchStart={(e) => e.currentTarget.style.transform = 'scale(0.95)'}
+              onTouchEnd={(e) => e.currentTarget.style.transform = 'scale(1)'}
             >
               Закрыть
             </button>
