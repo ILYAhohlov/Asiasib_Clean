@@ -43,6 +43,7 @@ const productSchema = new mongoose.Schema({
   unit: { type: String, enum: ['кг', 'ящик', 'шт'], default: 'кг' },
   description: String,
   image: String,
+  isFeatured: { type: Boolean, default: false },
   createdAt: { type: Date, default: Date.now }
 });
 
