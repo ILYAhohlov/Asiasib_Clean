@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Search, Minus, Plus } from "lucide-react";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { StickyFooter } from "./StickyFooter";
@@ -225,7 +225,10 @@ export function CatalogScreen({ navigateToScreen, cartItemsCount, addToCart, nav
         setProducts(formattedData);
       } catch (err: any) {
         console.error('Error fetching products:', err);
-        setError(`Ошибка загрузки товаров: ${err.message}`);
+        const errorMessage = err.name === 'TypeError' && err.message.includes('fetch')
+          ? 'Проблемы с сетью. Проверьте интернет.'
+          : `Ошибка загрузки: ${err.message}`;
+        setError(errorMessage);
       } finally {
         setLoading(false);
       }
@@ -234,9 +237,11 @@ export function CatalogScreen({ navigateToScreen, cartItemsCount, addToCart, nav
     fetchProducts();
   }, []);
 
-  const filteredProducts = products.filter(product =>
-    product.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-    (selectedCategory === "все" || product.category.toLowerCase() === selectedCategory.toLowerCase())
+  const filteredProducts = useMemo(() => 
+    products.filter(product =>
+      product.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+      (selectedCategory === "все" || product.category.toLowerCase() === selectedCategory.toLowerCase())
+    ), [products, searchTerm, selectedCategory]
   );
 
   const handleProductClick = (product: Product) => {

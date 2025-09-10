@@ -62,15 +62,15 @@ export function WarmingZone({ onProductClick, onScrollToProduct }: WarmingZonePr
   };
 
   return (
-    <div className="bg-white rounded-lg border border-gray-200 p-4 mb-2">
-      <div className="flex gap-4 h-32">
+    <div className="bg-white rounded-lg border border-gray-200 p-2 mb-2">
+      <div className="flex gap-2 h-16">
         {/* Левая часть - 2 квадрата рекомендуемых товаров */}
-        <div className="flex-1 grid grid-rows-2 gap-2">
+        <div className="flex-1 grid grid-cols-2 gap-1">
           {featuredProducts.map((product, index) => (
             <div 
               key={product.id}
               onClick={() => handleFeaturedClick(product)}
-              className="bg-gray-100 rounded-lg overflow-hidden cursor-pointer hover:shadow-md transition-all duration-200 aspect-square"
+              className="bg-gray-100 rounded overflow-hidden cursor-pointer hover:shadow-md transition-all duration-200 aspect-square"
             >
               <ImageWithFallback
                 src={product.image}
@@ -83,16 +83,16 @@ export function WarmingZone({ onProductClick, onScrollToProduct }: WarmingZonePr
           
           {/* Заполняем пустыми блоками если товаров меньше 2 */}
           {Array.from({ length: 2 - featuredProducts.length }).map((_, index) => (
-            <div key={`empty-${index}`} className="bg-gray-50 rounded-lg flex items-center justify-center">
-              <span className="text-gray-400 text-xs">Рекомендуемые</span>
+            <div key={`empty-${index}`} className="bg-gray-50 rounded flex items-center justify-center">
+              <span className="text-gray-400 text-xs">Рек.</span>
             </div>
           ))}
         </div>
         
         {/* Правая часть - слайдер с индикаторами */}
-        <div className="flex-1 flex gap-2">
+        <div className="flex-1 relative">
           {/* Слайдер */}
-          <div className="flex-1 bg-gray-100 rounded-lg overflow-hidden relative">
+          <div className="w-full h-full bg-gray-100 rounded overflow-hidden relative">
             {sliderProducts.length > 0 ? (
               <div className="relative w-full h-full">
                 {sliderProducts.map((product, index) => (
@@ -107,32 +107,32 @@ export function WarmingZone({ onProductClick, onScrollToProduct }: WarmingZonePr
                       alt={product.name}
                       className="w-full h-full object-cover cursor-pointer"
                       style={{ objectPosition: 'center' }}
-                      onClick={() => {/* TODO: добавить обработчик клика */}}
+                      onClick={() => onProductClick?.(product)}
                     />
                   </div>
                 ))}
+                
+                {/* Индикаторы внутри слайдера */}
+                {sliderProducts.length > 1 && (
+                  <div className="absolute bottom-1 right-1 flex space-x-1">
+                    {sliderProducts.map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={() => setCurrentSlide(index)}
+                        className={`w-1.5 h-1.5 rounded-full transition-colors duration-200 ${
+                          index === currentSlide ? 'bg-white' : 'bg-white/50'
+                        }`}
+                      />
+                    ))}
+                  </div>
+                )}
               </div>
             ) : (
               <div className="flex items-center justify-center h-full">
-                <span className="text-gray-500 text-sm">Слайдер</span>
+                <span className="text-gray-500 text-xs">Слайдер</span>
               </div>
             )}
           </div>
-          
-          {/* Индикаторы */}
-          {sliderProducts.length > 1 && (
-            <div className="flex flex-col justify-center space-y-2">
-              {sliderProducts.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentSlide(index)}
-                  className={`w-2 h-2 rounded-full transition-colors duration-200 ${
-                    index === currentSlide ? 'bg-black' : 'bg-gray-400'
-                  }`}
-                />
-              ))}
-            </div>
-          )}
         </div>
       </div>
     </div>
