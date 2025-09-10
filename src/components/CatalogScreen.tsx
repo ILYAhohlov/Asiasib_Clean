@@ -67,15 +67,62 @@ function ProductCard({ product, onAddToCart, onCardClick }: ProductCardProps) {
       className="bg-white rounded-xl border-2 border-gray-100 overflow-hidden shadow-lg hover:shadow-2xl hover:scale-105 hover:-rotate-1 transition-all duration-500 cursor-pointer group relative"
       onClick={() => onCardClick(product)}
     >
-      {/* Изображение с улучшенным дизайном */}
-      <div className="relative w-full h-36 bg-gradient-to-br from-gray-50 to-gray-100 rounded-t-xl overflow-hidden" style={{ minHeight: '144px', maxHeight: '144px' }}>
+      {/* Изображение с правильным центрированием */}
+      <div className="relative w-full h-32 bg-gradient-to-br from-gray-50 to-gray-100 rounded-t-xl overflow-hidden">
         <ImageWithFallback
           src={product.image}
           alt={product.name}
           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-          style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }}
+          style={{ 
+            width: '100%', 
+            height: '100%', 
+            objectFit: 'cover', 
+            objectPosition: 'center center'
+          }}
           loading="lazy"
         />
+        {/* Градиентный оверлей */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        {/* Бейдж категории */}
+        <div className="absolute top-2 left-2 bg-white/90 backdrop-blur-sm text-gray-700 text-xs px-2 py-1 rounded-full font-medium shadow-sm">
+          {product.category === 'овощи' && <Leaf className="w-3 h-3 inline mr-1 text-green-600" />}
+          {product.category === 'фрукты' && <Apple className="w-3 h-3 inline mr-1 text-red-500" />}
+          {product.category === 'специи' && <Wheat className="w-3 h-3 inline mr-1 text-orange-500" />}
+          {product.category}
+        </div>
+        {/* Бейдж "Новинка" или "Хит" */}
+        {product.isFeatured && (
+          <div className="absolute top-2 right-2 bg-gradient-to-r from-red-500 to-pink-500 text-white text-xs px-2 py-1 rounded-full font-bold shadow-lg animate-pulse">
+            ⭐ ХИТ
+          </div>
+        )}
+      </div>
+
+      {/* Компактная информация */}
+      <div className="p-3 space-y-2 bg-gradient-to-b from-white to-gray-50">
+        <div>
+          <h3 className="font-bold text-sm text-gray-900 mb-1 leading-tight group-hover:text-blue-600 transition-colors duration-300">{product.name}</h3>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-1">
+                <Star className="w-3 h-3 text-yellow-500" />
+                <span className="text-xs text-gray-600">4.8</span>
+              </div>
+              <span className="text-xs text-gray-500">Свежее</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="space-y-1">
+          <div className="flex items-center justify-between">
+            <p className="text-green-600 font-bold text-base">{product.price} ₽</p>
+            <span className="text-xs text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full">/{product.unit}</span>
+          </div>
+          <p className="text-gray-600 text-xs flex items-center">
+            <Zap className="w-3 h-3 mr-1 text-blue-500" />
+            Мин. заказ: {product.minOrder} {product.unit}
+          </p>
+        </div>
         {/* Градиентный оверлей */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
         {/* Бейдж категории */}
@@ -120,55 +167,54 @@ function ProductCard({ product, onAddToCart, onCardClick }: ProductCardProps) {
           </p>
         </div>
 
-        {/* Улучшенный выбор количества */}
-        <div className="space-y-2">
-          <div className="flex items-center justify-between bg-gray-50 rounded-xl p-2">
+        {/* Компактный выбор количества */}
+        <div className="space-y-1">
+          <div className="flex items-center justify-between bg-gray-50 rounded-lg p-1.5">
             <button
               onClick={decreaseQuantity}
               disabled={quantity <= product.minOrder}
-              className="w-8 h-8 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl hover:from-blue-600 hover:to-blue-700 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300"
+              className="w-6 h-6 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg hover:from-blue-600 hover:to-blue-700 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center shadow-md transition-all duration-300"
             >
-              <Minus className="w-3 h-3" />
+              <Minus className="w-2.5 h-2.5" />
             </button>
 
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-1">
               <input
                 type="number"
                 value={quantity}
                 onChange={handleQuantityChange}
                 min={product.minOrder}
                 step={product.minOrder}
-                className="w-16 text-center border-2 border-gray-200 rounded-lg px-2 py-1 text-sm font-semibold focus:border-blue-500 focus:outline-none"
+                className="w-12 text-center border border-gray-200 rounded px-1 py-0.5 text-xs font-semibold focus:border-blue-500 focus:outline-none"
                 onClick={(e) => e.stopPropagation()}
               />
-              <span className="text-xs text-gray-600 font-medium">{product.unit}</span>
+              <span className="text-xs text-gray-600">{product.unit}</span>
             </div>
 
             <button
               onClick={increaseQuantity}
-              className="w-8 h-8 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl hover:from-blue-600 hover:to-blue-700 active:scale-95 flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300"
+              className="w-6 h-6 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg hover:from-blue-600 hover:to-blue-700 active:scale-95 flex items-center justify-center shadow-md transition-all duration-300"
             >
-              <Plus className="w-3 h-3" />
+              <Plus className="w-2.5 h-2.5" />
             </button>
           </div>
 
           {!isQuantityValid && (
-            <div className="flex items-center space-x-1 text-red-500 text-xs bg-red-50 p-2 rounded-lg">
+            <div className="flex items-center space-x-1 text-red-500 text-xs bg-red-50 p-1 rounded">
               <span>⚠️</span>
-              <span>Минимум {product.minOrder} {product.unit}</span>
+              <span>Мин. {product.minOrder} {product.unit}</span>
             </div>
           )}
         </div>
 
-        {/* Премиум кнопка добавления в корзину */}
+        {/* Компактная кнопка добавления в корзину */}
         <button
           onClick={handleAddToCart}
           disabled={!isQuantityValid}
-          className="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white shadow-xl hover:shadow-2xl py-3 px-4 font-bold disabled:opacity-50 disabled:cursor-not-allowed text-sm rounded-xl transition-all duration-500 transform hover:scale-105 active:scale-95 flex items-center justify-center space-x-2 group"
+          className="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white shadow-lg hover:shadow-xl py-2 px-3 font-bold disabled:opacity-50 disabled:cursor-not-allowed text-xs rounded-lg transition-all duration-300 transform hover:scale-105 active:scale-95 flex items-center justify-center space-x-1.5"
         >
-          <ShoppingCart className="w-4 h-4 group-hover:animate-bounce" />
+          <ShoppingCart className="w-3 h-3" />
           <span>Добавить {quantity} {product.unit}</span>
-          <div className="absolute inset-0 bg-white/20 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         </button>
       </div>
     </div>
@@ -326,24 +372,23 @@ export function CatalogScreen({ navigateToScreen, cartItemsCount, addToCart, nav
           onScrollToProduct={handleScrollToProduct}
         />
         
-        <div className="flex justify-center">
-          <div className="w-full max-w-lg">
-            <div className="flex flex-wrap justify-center gap-3 pb-4">
-              {categories.map(category => (
-                <button
-                  key={category.name}
-                  onClick={() => setSelectedCategory(category.name)}
-                  className={`px-4 py-3 rounded-2xl text-sm font-bold transition-all duration-300 whitespace-nowrap flex items-center space-x-2 shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95
-                    ${selectedCategory === category.name
-                      ? `${category.color} text-white ring-4 ring-white/50`
-                      : 'bg-white text-gray-700 hover:bg-gray-50 border-2 border-gray-200'
-                    }`}
-                >
-                  <span className="text-lg">{category.icon}</span>
-                  <span>{category.name.charAt(0).toUpperCase() + category.name.slice(1)}</span>
-                </button>
-              ))}
-            </div>
+        {/* Компактные категории с горизонтальным скроллом */}
+        <div className="overflow-x-auto scrollbar-hide pb-2">
+          <div className="flex gap-2 px-4 min-w-max">
+            {categories.map(category => (
+              <button
+                key={category.name}
+                onClick={() => setSelectedCategory(category.name)}
+                className={`px-3 py-2 rounded-xl text-xs font-bold transition-all duration-300 whitespace-nowrap flex items-center space-x-1.5 shadow-md hover:shadow-lg transform hover:scale-105 active:scale-95 flex-shrink-0
+                  ${selectedCategory === category.name
+                    ? `${category.color} text-white ring-2 ring-offset-1 ring-white/50`
+                    : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-200'
+                  }`}
+              >
+                <span className="text-sm">{category.icon}</span>
+                <span>{category.name.charAt(0).toUpperCase() + category.name.slice(1)}</span>
+              </button>
+            ))}
           </div>
         </div>
 
