@@ -26,6 +26,7 @@ export function ProductCard({ product, onAddToCart }: ProductCardProps) {
             src={product.image}
             alt={product.name}
             className="w-full h-full object-cover"
+            style={{ objectPosition: 'center' }}
           />
         </div>
         

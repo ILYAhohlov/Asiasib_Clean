@@ -72,7 +72,7 @@ function ProductCard({ product, onAddToCart, onCardClick }: ProductCardProps) {
           src={product.image}
           alt={product.name}
           className="w-full h-full object-cover"
-          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }}
         />
       </div>
 

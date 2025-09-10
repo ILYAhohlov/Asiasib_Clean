@@ -59,6 +59,7 @@ export function WarmingZone({ onProductClick }: WarmingZoneProps) {
                   src={product.image}
                   alt={product.name}
                   className="w-full h-full object-cover"
+                  style={{ objectPosition: 'center' }}
                 />
               </div>
               <div className="flex-1 min-w-0">
