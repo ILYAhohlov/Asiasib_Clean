@@ -67,7 +67,7 @@ function ProductCard({ product, onAddToCart, onCardClick }: ProductCardProps) {
       onClick={() => onCardClick(product)}
     >
       {/* Изображение */}
-      <div className="w-full h-48 bg-gray-100">
+      <div className="w-full h-36 bg-gray-100">
         <ImageWithFallback
           src={product.image}
           alt={product.name}
@@ -76,26 +76,26 @@ function ProductCard({ product, onAddToCart, onCardClick }: ProductCardProps) {
       </div>
 
       {/* Информация */}
-      <div className="p-4 space-y-3">
+      <div className="p-3 space-y-2">
         <div>
-          <h3 className="font-semibold text-sm text-gray-900 mb-1">{product.name}</h3>
+          <h3 className="font-semibold text-xs text-gray-900 mb-1 leading-tight">{product.name}</h3>
           <p className="text-xs text-gray-500 capitalize">{product.category}</p>
         </div>
 
         <div className="space-y-1">
-          <p className="text-green-600 font-semibold text-sm">{product.price} р/{product.unit}</p>
+          <p className="text-green-600 font-semibold text-xs">{product.price} р/{product.unit}</p>
           <p className="text-gray-600 text-xs">От {product.minOrder} {product.unit}</p>
         </div>
 
         {/* Выбор количества */}
-        <div className="space-y-2">
-          <div className="flex items-center space-x-2">
+        <div className="space-y-1">
+          <div className="flex items-center space-x-1">
             <button
               onClick={decreaseQuantity}
               disabled={quantity <= product.minOrder}
-              className="w-8 h-8 bg-blue-500 text-white border border-blue-500 hover:bg-blue-600 active:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+              className="w-6 h-6 bg-blue-500 text-white border border-blue-500 hover:bg-blue-600 active:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
               style={{
-                borderRadius: '12px',
+                borderRadius: '8px',
                 transition: 'all 0.15s ease',
                 transform: 'scale(1)'
               }}
@@ -106,7 +106,7 @@ function ProductCard({ product, onAddToCart, onCardClick }: ProductCardProps) {
               onTouchStart={(e) => e.currentTarget.style.transform = 'scale(0.95)'}
               onTouchEnd={(e) => e.currentTarget.style.transform = 'scale(1)'}
             >
-              <Minus className="w-3 h-3" />
+              <Minus className="w-2.5 h-2.5" />
             </button>
 
             <input
@@ -115,15 +115,15 @@ function ProductCard({ product, onAddToCart, onCardClick }: ProductCardProps) {
               onChange={handleQuantityChange}
               min={product.minOrder}
               step={product.minOrder}
-              className="w-16 text-center border border-gray-300 rounded px-2 py-1 text-sm"
+              className="w-12 text-center border border-gray-300 rounded px-1 py-0.5 text-xs"
               onClick={(e) => e.stopPropagation()}
             />
 
             <button
               onClick={increaseQuantity}
-              className="w-8 h-8 bg-blue-500 text-white border border-blue-500 hover:bg-blue-600 active:bg-blue-700 flex items-center justify-center"
+              className="w-6 h-6 bg-blue-500 text-white border border-blue-500 hover:bg-blue-600 active:bg-blue-700 flex items-center justify-center"
               style={{
-                borderRadius: '12px',
+                borderRadius: '8px',
                 transition: 'all 0.15s ease',
                 transform: 'scale(1)'
               }}
@@ -134,10 +134,10 @@ function ProductCard({ product, onAddToCart, onCardClick }: ProductCardProps) {
               onTouchStart={(e) => e.currentTarget.style.transform = 'scale(0.95)'}
               onTouchEnd={(e) => e.currentTarget.style.transform = 'scale(1)'}
             >
-              <Plus className="w-3 h-3" />
+              <Plus className="w-2.5 h-2.5" />
             </button>
 
-            <span className="text-sm text-gray-600">{product.unit}</span>
+            <span className="text-xs text-gray-600">{product.unit}</span>
           </div>
 
           {!isQuantityValid && (
@@ -151,9 +151,9 @@ function ProductCard({ product, onAddToCart, onCardClick }: ProductCardProps) {
         <button
           onClick={handleAddToCart}
           disabled={!isQuantityValid}
-          className="w-full bg-green-500 hover:bg-green-600 active:bg-green-700 text-white shadow-md hover:shadow-lg py-3 px-4 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full bg-green-500 hover:bg-green-600 active:bg-green-700 text-white shadow-md hover:shadow-lg py-2 px-3 font-medium disabled:opacity-50 disabled:cursor-not-allowed text-xs"
           style={{
-            borderRadius: '16px',
+            borderRadius: '12px',
             transition: 'all 0.15s ease',
             transform: 'scale(1)'
           }}
