@@ -78,7 +78,7 @@ export function AdminLoginScreen({ navigateToScreen, cartItemsCount, onLogin }: 
                 Административная панель
               </h2>
               <p className="text-gray-600 text-sm">
-                Введите пароль для доступа к панели управления
+                Введите пароль для доступа к панели управления 
               </p>
             </div>
           </div>
