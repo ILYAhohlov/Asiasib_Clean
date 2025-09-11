@@ -56,8 +56,12 @@ export default function App() {
   const navigateToScreen = (screen: Screen) => {
     if (screen === "about") {
       setCurrentPage("about");
-    } else if (screen === "admin") {
+    } else if (screen === "admin" || screen === "admin-login") {
       setCurrentPage("admin");
+    } else if (screen === "catalog") {
+      setCurrentPage("home");
+    } else if (screen === "sellers") {
+      setCurrentPage("sellers");
     }
   };
 

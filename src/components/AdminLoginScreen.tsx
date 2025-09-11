@@ -133,13 +133,12 @@ export function AdminLoginScreen({ navigateToScreen, cartItemsCount, onLogin }: 
           </div>
 
           <div className="text-center">
-            <Button
+            <button
               onClick={() => navigateToScreen("catalog")}
-              variant="outline"
-              className="text-gray-600 hover:text-gray-800"
+              className="px-6 py-2 border border-gray-300 rounded-lg text-gray-600 hover:text-gray-800 hover:bg-gray-50 transition-colors"
             >
               Вернуться к каталогу
-            </Button>
+            </button>
           </div>
         </div>
       </main>
