@@ -72,7 +72,7 @@ function ProductCard({ product, onAddToCart, onCardClick }: ProductCardProps) {
         <ImageWithFallback
           src={product.image}
           alt={product.name}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover object-center"
           style={{ 
             width: '100%', 
             height: '100%', 
@@ -347,10 +347,7 @@ export function CatalogScreen({ navigateToScreen, cartItemsCount, addToCart, nav
             </button>
           </div>
         ) : (
-          <div 
-            className="grid gap-4"
-            style={{ gridTemplateColumns: 'repeat(2, 1fr)' }}
-          >
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
             {filteredProducts.map(product => (
               <div key={product.id} data-product-id={product.id}>
                 <ProductCard 
