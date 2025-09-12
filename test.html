@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asiasib - Тест</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50">
+    <div class="min-h-screen p-4">
+        <h1 class="text-2xl font-bold text-center mb-6">Asiasib - Каталог товаров</h1>
+        <div id="loading" class="text-center">Загрузка...</div>
+        <div id="error" class="text-center text-red-500 hidden"></div>
+        <div id="products" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 hidden"></div>
+    </div>
+
+    <script>
+        async function loadProducts() {
+            try {
+                const response = await fetch('https://asiasib-clean.onrender.com/api/products');
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                
+                const products = await response.json();
+                
+                document.getElementById('loading').classList.add('hidden');
+                document.getElementById('products').classList.remove('hidden');
+                
+                const container = document.getElementById('products');
+                container.innerHTML = products.map(product => `
+                    <div class="bg-white rounded-lg border p-4">
+                        <img src="${product.image}" alt="${product.name}" 
+                             class="w-full h-32 object-cover rounded mb-2" loading="lazy">
+                        <h3 class="font-semibold text-sm mb-1">${product.name}</h3>
+                        <p class="text-green-600 font-bold">${product.price} ₽/${product.unit}</p>
+                        <p class="text-xs text-gray-500">Мин. заказ: ${product.minOrder} ${product.unit}</p>
+                    </div>
+                `).join('');
+                
+            } catch (error) {
+                document.getElementById('loading').classList.add('hidden');
+                document.getElementById('error').classList.remove('hidden');
+                document.getElementById('error').textContent = `Ошибка: ${error.message}`;
+            }
+        }
+
+        loadProducts();
+    </script>
+</body>
+</html>

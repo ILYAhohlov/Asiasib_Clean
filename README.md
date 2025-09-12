@@ -30,7 +30,31 @@ PORT=10000
 - Пароль: **633100admin**
 - URL: `/admin-login`
 
+## Разработка
+
+### Проблема с памятью в dev режиме
+Vite dev server может превышать лимиты памяти. Используйте:
+
+1. **Production билд для тестирования:**
+   ```bash
+   npm run build
+   # Откройте dist/index.html в браузере
+   ```
+
+2. **Python сервер для локального тестирования:**
+   ```bash
+   python serve.py
+   # Откройте http://localhost:8080
+   ```
+
+3. **Статический HTML тест:**
+   ```bash
+   # Откройте test.html в браузере
+   ```
+
 ## Структура проекта
 - `/src` - Frontend (React + TypeScript)
 - `/server` - Backend (Node.js + Express)
+- `/dist` - Production билд
+- `test.html` - Статический тест API
 - Минимальные зависимости для быстрой загрузки

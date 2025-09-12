@@ -47,47 +47,27 @@ export function WarmingZone({ onProductClick, onScrollToProduct }: WarmingZonePr
     fetchProducts();
   }, []);
 
-  // Автосмена слайдов каждые 3 секунды
+  // Автосмена слайдов каждые 4 секунды (увеличил интервал)
   useEffect(() => {
     if (sliderProducts.length > 1) {
       const interval = setInterval(() => {
         setCurrentSlide(prev => (prev + 1) % sliderProducts.length);
-      }, 3000);
+      }, 4000);
       return () => clearInterval(interval);
     }
   }, [sliderProducts.length]);
 
   const handleFeaturedClick = (product: Product) => {
-    // Тактильная обратная связь на мобильных
-    if (navigator.vibrate) navigator.vibrate(50);
     onProductClick?.(product);
     onScrollToProduct?.(product.id);
   };
-
-  // Случайные эмодзи для разнообразия
-  const getRandomHotEmoji = () => {
-    const hotEmojis = ['🔥', '⚡', '💥', '🌟', '🎯'];
-    return hotEmojis[Math.floor(Math.random() * hotEmojis.length)];
-  };
-
-  // Прогресс-бар для автосмены слайдов
-  const [progress, setProgress] = useState(0);
-  
-  useEffect(() => {
-    if (sliderProducts.length > 1) {
-      const progressInterval = setInterval(() => {
-        setProgress(prev => (prev + 1) % 100);
-      }, 30); // Обновление каждые 30мс для плавности
-      return () => clearInterval(progressInterval);
-    }
-  }, [currentSlide, sliderProducts.length]);
 
   return (
     <div className="bg-gradient-to-r from-blue-50 via-purple-50 to-green-50 rounded-xl border border-blue-200 p-3 mb-4 shadow-lg hover:shadow-xl transition-all duration-300">
       {/* Компактный заголовок */}
       <div className="flex items-center justify-between mb-2">
         <h3 className="text-xs font-bold text-gray-800 flex items-center space-x-1">
-          <span className="animate-pulse">{getRandomHotEmoji()}</span>
+          <span>🔥</span>
           <span>Хиты</span>
         </h3>
         <div className="flex items-center space-x-1 text-xs text-gray-500">
@@ -229,15 +209,7 @@ export function WarmingZone({ onProductClick, onScrollToProduct }: WarmingZonePr
                   </div>
                 )}
                 
-                {/* Анимированный прогресс-бар */}
-                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-500/20 to-blue-500/20">
-                  <div 
-                    className="h-full bg-gradient-to-r from-purple-500 to-blue-500 transition-all duration-100 ease-linear shadow-sm"
-                    style={{ 
-                      width: sliderProducts.length > 1 ? `${progress}%` : '0%'
-                    }}
-                  />
-                </div>
+
                 
                 {/* Боковые стрелки для ручного управления */}
                 {sliderProducts.length > 1 && (
