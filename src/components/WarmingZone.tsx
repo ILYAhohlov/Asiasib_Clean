@@ -82,7 +82,7 @@ export function WarmingZone({ onProductClick, onScrollToProduct }: WarmingZonePr
               <div className="absolute top-1 right-1 bg-red-500 text-white text-xs px-1 py-0.5 rounded font-bold">
                 ХИТ
               </div>
-              <div className="absolute bottom-0 left-0 right-0 bg-black/90 p-2">
+              <div className="absolute bottom-0 left-0 right-0 bg-black/90 p-2 z-10">
                 <p className="text-white text-xs font-bold truncate">{product.name}</p>
                 <p className="text-white text-xs">{product.price}₽/{product.unit}</p>
               </div>
@@ -117,7 +117,7 @@ export function WarmingZone({ onProductClick, onScrollToProduct }: WarmingZonePr
                       loading="lazy"
                     />
                     {index === currentSlide && (
-                      <div className="absolute bottom-0 left-0 right-0 bg-black/90 p-2">
+                      <div className="absolute bottom-0 left-0 right-0 bg-black/90 p-2 z-10">
                         <p className="text-white text-sm font-bold truncate">{product.name}</p>
                         <div className="flex items-center justify-between">
                           <p className="text-white text-xs">{product.price}₽/{product.unit}</p>
