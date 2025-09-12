@@ -191,8 +191,17 @@ export function CatalogScreen({ navigateToScreen, cartItemsCount, addToCart, nav
     const fetchProducts = async () => {
       setLoading(true);
       setError(null);
+      
+      // Таймаут для запроса
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000);
+      
       try {
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/products`);
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/products`, {
+          signal: controller.signal
+        });
+        
+        clearTimeout(timeoutId);
 
         if (!res.ok) {
           throw new Error(`HTTP error! status: ${res.status}`);
@@ -206,11 +215,17 @@ export function CatalogScreen({ navigateToScreen, cartItemsCount, addToCart, nav
         }));
         setProducts(formattedData);
       } catch (err: any) {
+        clearTimeout(timeoutId);
         console.error('Error fetching products:', err);
-        const errorMessage = err.name === 'TypeError' && err.message.includes('fetch')
-          ? 'Проблемы с сетью. Проверьте интернет.'
-          : `Ошибка загрузки: ${err.message}`;
-        setError(errorMessage);
+        
+        if (err.name === 'AbortError') {
+          setError('Превышено время ожидания. Проверьте подключение к серверу.');
+        } else {
+          const errorMessage = err.name === 'TypeError' && err.message.includes('fetch')
+            ? 'Проблемы с сетью. Проверьте интернет.'
+            : `Ошибка загрузки: ${err.message}`;
+          setError(errorMessage);
+        }
       } finally {
         setLoading(false);
       }
@@ -250,7 +265,17 @@ export function CatalogScreen({ navigateToScreen, cartItemsCount, addToCart, nav
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
-          <p className="text-gray-600">Загрузка товаров...</p>
+          <p className="text-gray-600 mb-4">Загрузка товаров...</p>
+          <Button 
+            onClick={() => {
+              setLoading(false);
+              setProducts([]);
+            }}
+            variant="outline"
+            className="text-sm"
+          >
+            Продолжить без сервера
+          </Button>
         </div>
       </div>
     );
