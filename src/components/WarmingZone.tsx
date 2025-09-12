@@ -82,11 +82,11 @@ export function WarmingZone({ onProductClick, onScrollToProduct }: WarmingZonePr
               <div className="absolute top-1 right-1 bg-red-500 text-white text-xs px-1 py-0.5 rounded font-bold">
                 ХИТ
               </div>
-              <div className="absolute bottom-1 left-1 right-1 space-y-1">
-                <div className="bg-black/80 rounded px-2 py-1">
+              <div className="absolute bottom-1 left-1 right-1 z-10">
+                <div className="bg-black rounded-sm px-1.5 py-0.5 mb-1">
                   <p className="text-white text-xs font-bold truncate">{product.name}</p>
                 </div>
-                <div className="bg-green-600 rounded px-2 py-0.5 w-fit">
+                <div className="bg-green-600 rounded-sm px-1.5 py-0.5 inline-block">
                   <p className="text-white text-xs font-semibold">{product.price}₽/{product.unit}</p>
                 </div>
               </div>
@@ -121,15 +121,15 @@ export function WarmingZone({ onProductClick, onScrollToProduct }: WarmingZonePr
                       loading="lazy"
                     />
                     {index === currentSlide && (
-                      <div className="absolute bottom-2 left-2 right-2 space-y-2">
-                        <div className="bg-black/80 rounded px-2 py-1">
+                      <div className="absolute bottom-2 left-2 right-2 z-10">
+                        <div className="bg-black rounded-sm px-2 py-1 mb-2">
                           <p className="text-white text-sm font-bold truncate">{product.name}</p>
                         </div>
                         <div className="flex items-center justify-between">
-                          <div className="bg-green-600 rounded px-2 py-0.5">
+                          <div className="bg-green-600 rounded-sm px-2 py-0.5">
                             <p className="text-white text-xs font-semibold">{product.price}₽/{product.unit}</p>
                           </div>
-                          <div className="bg-red-500 rounded px-2 py-0.5">
+                          <div className="bg-red-500 rounded-sm px-2 py-0.5">
                             <span className="text-white text-xs font-bold">ПРОМО</span>
                           </div>
                         </div>
