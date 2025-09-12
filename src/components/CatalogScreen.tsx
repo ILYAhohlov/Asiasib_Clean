@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-import { Search, Minus, Plus, ShoppingCart, Star, Zap, Leaf, Apple, Wheat } from "lucide-react";
+import { Search, Minus, Plus, ShoppingCart, Star, Zap } from "lucide-react";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { StickyFooter } from "./StickyFooter";
 import { ProductModal } from "./ProductModal";
