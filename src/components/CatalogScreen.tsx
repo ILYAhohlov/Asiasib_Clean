@@ -221,46 +221,10 @@ export function CatalogScreen({ navigateToScreen, cartItemsCount, addToCart, nav
         if (err.name === 'AbortError') {
           setError('Превышено время ожидания. Проверьте подключение к серверу.');
         } else {
-          // Если CORS ошибка, загружаем демо данные
-          if (err.message.includes('fetch') || err.message.includes('CORS')) {
-            console.log('CORS error detected, loading demo data');
-            const demoProducts = [
-              {
-                id: '1',
-                name: 'Помидоры свежие',
-                category: 'овощи',
-                price: 150,
-                minOrder: 5,
-                unit: 'кг',
-                description: 'Свежие красные помидоры',
-                shelfLife: '7 дней',
-                allergens: 'Нет',
-                image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300&h=300&fit=crop',
-                isFeatured: true,
-                isSlider: false
-              },
-              {
-                id: '2',
-                name: 'Огурцы тепличные',
-                category: 'овощи',
-                price: 120,
-                minOrder: 3,
-                unit: 'кг',
-                description: 'Свежие тепличные огурцы',
-                shelfLife: '5 дней',
-                allergens: 'Нет',
-                image: 'https://images.unsplash.com/photo-1449300079323-02e209d9d3a6?w=300&h=300&fit=crop',
-                isFeatured: false,
-                isSlider: true
-              }
-            ];
-            setProducts(demoProducts);
-          } else {
-            const errorMessage = err.name === 'TypeError' && err.message.includes('fetch')
-              ? 'Проблемы с сетью. Проверьте интернет.'
-              : `Ошибка загрузки: ${err.message}`;
-            setError(errorMessage);
-          }
+          const errorMessage = err.name === 'TypeError' && err.message.includes('fetch')
+            ? 'Проблемы с сервером. Сервер может спать - подождите 30 секунд.'
+            : `Ошибка сервера: ${err.message}`;
+          setError(errorMessage);
         }
       } finally {
         setLoading(false);
