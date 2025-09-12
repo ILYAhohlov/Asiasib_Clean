@@ -68,7 +68,7 @@ function ProductCard({ product, onAddToCart, onCardClick }: ProductCardProps) {
       onClick={() => onCardClick(product)}
     >
       {/* Изображение с правильным центрированием */}
-      <div className="relative w-full h-36 bg-gray-100 rounded-t-xl overflow-hidden" style={{ minHeight: '144px', maxHeight: '144px' }}>
+      <div className="relative w-full h-36 bg-gray-100 rounded-t-xl overflow-hidden flex items-center justify-center" style={{ minHeight: '144px', maxHeight: '144px' }}>
         <ImageWithFallback
           src={product.image}
           alt={product.name}
