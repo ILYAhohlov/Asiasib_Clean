@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест мобильной сетки</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Принудительная сетка для каталога */
+        .catalog-grid {
+            display: grid !important;
+            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+            gap: 1rem !important;
+        }
+
+        @media (min-width: 768px) {
+            .catalog-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .catalog-grid {
+                grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+            }
+        }
+
+        @media (min-width: 1280px) {
+            .catalog-grid {
+                grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+            }
+        }
+
+        .product-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            min-height: 200px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 p-4">
+    <h1 class="text-2xl font-bold mb-4">Тест мобильной сетки товаров</h1>
+    
+    <h2 class="text-lg font-semibold mb-2">1. Текущий стиль из CatalogScreen (grid !grid-cols-2):</h2>
+    <div class="grid !grid-cols-2 md:!grid-cols-3 lg:!grid-cols-4 xl:!grid-cols-5 gap-4 mb-8">
+        <div class="product-card">Товар 1</div>
+        <div class="product-card">Товар 2</div>
+        <div class="product-card">Товар 3</div>
+        <div class="product-card">Товар 4</div>
+        <div class="product-card">Товар 5</div>
+        <div class="product-card">Товар 6</div>
+    </div>
+
+    <h2 class="text-lg font-semibold mb-2">2. С классом catalog-grid:</h2>
+    <div class="catalog-grid mb-8">
+        <div class="product-card">Товар 1</div>
+        <div class="product-card">Товар 2</div>
+        <div class="product-card">Товар 3</div>
+        <div class="product-card">Товар 4</div>
+        <div class="product-card">Товар 5</div>
+        <div class="product-card">Товар 6</div>
+    </div>
+
+    <h2 class="text-lg font-semibold mb-2">3. Обычный Tailwind без !important:</h2>
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mb-8">
+        <div class="product-card">Товар 1</div>
+        <div class="product-card">Товар 2</div>
+        <div class="product-card">Товар 3</div>
+        <div class="product-card">Товар 4</div>
+        <div class="product-card">Товар 5</div>
+        <div class="product-card">Товар 6</div>
+    </div>
+
+    <div class="mt-8 p-4 bg-blue-50 rounded">
+        <h3 class="font-semibold">Инструкции для тестирования:</h3>
+        <ol class="list-decimal list-inside mt-2 space-y-1">
+            <li>Откройте этот файл в браузере</li>
+            <li>Откройте инструменты разработчика (F12)</li>
+            <li>Переключитесь в режим мобильного устройства</li>
+            <li>Проверьте, какая сетка отображается правильно в 2 колонки</li>
+            <li>Проверьте на разных размерах экрана</li>
+        </ol>
+    </div>
+</body>
+</html>
