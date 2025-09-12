@@ -75,7 +75,7 @@ export function WarmingZone({ onProductClick, onScrollToProduct }: WarmingZonePr
           <span>Топ</span>
         </div>
       </div>
-      <div className="warming-zone flex gap-3 h-20 max-h-20">
+      <div className="flex gap-3 min-h-16 h-auto">
         {/* Левая часть - 2 квадрата рекомендуемых товаров */}
         <div className="flex-1 grid grid-cols-2 gap-1">
           {featuredProducts.map((product) => (
@@ -91,7 +91,7 @@ export function WarmingZone({ onProductClick, onScrollToProduct }: WarmingZonePr
               tabIndex={0}
               role="button"
               aria-label={`Рекомендуемый товар: ${product.name}, цена ${product.price} рублей`}
-              className="relative bg-white rounded-xl overflow-hidden cursor-pointer hover:shadow-md hover:scale-105 transition-all duration-300 h-16 border border-gray-200 group focus:outline-none focus:ring-2 focus:ring-blue-300"
+              className="relative bg-white rounded-xl overflow-hidden cursor-pointer hover:shadow-2xl hover:scale-110 hover:-rotate-1 transition-all duration-500 aspect-square border-2 border-gradient-to-r from-blue-200 to-purple-200 group focus:outline-none focus:ring-4 focus:ring-blue-300"
             >
               <ImageWithFallback
                 src={product.image}
@@ -125,8 +125,13 @@ export function WarmingZone({ onProductClick, onScrollToProduct }: WarmingZonePr
           
           {/* Заполняем пустыми блоками если товаров меньше 2 */}
           {Array.from({ length: 2 - featuredProducts.length }).map((_, index) => (
-            <div key={`empty-${index}`} className="bg-gray-50 rounded-xl border border-dashed border-gray-300 flex items-center justify-center h-16 hover:border-blue-300 transition-colors duration-300">
-              <span className="text-gray-400 text-xs">Скоро</span>
+            <div key={`empty-${index}`} className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl border-2 border-dashed border-gray-300 flex flex-col items-center justify-center aspect-square hover:border-blue-300 transition-colors duration-300 group">
+              <div className="text-gray-400 text-2xl mb-2 group-hover:scale-110 transition-transform duration-300">📦</div>
+              <span className="text-gray-500 text-xs text-center font-medium">
+                Скоро новые<br/>
+                <span className="text-blue-600">предложения</span>
+              </span>
+              <div className="mt-1 w-8 h-0.5 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </div>
           ))}
         </div>
@@ -134,7 +139,7 @@ export function WarmingZone({ onProductClick, onScrollToProduct }: WarmingZonePr
         {/* Правая часть - слайдер с индикаторами */}
         <div className="flex-1 relative">
           {/* Слайдер */}
-          <div className="w-full h-16 bg-white rounded-xl overflow-hidden relative border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300">
+          <div className="w-full h-full bg-white rounded-xl overflow-hidden relative border-2 border-purple-200 shadow-lg hover:shadow-2xl transition-all duration-300">
             {sliderProducts.length > 0 ? (
               <div className="relative w-full h-full group">
                 {sliderProducts.map((product, index) => (
@@ -227,8 +232,13 @@ export function WarmingZone({ onProductClick, onScrollToProduct }: WarmingZonePr
                 )}
               </div>
             ) : (
-              <div className="flex items-center justify-center h-full bg-gray-50">
-                <span className="text-gray-400 text-xs">Промо</span>
+              <div className="flex flex-col items-center justify-center h-full bg-gradient-to-br from-gray-50 to-gray-100 group hover:from-blue-50 hover:to-purple-50 transition-all duration-500">
+                <div className="text-gray-400 text-3xl mb-2 group-hover:scale-110 group-hover:rotate-12 transition-all duration-500">🎯</div>
+                <span className="text-gray-500 text-xs text-center font-medium group-hover:text-blue-600 transition-colors duration-300">
+                  Промо-товары<br/>
+                  <span className="text-purple-600">появятся здесь</span>
+                </span>
+                <div className="mt-2 w-12 h-0.5 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               </div>
             )}
           </div>
