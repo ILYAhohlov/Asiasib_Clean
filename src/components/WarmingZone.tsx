@@ -82,9 +82,9 @@ export function WarmingZone({ onProductClick, onScrollToProduct }: WarmingZonePr
               <div className="absolute top-1 right-1 bg-red-500 text-white text-xs px-1 py-0.5 rounded font-bold">
                 ХИТ
               </div>
-              <div className="absolute bottom-0 left-0 right-0 bg-black/60 p-1">
-                <p className="text-white text-xs font-bold truncate">{product.name}</p>
-                <p className="text-white/90 text-xs">{product.price}₽/{product.unit}</p>
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-black/40 p-2">
+                <p className="text-white text-xs font-bold truncate drop-shadow-lg">{product.name}</p>
+                <p className="text-white text-xs drop-shadow-md">{product.price}₽/{product.unit}</p>
               </div>
             </div>
           ))}
@@ -117,11 +117,11 @@ export function WarmingZone({ onProductClick, onScrollToProduct }: WarmingZonePr
                       loading="lazy"
                     />
                     {index === currentSlide && (
-                      <div className="absolute bottom-0 left-0 right-0 bg-black/60 p-2">
-                        <p className="text-white text-sm font-bold truncate">{product.name}</p>
+                      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-black/50 p-2">
+                        <p className="text-white text-sm font-bold truncate drop-shadow-lg">{product.name}</p>
                         <div className="flex items-center justify-between">
-                          <p className="text-white/90 text-xs">{product.price}₽/{product.unit}</p>
-                          <span className="text-green-400 text-xs font-semibold">ПРОМО</span>
+                          <p className="text-white text-xs drop-shadow-md">{product.price}₽/{product.unit}</p>
+                          <span className="text-green-300 text-xs font-semibold drop-shadow-md">ПРОМО</span>
                         </div>
                       </div>
                     )}
