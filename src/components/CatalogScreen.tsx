@@ -305,13 +305,15 @@ export function CatalogScreen({ navigateToScreen, cartItemsCount, addToCart, nav
       {/* Сетка товаров */}
       <main className="container mx-auto px-4 py-2 space-y-4">
         {/* Зона прогрева */}
-        <WarmingZone 
-          onProductClick={handleProductClick} 
-          onScrollToProduct={handleScrollToProduct}
-        />
+        <div className="relative z-10">
+          <WarmingZone 
+            onProductClick={handleProductClick} 
+            onScrollToProduct={handleScrollToProduct}
+          />
+        </div>
         
         {/* Профессиональные категории */}
-        <div className="flex justify-center mb-4">
+        <div className="flex justify-center mb-4 relative z-20">
           <div className="w-full max-w-lg">
             <div className="flex flex-wrap justify-center gap-2 pb-4">
               {categories.map(category => (
@@ -347,7 +349,7 @@ export function CatalogScreen({ navigateToScreen, cartItemsCount, addToCart, nav
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
             {filteredProducts.map(product => (
               <div key={product.id} data-product-id={product.id}>
                 <ProductCard 

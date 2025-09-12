@@ -4688,11 +4688,6 @@
   --ring: #3b82f6;
 }
 
-/* Admin panel input borders fix */
-.admin-input {
-  border: 2px solid #6b7280 !important;
-}
-
 .tg-web-app {
   background-color: var(--tg-theme-bg-color);
   color: var(--tg-theme-text-color);
