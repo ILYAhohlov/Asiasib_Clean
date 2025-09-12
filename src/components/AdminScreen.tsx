@@ -3,6 +3,7 @@ import { Search, Upload, Edit, Trash2, Plus, LogOut } from "lucide-react";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { StickyFooter } from "./StickyFooter";
 import { Button } from "./ui/button";
+import { Input } from "./ui/input";
 import { Screen } from "../App";
 
 interface AdminScreenProps {
@@ -386,11 +387,10 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Название *
                   </label>
-                  <input
+                  <Input
                     type="text"
                     value={productForm.name}
                     onChange={(e) => setProductForm(prev => ({ ...prev, name: e.target.value }))}
-                    className="w-full border-2 border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   />
                 </div>
 
@@ -413,11 +413,10 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Цена (руб/кг) *
                   </label>
-                  <input
+                  <Input
                     type="number"
                     value={productForm.price}
                     onChange={(e) => setProductForm(prev => ({ ...prev, price: e.target.value }))}
-                    className="w-full border-2 border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   />
                 </div>
 
@@ -425,11 +424,10 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Мин. объем *
                   </label>
-                  <input
+                  <Input
                     type="number"
                     value={productForm.minOrder}
                     onChange={(e) => setProductForm(prev => ({ ...prev, minOrder: e.target.value }))}
-                    className="w-full border-2 border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
 
@@ -463,12 +461,11 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Срок хранения
                   </label>
-                  <input
+                  <Input
                     type="text"
                     value={productForm.shelfLife}
                     onChange={(e) => setProductForm(prev => ({ ...prev, shelfLife: e.target.value }))}
                     placeholder="7 дней"
-                    className="w-full border-2 border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
 
@@ -476,12 +473,11 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Аллергены
                   </label>
-                  <input
+                  <Input
                     type="text"
                     value={productForm.allergens}
                     onChange={(e) => setProductForm(prev => ({ ...prev, allergens: e.target.value }))}
                     placeholder="Нет"
-                    className="w-full border-2 border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
 
@@ -578,12 +574,12 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
                 <div className="flex space-x-2">
                   <div className="relative">
                     <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-                    <input
+                    <Input
                       type="text"
                       placeholder="Поиск"
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      className="border-2 border-gray-300 pl-10 pr-4 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="pl-10 pr-4 py-2 text-sm"
                     />
                   </div>
 
