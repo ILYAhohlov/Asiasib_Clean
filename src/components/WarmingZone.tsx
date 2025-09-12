@@ -82,9 +82,13 @@ export function WarmingZone({ onProductClick, onScrollToProduct }: WarmingZonePr
               <div className="absolute top-1 right-1 bg-red-500 text-white text-xs px-1 py-0.5 rounded font-bold">
                 ХИТ
               </div>
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-black/40 p-2">
-                <p className="text-white text-xs font-bold truncate drop-shadow-lg">{product.name}</p>
-                <p className="text-white text-xs drop-shadow-md">{product.price}₽/{product.unit}</p>
+              <div className="absolute bottom-1 left-1 right-1 space-y-1">
+                <div className="bg-black/80 rounded px-2 py-1">
+                  <p className="text-white text-xs font-bold truncate">{product.name}</p>
+                </div>
+                <div className="bg-green-600 rounded px-2 py-0.5 w-fit">
+                  <p className="text-white text-xs font-semibold">{product.price}₽/{product.unit}</p>
+                </div>
               </div>
             </div>
           ))}
@@ -117,11 +121,17 @@ export function WarmingZone({ onProductClick, onScrollToProduct }: WarmingZonePr
                       loading="lazy"
                     />
                     {index === currentSlide && (
-                      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-black/50 p-2">
-                        <p className="text-white text-sm font-bold truncate drop-shadow-lg">{product.name}</p>
+                      <div className="absolute bottom-2 left-2 right-2 space-y-2">
+                        <div className="bg-black/80 rounded px-2 py-1">
+                          <p className="text-white text-sm font-bold truncate">{product.name}</p>
+                        </div>
                         <div className="flex items-center justify-between">
-                          <p className="text-white text-xs drop-shadow-md">{product.price}₽/{product.unit}</p>
-                          <span className="text-green-300 text-xs font-semibold drop-shadow-md">ПРОМО</span>
+                          <div className="bg-green-600 rounded px-2 py-0.5">
+                            <p className="text-white text-xs font-semibold">{product.price}₽/{product.unit}</p>
+                          </div>
+                          <div className="bg-red-500 rounded px-2 py-0.5">
+                            <span className="text-white text-xs font-bold">ПРОМО</span>
+                          </div>
                         </div>
                       </div>
                     )}
