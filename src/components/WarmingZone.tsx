@@ -75,7 +75,7 @@ export function WarmingZone({ onProductClick, onScrollToProduct }: WarmingZonePr
           <span>Топ</span>
         </div>
       </div>
-      <div className="flex gap-3 min-h-24 h-auto">
+      <div className="flex gap-3 min-h-16 h-auto">
         {/* Левая часть - 2 квадрата рекомендуемых товаров */}
         <div className="flex-1 grid grid-cols-2 gap-1">
           {featuredProducts.map((product) => (
@@ -97,7 +97,7 @@ export function WarmingZone({ onProductClick, onScrollToProduct }: WarmingZonePr
                 src={product.image}
                 alt={product.name}
                 className="w-full h-full object-cover"
-                style={{ objectPosition: 'center' }}
+                style={{ objectPosition: 'center center' }}
                 loading="lazy"
                 decoding="async"
               />
@@ -155,7 +155,7 @@ export function WarmingZone({ onProductClick, onScrollToProduct }: WarmingZonePr
                       src={product.image}
                       alt={product.name}
                       className="w-full h-full object-cover cursor-pointer hover:scale-105 transition-transform duration-500"
-                      style={{ objectPosition: 'center' }}
+                      style={{ objectPosition: 'center center' }}
                       onClick={() => {
                         if (navigator.vibrate) navigator.vibrate(30);
                         onProductClick?.(product);
