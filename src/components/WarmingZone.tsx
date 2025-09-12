@@ -75,7 +75,7 @@ export function WarmingZone({ onProductClick, onScrollToProduct }: WarmingZonePr
           <span>Топ</span>
         </div>
       </div>
-      <div className="flex gap-3 min-h-16 lg:min-h-12 h-auto">
+      <div className="warming-zone flex gap-3 min-h-16 lg:min-h-10 xl:min-h-8 h-auto">
         {/* Левая часть - 2 квадрата рекомендуемых товаров */}
         <div className="flex-1 grid grid-cols-2 gap-1">
           {featuredProducts.map((product) => (

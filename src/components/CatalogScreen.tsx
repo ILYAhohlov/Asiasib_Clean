@@ -364,7 +364,7 @@ export function CatalogScreen({ navigateToScreen, cartItemsCount, addToCart, nav
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+          <div className="grid !grid-cols-2 md:!grid-cols-3 lg:!grid-cols-4 xl:!grid-cols-5 gap-4">
             {filteredProducts.map(product => (
               <div key={product.id} data-product-id={product.id}>
                 <ProductCard 

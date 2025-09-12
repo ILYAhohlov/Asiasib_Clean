@@ -4701,3 +4701,57 @@ body {
   overflow-x: hidden;
   -webkit-text-size-adjust: 100%;
 }
+
+/* Принудительные стили для админ-панели */
+.admin-input {
+  border: 1px solid #d1d5db !important;
+}
+
+.admin-select {
+  border: 1px solid #d1d5db !important;
+}
+
+.admin-textarea {
+  border: 1px solid #d1d5db !important;
+}
+
+/* Принудительная сетка для каталога */
+.catalog-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+}
+
+@media (min-width: 768px) {
+  .catalog-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .catalog-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (min-width: 1280px) {
+  .catalog-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  }
+}
+
+/* Компактная зона прогрева */
+.warming-zone {
+  min-height: 4rem !important;
+}
+
+@media (min-width: 1024px) {
+  .warming-zone {
+    min-height: 2.5rem !important;
+  }
+}
+
+@media (min-width: 1280px) {
+  .warming-zone {
+    min-height: 2rem !important;
+  }
+}
