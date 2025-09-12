@@ -401,7 +401,7 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
                   <select
                     value={productForm.category}
                     onChange={(e) => setProductForm(prev => ({ ...prev, category: e.target.value }))}
-                    className="w-full border-2 border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none"
                   >
                     <option value="овощи">Овощи</option>
                     <option value="фрукты">Фрукты</option>
@@ -438,7 +438,7 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
                   <select
                     value={productForm.unit}
                     onChange={(e) => setProductForm(prev => ({ ...prev, unit: e.target.value }))}
-                    className="w-full border-2 border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none"
                   >
                     <option value="кг">Килограмм (кг)</option>
                     <option value="ящик">Ящик</option>
@@ -453,7 +453,7 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
                   <textarea
                     value={productForm.description}
                     onChange={(e) => setProductForm(prev => ({ ...prev, description: e.target.value }))}
-                    className="w-full border-2 border-gray-300 h-20 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full border border-gray-300 dark:border-gray-600 rounded-md h-20 px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none"
                   />
                 </div>
 
@@ -496,7 +496,7 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
                     />
                     <label
                       htmlFor="image-upload"
-                      className="border-2 border-gray-300 flex items-center space-x-2 px-4 py-2 rounded-lg cursor-pointer hover:bg-gray-50"
+                      className="border border-gray-300 dark:border-gray-600 rounded-md flex items-center space-x-2 px-4 py-2 cursor-pointer hover:bg-gray-50 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     >
                       <Upload className="w-4 h-4" />
                       <span className="text-sm">Выбрать изображения</span>
@@ -586,7 +586,7 @@ export function AdminScreen({ navigateToScreen, cartItemsCount, onLogout }: Admi
                   <select
                     value={categoryFilter}
                     onChange={(e) => setCategoryFilter(e.target.value)}
-                    className="border-2 border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none"
                   >
                     <option value="all">Все</option>
                     <option value="овощи">Овощи</option>
