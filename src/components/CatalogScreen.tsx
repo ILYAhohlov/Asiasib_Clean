@@ -72,7 +72,7 @@ function ProductCard({ product, onAddToCart, onCardClick }: ProductCardProps) {
         <ImageWithFallback
           src={product.image}
           alt={product.name}
-          className="w-full h-full object-cover object-center"
+          className="w-full h-full object-cover"
           style={{ 
             width: '100%', 
             height: '100%', 

@@ -4683,6 +4683,14 @@
 :root {
   --tg-theme-bg-color: #ffffff;
   --tg-theme-text-color: #000000;
+  --border: #6b7280;
+  --input: #6b7280;
+  --ring: #3b82f6;
+}
+
+/* Admin panel input borders fix */
+.admin-input {
+  border: 2px solid #6b7280 !important;
 }
 
 .tg-web-app {
