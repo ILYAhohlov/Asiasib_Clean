@@ -64,7 +64,7 @@ export function WarmingZone({ onProductClick, onScrollToProduct }: WarmingZonePr
         <span className="text-xs text-gray-500">Топ</span>
       </div>
       
-      <div className="flex gap-3 h-[220px]">
+      <div className="flex gap-3 h-[288px]">
         {/* Левая часть - рекомендуемые товары (вертикально) */}
         <div className="flex-1 flex flex-col gap-2">
           {featuredProducts.slice(0, 2).map((product, index) => (
