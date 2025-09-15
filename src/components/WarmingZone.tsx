@@ -64,14 +64,14 @@ export function WarmingZone({ onProductClick, onScrollToProduct }: WarmingZonePr
         <span className="text-xs text-gray-500">Топ</span>
       </div>
       
-      <div className="flex gap-3" style={{ height: '280px' }}>
-        {/* Левая часть - рекомендуемые товары */}
-        <div className="flex-1 grid grid-cols-2 gap-2">
-          {featuredProducts.map((product) => (
+      <div className="flex gap-3 h-[220px]">
+        {/* Левая часть - рекомендуемые товары (вертикально) */}
+        <div className="flex-1 flex flex-col gap-2">
+          {featuredProducts.slice(0, 2).map((product, index) => (
             <div 
               key={product.id}
               onClick={() => handleProductClick(product)}
-              className="relative bg-gray-50 rounded-lg overflow-hidden cursor-pointer hover:shadow-md transition-shadow h-full border border-gray-200"
+              className="flex-1 relative bg-gray-50 rounded-lg overflow-hidden cursor-pointer hover:shadow-md transition-shadow border border-gray-200"
             >
               <ImageWithFallback
                 src={product.image}
@@ -91,7 +91,7 @@ export function WarmingZone({ onProductClick, onScrollToProduct }: WarmingZonePr
           
           {/* Пустые блоки если товаров меньше 2 */}
           {Array.from({ length: 2 - featuredProducts.length }).map((_, index) => (
-            <div key={`empty-${index}`} className="bg-gray-50 rounded-lg border border-dashed border-gray-300 flex items-center justify-center h-full">
+            <div key={`empty-${index}`} className="flex-1 bg-gray-50 rounded-lg border border-dashed border-gray-300 flex items-center justify-center">
               <span className="text-gray-400 text-xs">Скоро</span>
             </div>
           ))}
