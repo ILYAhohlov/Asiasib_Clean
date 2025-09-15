@@ -24,9 +24,13 @@ export function WarmingZone({ onProductClick, onScrollToProduct }: WarmingZonePr
   const [currentSlide, setCurrentSlide] = useState(0);
 
   useEffect(() => {
+    const controller = new AbortController();
+    
     const fetchProducts = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/products`);
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/products`, {
+          signal: controller.signal
+        });
         if (response.ok) {
           const products = await response.json();
           const featured = products.filter((p: Product) => p.isFeatured).slice(0, 2);
@@ -35,12 +39,18 @@ export function WarmingZone({ onProductClick, onScrollToProduct }: WarmingZonePr
           setSliderProducts(slider);
         }
       } catch (error) {
-        setFeaturedProducts([]);
-        setSliderProducts([]);
+        if (error.name !== 'AbortError') {
+          setFeaturedProducts([]);
+          setSliderProducts([]);
+        }
       }
     };
 
     fetchProducts();
+    
+    return () => {
+      controller.abort();
+    };
   }, []);
 
   useEffect(() => {
