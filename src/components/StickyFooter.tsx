@@ -1,4 +1,4 @@
-import { ShoppingCart, Info, Store, Home } from "lucide-react";
+import { ShoppingCart, Info, Store, Home, Palette } from "lucide-react";
 import { Screen } from "../App";
 
 interface StickyFooterProps {
@@ -6,9 +6,11 @@ interface StickyFooterProps {
   cartItemsCount: number;
   currentScreen?: Screen;
   navigateToPage?: (page: "home" | "sellers" | "about" | "admin") => void;
+  onToggleDesign?: () => void;
+  isNewDesign?: boolean;
 }
 
-export function StickyFooter({ navigateToScreen, cartItemsCount, currentScreen, navigateToPage }: StickyFooterProps) {
+export function StickyFooter({ navigateToScreen, cartItemsCount, currentScreen, navigateToPage, onToggleDesign, isNewDesign }: StickyFooterProps) {
   return (
     <footer className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 h-16 flex items-center justify-around px-4 z-50">
       <button
@@ -53,6 +55,18 @@ export function StickyFooter({ navigateToScreen, cartItemsCount, currentScreen, 
         <Info className="w-6 h-6" />
         <span className="text-xs mt-1">О нас</span>
       </button>
+
+      {onToggleDesign && (
+        <button
+          onClick={onToggleDesign}
+          className={`flex flex-col items-center justify-center p-2 rounded-lg transition-colors ${
+            isNewDesign ? "text-red-500" : "text-gray-600 hover:text-red-500"
+          }`}
+        >
+          <Palette className="w-6 h-6" />
+          <span className="text-xs mt-1">{isNewDesign ? "Новый" : "Дизайн"}</span>
+        </button>
+      )}
     </footer>
   );
 }

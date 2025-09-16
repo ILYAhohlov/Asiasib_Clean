@@ -176,9 +176,11 @@ interface CatalogScreenProps {
   cartItemsCount: number;
   addToCart: (product: Product, quantity: number) => void;
   navigateToPage?: (page: "home" | "sellers" | "about" | "admin") => void;
+  onToggleDesign?: () => void;
+  isNewDesign?: boolean;
 }
 
-export function CatalogScreen({ navigateToScreen, cartItemsCount, addToCart, navigateToPage }: CatalogScreenProps) {
+export function CatalogScreen({ navigateToScreen, cartItemsCount, addToCart, navigateToPage, onToggleDesign, isNewDesign }: CatalogScreenProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>("все");
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [products, setProducts] = useState<Product[]>([]);
@@ -394,6 +396,8 @@ export function CatalogScreen({ navigateToScreen, cartItemsCount, addToCart, nav
         cartItemsCount={cartItemsCount}
         currentScreen="catalog"
         navigateToPage={navigateToPage}
+        onToggleDesign={onToggleDesign}
+        isNewDesign={isNewDesign}
       />
     </div>
   );

@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { CatalogScreen } from "../components/CatalogScreen";
+import { CatalogScreenLavka } from "../components/CatalogScreenLavka";
 import { CartScreen } from "../components/CartScreen";
 import { OrderPage } from "../components/OrderPage";
 import { AboutScreen } from "../components/AboutScreen";
@@ -16,6 +17,7 @@ interface HomePageProps {
 export function HomePage({ navigateToPage }: HomePageProps = {}) {
   const [currentScreen, setCurrentScreen] = useState<HomeScreen>("catalog");
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [isNewDesign, setIsNewDesign] = useState(false);
 
   const navigateToScreen = (screen: HomeScreen) => {
     setCurrentScreen(screen);
@@ -73,12 +75,15 @@ export function HomePage({ navigateToPage }: HomePageProps = {}) {
 
 
   if (currentScreen === "catalog") {
+    const CatalogComponent = isNewDesign ? CatalogScreenLavka : CatalogScreen;
     return (
-      <CatalogScreen
+      <CatalogComponent
         navigateToScreen={navigateToScreen}
         cartItemsCount={cartItemsCount}
         addToCart={addToCart}
         navigateToPage={navigateToPage}
+        onToggleDesign={() => setIsNewDesign(!isNewDesign)}
+        isNewDesign={isNewDesign}
       />
     );
   }
