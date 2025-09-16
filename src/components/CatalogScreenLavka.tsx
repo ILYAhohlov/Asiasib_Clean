@@ -57,7 +57,8 @@ function ProductCardLavka({ product, onAddToCart, onCardClick }: ProductCardProp
 
   return (
     <div 
-      className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden cursor-pointer hover:shadow-md transition-all duration-200"
+      className="bg-white shadow-sm border border-gray-100 overflow-hidden cursor-pointer hover:shadow-md transition-all duration-200"
+      style={{ borderRadius: '12px' }}
       onClick={() => onCardClick(product)}
     >
       {/* Изображение */}
@@ -85,11 +86,12 @@ function ProductCardLavka({ product, onAddToCart, onCardClick }: ProductCardProp
         </div>
 
         {/* Компактные кнопки */}
-        <div className="flex items-center justify-between bg-gray-50 rounded-lg p-0.5">
+        <div className="flex items-center justify-between bg-gray-50 p-0.5" style={{ borderRadius: '8px' }}>
           <button
             onClick={decreaseQuantity}
             disabled={quantity <= product.minOrder}
-            className="w-5 h-5 bg-red-500 text-white rounded-full hover:bg-red-600 disabled:opacity-50 flex items-center justify-center"
+            className="w-5 h-5 bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 flex items-center justify-center"
+            style={{ borderRadius: '50%' }}
           >
             <Minus className="w-2.5 h-2.5" />
           </button>
@@ -98,7 +100,8 @@ function ProductCardLavka({ product, onAddToCart, onCardClick }: ProductCardProp
 
           <button
             onClick={increaseQuantity}
-            className="w-5 h-5 bg-green-500 text-white rounded-full hover:bg-green-600 flex items-center justify-center"
+            className="w-5 h-5 bg-green-500 text-white hover:bg-green-600 flex items-center justify-center"
+            style={{ borderRadius: '50%' }}
           >
             <Plus className="w-2.5 h-2.5" />
           </button>
@@ -107,7 +110,8 @@ function ProductCardLavka({ product, onAddToCart, onCardClick }: ProductCardProp
         <button
           onClick={handleAddToCart}
           disabled={!isQuantityValid}
-          className="w-full bg-green-500 hover:bg-green-600 text-white py-1 px-1 font-medium disabled:opacity-50 text-xs rounded-lg"
+          className="w-full bg-green-500 hover:bg-green-600 text-white py-1 px-1 font-medium disabled:opacity-50 text-xs"
+          style={{ borderRadius: '8px' }}
         >
           В корзину
         </button>
