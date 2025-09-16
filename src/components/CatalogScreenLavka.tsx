@@ -46,8 +46,8 @@ function ProductCardLavka({ product, onAddToCart, onCardClick, isInCart = false 
 
   return (
     <div 
-      className="bg-white shadow-sm border border-gray-100 overflow-hidden cursor-pointer hover:shadow-md transition-all duration-200"
-      style={{ borderRadius: '12px' }}
+      className="bg-white border border-gray-100 overflow-hidden cursor-pointer hover:shadow-lg transition-all duration-200"
+      style={{ borderRadius: '12px', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)' }}
       onClick={() => onCardClick(product)}
     >
       {/* Изображение */}

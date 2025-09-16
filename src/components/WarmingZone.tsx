@@ -81,7 +81,8 @@ export function WarmingZone({ onProductClick, onScrollToProduct }: WarmingZonePr
             <div 
               key={product.id}
               onClick={() => handleProductClick(product)}
-              className="flex-1 relative bg-gray-50 rounded-lg overflow-hidden cursor-pointer hover:shadow-md transition-shadow border border-gray-200"
+              className="flex-1 relative bg-gray-50 overflow-hidden cursor-pointer hover:shadow-md transition-shadow border border-gray-200"
+              style={{ borderRadius: '12px' }}
             >
               <ImageWithFallback
                 src={product.image}
@@ -101,7 +102,7 @@ export function WarmingZone({ onProductClick, onScrollToProduct }: WarmingZonePr
           
           {/* Пустые блоки если товаров меньше 2 */}
           {Array.from({ length: 2 - featuredProducts.length }).map((_, index) => (
-            <div key={`empty-${index}`} className="flex-1 bg-gray-50 rounded-lg border border-dashed border-gray-300 flex items-center justify-center">
+            <div key={`empty-${index}`} className="flex-1 bg-gray-50 border border-dashed border-gray-300 flex items-center justify-center" style={{ borderRadius: '12px' }}>
               <span className="text-gray-400 text-xs">Скоро</span>
             </div>
           ))}
@@ -109,7 +110,7 @@ export function WarmingZone({ onProductClick, onScrollToProduct }: WarmingZonePr
         
         {/* Правая часть - слайдер */}
         <div className="flex-1 relative">
-          <div className="w-full h-full bg-gray-50 rounded-lg overflow-hidden relative border border-gray-200">
+          <div className="w-full h-full bg-gray-50 overflow-hidden relative border border-gray-200" style={{ borderRadius: '12px' }}>
             {sliderProducts.length > 0 ? (
               <div className="relative w-full h-full">
                 {sliderProducts.map((product, index) => (
