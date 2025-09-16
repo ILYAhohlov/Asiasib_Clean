@@ -40,7 +40,6 @@ function ProductCardLavka({ product, onAddToCart, onCardClick }: ProductCardProp
     e.stopPropagation();
     onAddToCart(product, product.minOrder);
     setIsAdded(true);
-    setTimeout(() => setIsAdded(false), 2000);
   };
 
   return (
