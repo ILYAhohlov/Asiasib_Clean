@@ -51,7 +51,7 @@ function ProductCardLavka({ product, onAddToCart, onCardClick, isInCart = false 
       onClick={() => onCardClick(product)}
     >
       {/* Изображение */}
-      <div className="relative w-full h-32 bg-gray-50">
+      <div className="relative w-full h-32 sm:h-36 md:h-40 lg:h-44 bg-gray-50">
         <ImageWithFallback
           src={product.image}
           alt={product.name}
@@ -63,7 +63,7 @@ function ProductCardLavka({ product, onAddToCart, onCardClick, isInCart = false 
         {/* Кнопка добавления в корзину */}
         <button
           onClick={handleAddToCart}
-          className="w-9 h-9 text-white flex items-center justify-center transition-all duration-200"
+          className="w-9 h-9 sm:w-10 sm:h-10 md:w-11 md:h-11 text-white flex items-center justify-center transition-all duration-200"
           style={{ 
             position: 'absolute',
             bottom: '4px',
@@ -76,18 +76,18 @@ function ProductCardLavka({ product, onAddToCart, onCardClick, isInCart = false 
           {(isInCart || localIsInCart) ? (
             <span className="text-sm font-bold">✓</span>
           ) : (
-            <Plus className="w-4 h-4" />
+            <Plus className="w-4 h-4 sm:w-5 sm:h-5" />
           )}
         </button>
       </div>
 
       {/* Контент */}
-      <div className="relative p-2 space-y-1">
-        <h3 className="font-medium text-xs text-gray-900 leading-tight line-clamp-1">{product.name}</h3>
+      <div className="relative p-2 sm:p-3 space-y-1">
+        <h3 className="font-medium text-xs sm:text-sm text-gray-900 leading-tight line-clamp-1">{product.name}</h3>
         
         <div className="flex items-baseline space-x-1">
-          <span className="text-sm font-bold text-gray-900">{product.price}₽</span>
-          <span className="text-xs text-gray-500">/{product.unit}</span>
+          <span className="text-sm sm:text-base font-bold text-gray-900">{product.price}₽</span>
+          <span className="text-xs sm:text-sm text-gray-500">/{product.unit}</span>
         </div>
         
         {product.isFeatured && (
@@ -267,20 +267,20 @@ export function CatalogScreenLavka({ navigateToScreen, cartItemsCount, addToCart
       <main className="px-4 py-3 space-y-4">
         {/* Категории */}
         <div className="overflow-x-auto">
-          <div className="flex space-x-2 pb-2">
+          <div className="flex space-x-2 sm:space-x-3 pb-2 sm:justify-center">
             {categories.map(category => (
               <button
                 key={category.id}
                 onClick={() => setSelectedCategory(category.id)}
-                className={`flex-shrink-0 flex flex-col items-center p-2 transition-all duration-200 min-w-[60px]
+                className={`flex-shrink-0 flex flex-col items-center p-2 sm:p-3 transition-all duration-200 min-w-[60px] sm:min-w-[80px]
                   ${selectedCategory === category.id
                     ? 'bg-red-500 text-white shadow-sm'
                     : 'bg-white text-gray-700 hover:bg-gray-100'
                   }`}
                 style={{ borderRadius: '12px' }}
               >
-                <span className="text-lg mb-0.5">{category.icon}</span>
-                <span className="text-xs font-medium">{category.name}</span>
+                <span className="text-lg sm:text-xl mb-0.5">{category.icon}</span>
+                <span className="text-xs sm:text-sm font-medium">{category.name}</span>
               </button>
             ))}
           </div>
@@ -302,7 +302,7 @@ export function CatalogScreenLavka({ navigateToScreen, cartItemsCount, addToCart
             <p className="text-gray-500">Попробуйте изменить поисковый запрос или выбрать другую категорию</p>
           </div>
         ) : (
-          <div className="grid gap-3 px-2" style={{ gridTemplateColumns: '1fr 1fr' }}>
+          <div className="grid gap-3 px-2 sm:gap-4 sm:px-4 md:gap-5 md:px-6" style={{ gridTemplateColumns: 'repeat(2, 1fr)' }} className="sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
             {filteredProducts.map(product => (
               <div key={product.id} data-product-id={product.id}>
                 <ProductCardLavka 
