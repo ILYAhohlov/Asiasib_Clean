@@ -51,31 +51,26 @@ function ProductCardLavka({ product, onAddToCart, onCardClick, isInCart = false 
       onClick={() => onCardClick(product)}
     >
       {/* Изображение */}
-      <div className="relative w-full h-20 bg-gray-50">
+      <div className="relative w-full h-30 bg-gray-50">
         <ImageWithFallback
           src={product.image}
           alt={product.name}
           className="w-full h-full object-cover"
           loading="lazy"
         />
-        {product.isFeatured && (
-          <div className="absolute top-1 right-1 bg-red-500 text-white text-xs px-1 py-0.5 rounded-full font-bold z-10">
-            ХИТ
-          </div>
-        )}
+
         
         {/* Кнопка добавления в корзину */}
         <button
           onClick={handleAddToCart}
-          className={`w-9 h-9 text-white flex items-center justify-center transition-all duration-200 ${
-            (isInCart || localIsInCart) ? 'bg-orange-500' : 'bg-green-500 hover:bg-green-600'
-          }`}
+          className="w-9 h-9 text-white flex items-center justify-center transition-all duration-200"
           style={{ 
             position: 'absolute',
             bottom: '4px',
             right: '4px',
             borderRadius: '50%',
-            zIndex: 30
+            zIndex: 30,
+            backgroundColor: (isInCart || localIsInCart) ? '#f97316' : '#22c55e'
           }}
         >
           {(isInCart || localIsInCart) ? (
@@ -87,13 +82,19 @@ function ProductCardLavka({ product, onAddToCart, onCardClick, isInCart = false 
       </div>
 
       {/* Контент */}
-      <div className="p-2 space-y-1">
+      <div className="relative p-2 space-y-1">
         <h3 className="font-medium text-xs text-gray-900 leading-tight line-clamp-1">{product.name}</h3>
         
         <div className="flex items-baseline space-x-1">
           <span className="text-sm font-bold text-gray-900">{product.price}₽</span>
           <span className="text-xs text-gray-500">/{product.unit}</span>
         </div>
+        
+        {product.isFeatured && (
+          <div className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-red-500 text-white text-xs px-1 py-0.5 rounded-full font-bold">
+            ХИТ
+          </div>
+        )}
       </div>
     </div>
   );
@@ -301,7 +302,7 @@ export function CatalogScreenLavka({ navigateToScreen, cartItemsCount, addToCart
             <p className="text-gray-500">Попробуйте изменить поисковый запрос или выбрать другую категорию</p>
           </div>
         ) : (
-          <div className="grid gap-2" style={{ gridTemplateColumns: '1fr 1fr' }}>
+          <div className="grid gap-3 px-2" style={{ gridTemplateColumns: '1fr 1fr' }}>
             {filteredProducts.map(product => (
               <div key={product.id} data-product-id={product.id}>
                 <ProductCardLavka 
