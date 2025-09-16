@@ -34,25 +34,13 @@ interface ProductCardProps {
 
 // ProductCard component в стиле Lavka
 function ProductCardLavka({ product, onAddToCart, onCardClick }: ProductCardProps) {
-  const [quantity, setQuantity] = useState(product.minOrder);
-  const isQuantityValid = quantity >= product.minOrder;
-
-  const increaseQuantity = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setQuantity(prev => prev + product.minOrder);
-  };
-
-  const decreaseQuantity = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setQuantity(prev => Math.max(product.minOrder, prev - product.minOrder));
-  };
+  const [isAdded, setIsAdded] = useState(false);
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.stopPropagation();
-    const safeQuantity = Number(quantity) || product.minOrder;
-    if (safeQuantity >= product.minOrder) {
-      onAddToCart(product, safeQuantity);
-    }
+    onAddToCart(product, product.minOrder);
+    setIsAdded(true);
+    setTimeout(() => setIsAdded(false), 2000);
   };
 
   return (
@@ -70,51 +58,35 @@ function ProductCardLavka({ product, onAddToCart, onCardClick }: ProductCardProp
           loading="lazy"
         />
         {product.isFeatured && (
-          <div className="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full font-bold">
+          <div className="absolute top-1 right-1 bg-red-500 text-white text-xs px-1 py-0.5 rounded-full font-bold">
             ХИТ
           </div>
         )}
+        
+        {/* Кнопка добавления в корзину */}
+        <button
+          onClick={handleAddToCart}
+          className={`absolute bottom-1 right-1 w-6 h-6 text-white flex items-center justify-center transition-all duration-200 ${
+            isAdded ? 'bg-orange-500' : 'bg-green-500 hover:bg-green-600'
+          }`}
+          style={{ borderRadius: '50%' }}
+        >
+          {isAdded ? (
+            <span className="text-xs">✓</span>
+          ) : (
+            <Plus className="w-3 h-3" />
+          )}
+        </button>
       </div>
 
       {/* Контент */}
-      <div className="p-1.5 space-y-1">
+      <div className="p-2 space-y-1">
         <h3 className="font-medium text-xs text-gray-900 leading-tight line-clamp-1">{product.name}</h3>
         
         <div className="flex items-baseline space-x-1">
           <span className="text-sm font-bold text-gray-900">{product.price}₽</span>
           <span className="text-xs text-gray-500">/{product.unit}</span>
         </div>
-
-        {/* Компактные кнопки */}
-        <div className="flex items-center justify-between bg-gray-50 p-0.5" style={{ borderRadius: '8px' }}>
-          <button
-            onClick={decreaseQuantity}
-            disabled={quantity <= product.minOrder}
-            className="w-5 h-5 bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 flex items-center justify-center"
-            style={{ borderRadius: '50%' }}
-          >
-            <Minus className="w-2.5 h-2.5" />
-          </button>
-
-          <span className="font-medium text-xs">{quantity}</span>
-
-          <button
-            onClick={increaseQuantity}
-            className="w-5 h-5 bg-green-500 text-white hover:bg-green-600 flex items-center justify-center"
-            style={{ borderRadius: '50%' }}
-          >
-            <Plus className="w-2.5 h-2.5" />
-          </button>
-        </div>
-
-        <button
-          onClick={handleAddToCart}
-          disabled={!isQuantityValid}
-          className="w-full bg-green-500 hover:bg-green-600 text-white py-1 px-1 font-medium disabled:opacity-50 text-xs"
-          style={{ borderRadius: '8px' }}
-        >
-          В корзину
-        </button>
       </div>
     </div>
   );
@@ -281,11 +253,12 @@ export function CatalogScreenLavka({ navigateToScreen, cartItemsCount, addToCart
               <button
                 key={category.id}
                 onClick={() => setSelectedCategory(category.id)}
-                className={`flex-shrink-0 flex flex-col items-center p-2 rounded-xl transition-all duration-200 min-w-[60px]
+                className={`flex-shrink-0 flex flex-col items-center p-2 transition-all duration-200 min-w-[60px]
                   ${selectedCategory === category.id
                     ? 'bg-red-500 text-white shadow-sm'
                     : 'bg-white text-gray-700 hover:bg-gray-100'
                   }`}
+                style={{ borderRadius: '12px' }}
               >
                 <span className="text-lg mb-0.5">{category.icon}</span>
                 <span className="text-xs font-medium">{category.name}</span>

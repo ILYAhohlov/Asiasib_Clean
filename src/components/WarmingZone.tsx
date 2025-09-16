@@ -68,7 +68,7 @@ export function WarmingZone({ onProductClick, onScrollToProduct }: WarmingZonePr
   };
 
   return (
-    <div className="bg-gradient-to-r from-orange-400 to-yellow-400 rounded-lg border border-gray-200 p-3 mb-4 shadow-sm w-full sm:w-96 lg:w-[500px] xl:w-[600px]">
+    <div className="border border-gray-200 p-3 mb-4 shadow-sm w-full sm:w-96 lg:w-[500px] xl:w-[600px]" style={{ background: 'linear-gradient(to right, #fb923c, #fbbf24)', borderRadius: '12px' }}>
       <div className="flex items-center justify-between mb-2">
         <h3 className="text-xs font-bold text-gray-800">🔥 Хиты</h3>
         <span className="text-xs text-gray-500">Топ</span>
