@@ -302,7 +302,7 @@ export function CatalogScreenLavka({ navigateToScreen, cartItemsCount, addToCart
             <p className="text-gray-500">Попробуйте изменить поисковый запрос или выбрать другую категорию</p>
           </div>
         ) : (
-          <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 px-2">
+          <div className="grid gap-3 px-2" style={{ gridTemplateColumns: 'repeat(2, 1fr)' }}>
             {filteredProducts.map(product => (
               <div key={product.id} data-product-id={product.id}>
                 <ProductCardLavka 
