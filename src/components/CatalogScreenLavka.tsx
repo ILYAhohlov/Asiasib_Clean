@@ -51,7 +51,7 @@ function ProductCardLavka({ product, onAddToCart, onCardClick, isInCart = false 
       onClick={() => onCardClick(product)}
     >
       {/* Изображение */}
-      <div className="relative w-full h-30 bg-gray-50">
+      <div className="relative w-full h-24 bg-gray-50">
         <ImageWithFallback
           src={product.image}
           alt={product.name}
