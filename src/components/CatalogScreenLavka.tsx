@@ -57,7 +57,7 @@ function ProductCardLavka({ product, onAddToCart, onCardClick }: ProductCardProp
 
   return (
     <div 
-      className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden cursor-pointer hover:shadow-md transition-all duration-200"
+      className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden cursor-pointer hover:shadow-md transition-all duration-200"
       onClick={() => onCardClick(product)}
     >
       {/* Изображение */}
@@ -85,11 +85,11 @@ function ProductCardLavka({ product, onAddToCart, onCardClick }: ProductCardProp
         </div>
 
         {/* Компактные кнопки */}
-        <div className="flex items-center justify-between bg-gray-50 rounded-md p-0.5">
+        <div className="flex items-center justify-between bg-gray-50 rounded-lg p-0.5">
           <button
             onClick={decreaseQuantity}
             disabled={quantity <= product.minOrder}
-            className="w-5 h-5 bg-red-500 text-white rounded hover:bg-red-600 disabled:opacity-50 flex items-center justify-center"
+            className="w-5 h-5 bg-red-500 text-white rounded-full hover:bg-red-600 disabled:opacity-50 flex items-center justify-center"
           >
             <Minus className="w-2.5 h-2.5" />
           </button>
@@ -98,7 +98,7 @@ function ProductCardLavka({ product, onAddToCart, onCardClick }: ProductCardProp
 
           <button
             onClick={increaseQuantity}
-            className="w-5 h-5 bg-green-500 text-white rounded hover:bg-green-600 flex items-center justify-center"
+            className="w-5 h-5 bg-green-500 text-white rounded-full hover:bg-green-600 flex items-center justify-center"
           >
             <Plus className="w-2.5 h-2.5" />
           </button>
@@ -107,7 +107,7 @@ function ProductCardLavka({ product, onAddToCart, onCardClick }: ProductCardProp
         <button
           onClick={handleAddToCart}
           disabled={!isQuantityValid}
-          className="w-full bg-green-500 hover:bg-green-600 text-white py-1 px-1 font-medium disabled:opacity-50 text-xs rounded-md"
+          className="w-full bg-green-500 hover:bg-green-600 text-white py-1 px-1 font-medium disabled:opacity-50 text-xs rounded-lg"
         >
           В корзину
         </button>
