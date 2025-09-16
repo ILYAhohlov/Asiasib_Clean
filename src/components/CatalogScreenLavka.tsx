@@ -35,10 +35,13 @@ interface ProductCardProps {
 
 // ProductCard component в стиле Lavka
 function ProductCardLavka({ product, onAddToCart, onCardClick, isInCart = false }: ProductCardProps) {
+  const [localIsInCart, setLocalIsInCart] = useState(isInCart);
+  
   const handleAddToCart = (e: React.MouseEvent) => {
     e.stopPropagation();
-    console.log('Adding to cart:', product.name, 'isInCart before:', isInCart);
+    console.log('Adding to cart:', product.name);
     onAddToCart(product, product.minOrder);
+    setLocalIsInCart(true);
   };
 
   return (
@@ -64,12 +67,18 @@ function ProductCardLavka({ product, onAddToCart, onCardClick, isInCart = false 
         {/* Кнопка добавления в корзину */}
         <button
           onClick={handleAddToCart}
-          className={`absolute bottom-1 right-1 w-9 h-9 text-white flex items-center justify-center transition-all duration-200 z-20 ${
-            isInCart ? 'bg-orange-500' : 'bg-green-500 hover:bg-green-600'
+          className={`w-9 h-9 text-white flex items-center justify-center transition-all duration-200 ${
+            (isInCart || localIsInCart) ? 'bg-orange-500' : 'bg-green-500 hover:bg-green-600'
           }`}
-          style={{ borderRadius: '50%' }}
+          style={{ 
+            position: 'absolute',
+            bottom: '4px',
+            right: '4px',
+            borderRadius: '50%',
+            zIndex: 30
+          }}
         >
-          {isInCart ? (
+          {(isInCart || localIsInCart) ? (
             <span className="text-sm font-bold">✓</span>
           ) : (
             <Plus className="w-4 h-4" />
