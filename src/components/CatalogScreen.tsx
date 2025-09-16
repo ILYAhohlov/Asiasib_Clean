@@ -320,7 +320,7 @@ export function CatalogScreen({ navigateToScreen, cartItemsCount, addToCart, nav
       {/* Сетка товаров */}
       <main className="container mx-auto px-4 py-2 space-y-4">
         {/* Зона прогрева */}
-        <div className="relative z-10">
+        <div className="relative z-10 w-fit">
           <WarmingZone 
             onProductClick={handleProductClick} 
             onScrollToProduct={handleScrollToProduct}
