@@ -129,6 +129,15 @@ export function CatalogScreenLavka({ navigateToScreen, cartItemsCount, addToCart
   const [error, setError] = useState<string | null>(null);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [cartProductIds, setCartProductIds] = useState<Set<string>>(new Set());
+  const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth >= 1024);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsLargeScreen(window.innerWidth >= 1024);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Загрузка товаров с сервера
   useEffect(() => {
@@ -302,7 +311,7 @@ export function CatalogScreenLavka({ navigateToScreen, cartItemsCount, addToCart
             <p className="text-gray-500">Попробуйте изменить поисковый запрос или выбрать другую категорию</p>
           </div>
         ) : (
-          <div className="grid gap-3 px-2" style={{ gridTemplateColumns: 'repeat(2, 1fr)' }}>
+          <div className="grid gap-3 px-2" style={{ gridTemplateColumns: isLargeScreen ? 'repeat(5, 1fr)' : 'repeat(2, 1fr)' }}>
             {filteredProducts.map(product => (
               <div key={product.id} data-product-id={product.id}>
                 <ProductCardLavka 
