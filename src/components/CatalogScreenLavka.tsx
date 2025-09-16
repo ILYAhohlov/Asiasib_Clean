@@ -51,7 +51,7 @@ function ProductCardLavka({ product, onAddToCart, onCardClick, isInCart = false 
       onClick={() => onCardClick(product)}
     >
       {/* Изображение */}
-      <div className="relative w-full h-32 sm:h-36 md:h-40 lg:h-44 bg-gray-50">
+      <div className="relative w-full h-24 sm:h-28 bg-gray-50">
         <ImageWithFallback
           src={product.image}
           alt={product.name}
@@ -63,7 +63,7 @@ function ProductCardLavka({ product, onAddToCart, onCardClick, isInCart = false 
         {/* Кнопка добавления в корзину */}
         <button
           onClick={handleAddToCart}
-          className="w-9 h-9 sm:w-10 sm:h-10 md:w-11 md:h-11 text-white flex items-center justify-center transition-all duration-200"
+          className="w-8 h-8 sm:w-9 sm:h-9 text-white flex items-center justify-center transition-all duration-200"
           style={{ 
             position: 'absolute',
             bottom: '4px',
@@ -76,13 +76,13 @@ function ProductCardLavka({ product, onAddToCart, onCardClick, isInCart = false 
           {(isInCart || localIsInCart) ? (
             <span className="text-sm font-bold">✓</span>
           ) : (
-            <Plus className="w-4 h-4 sm:w-5 sm:h-5" />
+            <Plus className="w-3 h-3 sm:w-4 sm:h-4" />
           )}
         </button>
       </div>
 
       {/* Контент */}
-      <div className="relative p-2 sm:p-3 space-y-1">
+      <div className="relative p-2 space-y-1">
         <h3 className="font-medium text-xs sm:text-sm text-gray-900 leading-tight line-clamp-1">{product.name}</h3>
         
         <div className="flex items-baseline space-x-1">
