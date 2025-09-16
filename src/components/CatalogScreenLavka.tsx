@@ -30,16 +30,14 @@ interface ProductCardProps {
   product: Product;
   onAddToCart: (product: Product, quantity: number) => void;
   onCardClick: (product: Product) => void;
+  isInCart?: boolean;
 }
 
 // ProductCard component в стиле Lavka
-function ProductCardLavka({ product, onAddToCart, onCardClick }: ProductCardProps) {
-  const [isAdded, setIsAdded] = useState(false);
-
+function ProductCardLavka({ product, onAddToCart, onCardClick, isInCart = false }: ProductCardProps) {
   const handleAddToCart = (e: React.MouseEvent) => {
     e.stopPropagation();
     onAddToCart(product, product.minOrder);
-    setIsAdded(true);
   };
 
   return (
@@ -57,7 +55,7 @@ function ProductCardLavka({ product, onAddToCart, onCardClick }: ProductCardProp
           loading="lazy"
         />
         {product.isFeatured && (
-          <div className="absolute top-1 right-1 bg-red-500 text-white text-xs px-1 py-0.5 rounded-full font-bold">
+          <div className="absolute top-1 right-1 bg-red-500 text-white text-xs px-1 py-0.5 rounded-full font-bold z-10">
             ХИТ
           </div>
         )}
@@ -65,15 +63,15 @@ function ProductCardLavka({ product, onAddToCart, onCardClick }: ProductCardProp
         {/* Кнопка добавления в корзину */}
         <button
           onClick={handleAddToCart}
-          className={`absolute bottom-1 right-1 w-6 h-6 text-white flex items-center justify-center transition-all duration-200 ${
-            isAdded ? 'bg-orange-500' : 'bg-green-500 hover:bg-green-600'
+          className={`absolute bottom-1 right-1 w-9 h-9 text-white flex items-center justify-center transition-all duration-200 z-20 ${
+            isInCart ? 'bg-orange-500' : 'bg-green-500 hover:bg-green-600'
           }`}
           style={{ borderRadius: '50%' }}
         >
-          {isAdded ? (
-            <span className="text-xs">✓</span>
+          {isInCart ? (
+            <span className="text-sm font-bold">✓</span>
           ) : (
-            <Plus className="w-3 h-3" />
+            <Plus className="w-4 h-4" />
           )}
         </button>
       </div>
@@ -119,6 +117,7 @@ export function CatalogScreenLavka({ navigateToScreen, cartItemsCount, addToCart
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [cartProductIds, setCartProductIds] = useState<Set<string>>(new Set());
 
   // Загрузка товаров с сервера
   useEffect(() => {
@@ -175,6 +174,11 @@ export function CatalogScreenLavka({ navigateToScreen, cartItemsCount, addToCart
 
   const handleProductClick = (product: Product) => {
     setSelectedProduct(product);
+  };
+
+  const handleAddToCart = (product: Product, quantity: number) => {
+    addToCart(product, quantity);
+    setCartProductIds(prev => new Set([...prev, product.id]));
   };
 
   const handleCloseModal = () => {
@@ -287,8 +291,9 @@ export function CatalogScreenLavka({ navigateToScreen, cartItemsCount, addToCart
               <div key={product.id} data-product-id={product.id}>
                 <ProductCardLavka 
                   product={product}
-                  onAddToCart={addToCart}
+                  onAddToCart={handleAddToCart}
                   onCardClick={handleProductClick}
+                  isInCart={cartProductIds.has(product.id)}
                 />
               </div>
             ))}
