@@ -37,6 +37,7 @@ interface ProductCardProps {
 function ProductCardLavka({ product, onAddToCart, onCardClick, isInCart = false }: ProductCardProps) {
   const handleAddToCart = (e: React.MouseEvent) => {
     e.stopPropagation();
+    console.log('Adding to cart:', product.name, 'isInCart before:', isInCart);
     onAddToCart(product, product.minOrder);
   };
 
@@ -177,8 +178,13 @@ export function CatalogScreenLavka({ navigateToScreen, cartItemsCount, addToCart
   };
 
   const handleAddToCart = (product: Product, quantity: number) => {
+    console.log('handleAddToCart called for:', product.name, product.id);
     addToCart(product, quantity);
-    setCartProductIds(prev => new Set([...prev, product.id]));
+    setCartProductIds(prev => {
+      const newSet = new Set([...prev, product.id]);
+      console.log('Updated cartProductIds:', Array.from(newSet));
+      return newSet;
+    });
   };
 
   const handleCloseModal = () => {
